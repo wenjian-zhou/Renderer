@@ -8,4 +8,9 @@ add_executable(render
     main.cpp
     Vector.hpp
     Color.hpp
+    Ray.hpp
+    Hittable.hpp
+    Sphere.hpp
+    HittableList.hpp
+    global.hpp
 )

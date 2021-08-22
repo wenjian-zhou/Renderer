@@ -9,9 +9,6 @@ using std::sqrt;
 class Vector3f
 {
 public:
-    float e[3];
-
-public:
     Vector3f() : e{0, 0, 0} {}
     Vector3f(float v1, float v2, float v3) : e{v1, v2, v3} {}
 
@@ -55,6 +52,9 @@ public:
     {
         return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
     }
+
+public:
+    float e[3];
 };
 
 using Point3 = Vector3f;
