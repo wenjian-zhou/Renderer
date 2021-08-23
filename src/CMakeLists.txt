@@ -13,4 +13,6 @@ add_executable(render
     Sphere.hpp
     HittableList.hpp
     global.hpp
+    Camera.hpp
+    Material.hpp
 )

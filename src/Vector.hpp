@@ -53,6 +53,22 @@ public:
         return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
     }
 
+    inline static Vector3f random()
+    {
+        return Vector3f(randomFloat(), randomFloat(), randomFloat());
+    }
+
+    inline static Vector3f random(float min, float max)
+    {
+        return Vector3f(randomFloat(min, max), randomFloat(min, max), randomFloat(min, max));
+    }
+
+    bool nearZero() const
+    {
+        const auto s = 1e-8;
+        return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+    }
+
 public:
     float e[3];
 };
@@ -112,6 +128,57 @@ inline Vector3f cross(const Vector3f &u, const Vector3f &v)
 inline Vector3f normalized(Vector3f v)
 {
     return v / v.length();
+}
+
+Vector3f randomInUnitSphere()
+{
+    while (true)
+    {
+        auto p = Vector3f::random(-1, 1);
+        if (p.length_squared() >= 1) continue;
+        return p;
+    }
+}
+
+Vector3f randomUnitVector()
+{
+    return normalized(randomInUnitSphere());
+}
+
+Vector3f randomInHemisphere(const Vector3f &normal)
+{
+    Vector3f in_unit_sphere = randomInUnitSphere();
+    if (dot(in_unit_sphere, normal) > 0.0)
+    {
+        return in_unit_sphere;
+    }
+    else
+    {
+        return -in_unit_sphere;
+    }
+}
+
+Vector3f reflect(const Vector3f &v, const Vector3f &n)
+{
+    return v - 2 * dot(v, n) * n;
+}
+
+Vector3f refract(const Vector3f &uv, const Vector3f &n, float etai_over_etat)
+{
+    auto cos_theta = fmin(dot(-uv, n), 1.0);
+    Vector3f r_out_perp = etai_over_etat * (uv + cos_theta * n);
+    Vector3f r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+    return r_out_perp + r_out_parallel;
+}
+
+Vector3f randomInUnitDisk()
+{
+    while (true)
+    {
+        auto p = Vector3f(randomFloat(-1, 1), randomFloat(-1, 1), 0);
+        if (p.length_squared() >= 1) continue;
+        return p;
+    }
 }
 
 #endif
