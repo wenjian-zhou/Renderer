@@ -15,4 +15,8 @@ add_executable(render
     global.hpp
     Camera.hpp
     Material.hpp
+    AABB.hpp
+    BVH.hpp
+    ConstantMedium.hpp
+    Texture.hpp
 )

@@ -43,6 +43,11 @@ inline float clamp(float x, float min, float max)
     return x;
 }
 
+inline int random_int(int min, int max) {
+    // Returns a random integer in [min,max].
+    return static_cast<int>(randomFloat(min, max+1));
+}
+
 // Common Headers
 
 #include "Ray.hpp"
