@@ -1,11 +1,3 @@
 # Renderer
 
-## Build Project
-
-```
-mkdir build
-cd build
-cmake ..
-make
-./render >> image.ppm
-```
+I'm currently reading Physically Based Rendering and reconstructing my code, so don't run it yet.
