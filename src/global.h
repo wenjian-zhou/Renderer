@@ -4,7 +4,6 @@
 #include <cmath>
 #include <limits>
 #include <memory>
-#include <cstdlib>
 
 // Usings
 
@@ -24,6 +23,7 @@ inline float degreesToRadians(float degrees)
     return degrees * pi / 180.0;
 }
 
+<<<<<<< HEAD:src/global.h
 inline float randomFloat()
 {
     // Returns a random real in [0, 1).
@@ -47,6 +47,9 @@ inline int random_int(int min, int max) {
     // Returns a random integer in [min,max].
     return static_cast<int>(randomFloat(min, max+1));
 }
+=======
+// Common Headers
+>>>>>>> parent of 70be2a2 (update camera and material):src/global.hpp
 
 // Common Headers
 

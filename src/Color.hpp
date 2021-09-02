@@ -6,25 +6,19 @@
 #include <iostream>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void writeColor(std::ostream &out , Color pixel_color, int spp)
 =======
 void write_color(std::ostream &out , Color pixel_color)
 >>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
+=======
+void writeColor(std::ostream &out , Color pixel_color)
+>>>>>>> parent of 70be2a2 (update camera and material)
 {
-    auto r = pixel_color.x();
-    auto g = pixel_color.y();
-    auto b = pixel_color.z();
-
-    // Divide the color by the number of samples
-    auto scale = 1.0 / spp;
-    r = sqrt(scale * r);
-    g = sqrt(scale * g);
-    b = sqrt(scale * b);
-
     // Write the translated [0,255] value of each color component.
-    out << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '
-        << static_cast<int>(256 * clamp(g, 0.0, 0.999)) << ' '
-        << static_cast<int>(256 * clamp(b, 0.0, 0.999)) << '\n';
+    out << static_cast<int>(255.999 * pixel_color.x()) << ' '
+        << static_cast<int>(255.999 * pixel_color.y()) << ' '
+        << static_cast<int>(255.999 * pixel_color.z()) << '\n';
 }
 
 #endif

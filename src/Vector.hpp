@@ -55,6 +55,12 @@ public:
     {
         return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
     }
+<<<<<<< HEAD
+=======
+
+public:
+    float e[3];
+>>>>>>> parent of 70be2a2 (update camera and material)
 };
 
 using Point3 = Vector3f;

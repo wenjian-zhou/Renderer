@@ -13,6 +13,7 @@ add_executable(render
     Sphere.hpp
     HittableList.hpp
     global.hpp
+<<<<<<< HEAD
     Camera.hpp
     Material.hpp
     AABB.hpp
@@ -23,4 +24,6 @@ add_executable(render
 >>>>>>> parent of d8f8d70 (add vector and color class)
 =======
 >>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
+=======
+>>>>>>> parent of 70be2a2 (update camera and material)
 )

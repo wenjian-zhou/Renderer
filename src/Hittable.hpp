@@ -1,17 +1,20 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
+<<<<<<< HEAD
 #include "global.hpp"
 
 #include "AABB.hpp"
 
 class Material;
+=======
+#include "Ray.hpp"
+>>>>>>> parent of 70be2a2 (update camera and material)
 
 struct HitRecord
 {
     Point3 p;
     Vector3f normal;
-    shared_ptr<Material> mat_ptr;
     float t;
     bool front_face;
 
