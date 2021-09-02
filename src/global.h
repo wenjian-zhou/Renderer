@@ -43,11 +43,14 @@ inline float clamp(float x, float min, float max)
     return x;
 }
 
+<<<<<<< HEAD:src/global.h
 inline int random_int(int min, int max) {
     // Returns a random integer in [min,max].
     return static_cast<int>(randomFloat(min, max+1));
 }
 =======
+=======
+>>>>>>> parent of 163299f (add BVH):src/global.hpp
 // Common Headers
 >>>>>>> parent of 70be2a2 (update camera and material):src/global.hpp
 

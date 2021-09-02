@@ -4,8 +4,6 @@
 <<<<<<< HEAD
 #include "global.hpp"
 
-#include "AABB.hpp"
-
 class Material;
 =======
 #include "Ray.hpp"
@@ -29,7 +27,6 @@ class Hittable
 {
 public:
     virtual bool hit(const Ray &r, float t_min, float t_max, HitRecord &rec) const = 0;
-    virtual bool bounding_box(float time0, float time1, AABB &output_box) const = 0;
 };
 
 #endif

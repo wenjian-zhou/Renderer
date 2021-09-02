@@ -16,6 +16,7 @@ add_executable(render
 <<<<<<< HEAD
     Camera.hpp
     Material.hpp
+<<<<<<< HEAD
     AABB.hpp
     BVH.hpp
     ConstantMedium.hpp
@@ -26,4 +27,6 @@ add_executable(render
 >>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
 =======
 >>>>>>> parent of 70be2a2 (update camera and material)
+=======
+>>>>>>> parent of 163299f (add BVH)
 )
