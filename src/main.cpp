@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "global.hpp"
 
 #include "Color.hpp"
@@ -6,11 +7,16 @@
 #include "Sphere.hpp"
 #include "Camera.hpp"
 #include "Material.hpp"
+=======
+#include "Vector.hpp"
+#include "Color.hpp"
+>>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
 
 =======
 >>>>>>> parent of d8f8d70 (add vector and color class)
 #include <iostream>
 
+<<<<<<< HEAD
 Color castRay(const Ray &r, const Hittable &world, int depth)
 {
     HitRecord rec;
@@ -82,10 +88,13 @@ HittableList randomScene() {
     return world;
 }
 
+=======
+>>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
 int main()
 {
     // Image
 
+<<<<<<< HEAD
     const auto aspect_ratio = 3.0 / 2.0;
     const int image_width = 400;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
@@ -104,6 +113,10 @@ int main()
     auto dist_to_focus = 10.0;
     auto aperture = 0.1;
     Camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+=======
+    const int image_width = 256;
+    const int image_height = 256;
+>>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
 
     // Render
 
@@ -114,6 +127,7 @@ int main()
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++ i)
         {
+<<<<<<< HEAD
 <<<<<<< HEAD
             Color pixel_Color(0, 0, 0);
             for (int s = 0; s < spp; s ++)
@@ -135,6 +149,10 @@ int main()
 
             std::cout << ir << ' ' << ig << ' ' << ib << '\n';
 >>>>>>> parent of d8f8d70 (add vector and color class)
+=======
+            Color pixel_color(double(i) / (image_width - 1), double(j) / (image_height - 1), 0.25);
+            write_color(std::cout, pixel_color);
+>>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
         }
     }
 

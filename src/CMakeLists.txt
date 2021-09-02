@@ -7,6 +7,7 @@ add_executable(render
 <<<<<<< HEAD
     Vector.hpp
     Color.hpp
+<<<<<<< HEAD
     Ray.hpp
     Hittable.hpp
     Sphere.hpp
@@ -20,4 +21,6 @@ add_executable(render
     Texture.hpp
 =======
 >>>>>>> parent of d8f8d70 (add vector and color class)
+=======
+>>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
 )

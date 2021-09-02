@@ -5,7 +5,11 @@
 
 #include <iostream>
 
+<<<<<<< HEAD
 void writeColor(std::ostream &out , Color pixel_color, int spp)
+=======
+void write_color(std::ostream &out , Color pixel_color)
+>>>>>>> parent of 51fe3f2 (add ray, sphere, hit class)
 {
     auto r = pixel_color.x();
     auto g = pixel_color.y();
