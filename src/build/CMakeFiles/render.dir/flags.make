@@ -6,5 +6,9 @@ CXX_DEFINES =
 
 CXX_INCLUDES = 
 
+<<<<<<< HEAD
 CXX_FLAGS =  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk
+=======
+CXX_FLAGS =  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11
+>>>>>>> parent of 3ae38ed (delete build)
 
