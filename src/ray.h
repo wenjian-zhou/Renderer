@@ -1,53 +1,28 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "global.h"
-#include "vector.h"
+#include "vec3.h"
 
-class Ray
+class ray
 {
 public:
-    Ray() : tMax(Infinity), time(0.f) {}
-    Ray(const Vector3f &o, const Vector3f &d, float tMax = Infinity,
-        float time = 0.f)
-        : origin(o), direction(d), tMax(tMax), time(time) {}
-
-    Vector3f operator () (float t) const { return origin + direction * t; }
-
-public:
-    Vector3f origin;
-    Vector3f direction;
-    mutable float tMax;
-    float time;
-};
-
-class RayDifferential : public Ray
-{
-public:
-    RayDifferential() { hasDifferentials = false; }
-    RayDifferential(const Vector3f &o, const Vector3f &d, float tMax = Infinity,
-                    float time = 0.f)
-                    : Ray(o, d, tMax, time)
-                    {
-                        hasDifferentials = false;
-                    }
-    RayDifferential(const Ray &ray) : Ray(ray)
+    ray() {}
+    ray(const point3 &origin, const vec3 &direction)
+        : orig(origin), dir(direction)
     {
-        hasDifferentials = false;
     }
 
-    void ScaleDifferentials(float s)
+    point3 origin() const { return orig; }
+    vec3 direction() const { return dir; }
+
+    point3 at(double t) const
     {
-        rxOrigin = origin + (rxOrigin - origin) * s;
-        ryOrigin = origin + (ryOrigin - origin) * s;
-        rxDirection = direction + (rxDirection - direction) * s;
-        ryDirection = direction + (ryDirection - direction) * s;
+        return orig + t * dir;
     }
 
 public:
-    bool hasDifferentials;
-    Vector3f rxOrigin, ryOrigin;
-    Vector3f rxDirection, ryDirection;
+    point3 orig;
+    vec3 dir;
 };
 
 #endif

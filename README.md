@@ -1,3 +1,14 @@
-# render
+# Renderer
 
-I'm currently reading Physically Based Rendering and reconstructing my code, so don't run it yet.
+## How to build this project?
+
+* install **cmake**
+* in command-line, go to the project directory
+
+```
+mkdir build
+cd build
+cmake ..
+make
+./Renderer >> image.ppm
+```
