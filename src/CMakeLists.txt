@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 
 project(render)
 
-set(CMAKE_CXX_STANDARD 11)
-
 add_executable(render
     main.cpp
+<<<<<<< HEAD
     Vector.hpp
     Color.hpp
     Ray.hpp
@@ -19,4 +18,6 @@ add_executable(render
     BVH.hpp
     ConstantMedium.hpp
     Texture.hpp
+=======
+>>>>>>> parent of d8f8d70 (add vector and color class)
 )

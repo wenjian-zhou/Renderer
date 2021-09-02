@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "global.hpp"
 
 #include "Color.hpp"
@@ -6,6 +7,8 @@
 #include "Camera.hpp"
 #include "Material.hpp"
 
+=======
+>>>>>>> parent of d8f8d70 (add vector and color class)
 #include <iostream>
 
 Color castRay(const Ray &r, const Hittable &world, int depth)
@@ -111,6 +114,7 @@ int main()
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for (int i = 0; i < image_width; ++ i)
         {
+<<<<<<< HEAD
             Color pixel_Color(0, 0, 0);
             for (int s = 0; s < spp; s ++)
             {
@@ -120,6 +124,17 @@ int main()
                 pixel_Color += castRay(r, world, max_depth);
             }
             writeColor(std::cout, pixel_Color, spp);
+=======
+            auto r = double(i) / (image_width - 1);
+            auto g = double(j) / (image_height - 1);
+            auto b = 0.25;
+
+            int ir = static_cast<int>(255.999 * r);
+            int ig = static_cast<int>(255.999 * g);
+            int ib = static_cast<int>(255.999 * b);
+
+            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+>>>>>>> parent of d8f8d70 (add vector and color class)
         }
     }
 
