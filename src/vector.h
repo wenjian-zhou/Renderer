@@ -55,6 +55,8 @@ public:
     Vector3f operator - ()                  const { return Vector3f(-x, -y, -z); }
     Vector3f operator * (const Vector3f &v) const { return Vector3f(x * v.x, y * v.y, z * v.z); }
     Vector3f &operator += (const Vector3f &v)     { x += v.x, y += v.y, z += v.z; return *this; }
+    Vector3f operator == (const Vector3f &v) const { return v.x == x && v.y == y && v.z == z; }
+    Vector3f operator != (const Vector3f &v) const { return v.x != x || v.y != y || v.z != z; }
 
     float operator [] (int i) const
     {
@@ -88,14 +90,14 @@ public:
         return std::max(x, std::max(y, z));
     }
 
-    Vector3f Min(const Vector3f &p1, const Vector3f &p2)
+    static Vector3f Min(const Vector3f &p1, const Vector3f &p2)
     {
         return Vector3f(std::min(p1.x, p2.x),
                         std::min(p1.y, p2.y),
                         std::min(p1.z, p2.z));
     }
 
-    Vector3f Max(const Vector3f &p1, const Vector3f &p2)
+    static Vector3f Max(const Vector3f &p1, const Vector3f &p2)
     {
         return Vector3f(std::max(p1.x, p2.x),
                         std::max(p1.y, p2.y),
@@ -109,6 +111,11 @@ public:
 inline float Dot(const Vector3f &v, const Vector3f &w)
 {
     return v.x * w.x + v.y * w.y + v.z * w.z;
+}
+
+inline float AbsDot(const Vector3f &v, const Vector3f &w)
+{
+    return std::abs(Dot(v, w));
 }
 
 inline Vector3f Cross(const Vector3f &v, const Vector3f &w)
@@ -135,6 +142,31 @@ inline void CoordinateSystem(const Vector3f &v1, Vector3f *v2, Vector3f *v3)
 inline Vector3f Lerp(const float &t, const Vector3f &p0, const Vector3f &p1)
 {
     return p0 * (1 - t) + p1 * t;
+}
+
+inline Vector3f Floor(const Vector3f &v)
+{
+    return Vector3f(std::floor(v.x), std::floor(v.y), std::floor(v.z));
+}
+
+inline Vector3f Ceil(const Vector3f &v)
+{
+    return Vector3f(std::ceil(v.x), std::ceil(v.y), std::ceil(v.z));
+}
+
+inline Vector3f Abs(const Vector3f &v)
+{
+    return Vector3f(std::abs(v.x), std::abs(v.y), std::abs(v.z));
+}
+
+inline Vector3f Permute(const Vector3f &v, int &x, int &y, int &z)
+{
+    return Vector3f(v[x], v[y], v[z]);
+}
+
+inline Vector3f Faceforward(const Vector3f &normal, const Vector3f &v)
+{
+    return (Dot(normal, v) < 0.f) ? -normal : normal;
 }
 
 #endif
