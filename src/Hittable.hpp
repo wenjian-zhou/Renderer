@@ -13,8 +13,6 @@ struct HitRecord
     Vector3f normal;
     shared_ptr<Material> mat_ptr;
     float t;
-    float u;
-    float v;
     bool front_face;
 
     inline void setFaceNormal(const Ray &r, const Vector3f &outward_normal)
