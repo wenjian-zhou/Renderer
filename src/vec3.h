@@ -180,4 +180,27 @@ vec3 random_in_unit_disk()
     }
 }
 
+// remember to pass radians not angles
+inline vec3 SphericalDirection(const float &sinTheta, const float &cosTheta, const float &phi)
+{
+    return vec3(sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta);
+}
+
+// remember to pass radians not angles
+inline vec3 SphericalDirection(const float &sinTheta, const float &cosTheta, const float &phi, const vec3 &x, const vec3 &y, const vec3 &z)
+{
+    return sinTheta * std::cos(phi) * x + sinTheta * std::sin(phi) * y + cosTheta * z;
+}
+
+inline float SphericalTheta(const vec3 &v)
+{
+    return (std::acos(clamp(v.z(), -1, 1)));
+}
+
+inline float SphericalPhi(const vec3 &v)
+{
+    float p = std::atan2(v.y(), v.x());
+    return (p < 0) ? (p + 2 * pi) : p;
+}
+
 #endif
