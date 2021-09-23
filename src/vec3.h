@@ -1,6 +1,7 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <assert.h>
 #include <cmath>
 #include <iostream>
 
@@ -111,6 +112,7 @@ inline vec3 operator*(const vec3 &v, double t)
 
 inline vec3 operator/(vec3 v, double t)
 {
+    assert(t != 0.f);
     return (1 / t) * v;
 }
 

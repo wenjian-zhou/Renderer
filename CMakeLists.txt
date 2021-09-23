@@ -17,6 +17,6 @@ set(SOURCES
     src/material.h  
     src/bvh.h
     src/texture.h
-    src/global_stb_image.h src/aarect.h src/box.h src/constant_medium.h)
+    src/global_stb_image.h src/aarect.h src/box.h src/constant_medium.h src/core/vector.h)
 
 add_executable(Renderer ${SOURCES})
