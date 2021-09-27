@@ -8,6 +8,8 @@
 #include "color.h"
 #include "vec3.h"
 
+inline float SafeSqrt(const float &a) { return std::sqrt(std::max(0.f, a)); }
+
 static const int nCIESamples = 471;
 extern const float CIE_X[nCIESamples];
 extern const float CIE_Y[nCIESamples];
@@ -18,19 +20,19 @@ static const float CIE_Y_integral = 106.856895;
 class RGBSpectrum
 {
 public:
-    RGBSpectrum(double v = 0) : r(v), g(v), b(v) {}
-    RGBSpectrum(double _r, double _g, double _b) : r(_r), g(_g), b(_b) {}
-    RGBSpectrum(const double *v) : r(v[0]), g(v[1]), b(v[2]) {}
+    RGBSpectrum(float v = 0) : r(v), g(v), b(v) {}
+    RGBSpectrum(float _r, float _g, float _b) : r(_r), g(_g), b(_b) {}
+    RGBSpectrum(const float *v) : r(v[0]), g(v[1]), b(v[2]) {}
     RGBSpectrum(const std::string &filename);
     RGBSpectrum(const vec3 &v) : r(std::fabs(v.x())), g(std::fabs(v.y())), b(std::fabs(v.z())) {}
 
-    double operator [] (const uint32_t &i) const
+    float operator [] (const uint32_t &i) const
     {
         if (i == 0) return r;
         else if (i == 1) return g;
         else return b;
     }
-    double &operator [] (const uint32_t &i)
+    float &operator [] (const uint32_t &i)
     {
         if (i == 0) return r;
         else if (i == 1) return g;
@@ -39,9 +41,9 @@ public:
     bool IsNaN() const { return std::isnan(r) | std::isnan(g) | std::isnan(b); }
 
     RGBSpectrum operator - () const { return RGBSpectrum(-r, -g, -b); }
-    RGBSpectrum operator * (double v) const { return RGBSpectrum(r * v, g * v, b * v); }
-    RGBSpectrum operator / (double v) const { assert(v != 0.f); return RGBSpectrum(r / v, g / v, b / v); }
-    RGBSpectrum &operator /= (double v) { assert(v != 0); r /= v; g /= v; b /= v; return *this; }
+    RGBSpectrum operator * (float v) const { return RGBSpectrum(r * v, g * v, b * v); }
+    RGBSpectrum operator / (float v) const { assert(v != 0.f); return RGBSpectrum(r / v, g / v, b / v); }
+    RGBSpectrum &operator /= (float v) { assert(v != 0); r /= v; g /= v; b /= v; return *this; }
 
     RGBSpectrum operator + (const RGBSpectrum &s) const { return RGBSpectrum(r + s.r, g + s.g, b + s.b); }
     RGBSpectrum &operator += (const RGBSpectrum &s) { r += s.r; g += s.g; b += s.b; return *this; }
@@ -50,15 +52,32 @@ public:
     RGBSpectrum &operator *= (const RGBSpectrum &s) { r *= s.r; g *= s.g; b *= s.b; return *this; }
     RGBSpectrum operator / (const RGBSpectrum &s) const { return RGBSpectrum(r / s.r, g / s.g, b / s.b); }
 
-    double Average() const { return double(r + g + b) / 3; }
-    double y() const { return (r * 0.299) + (g * 0.587) + (b * 0.114); }
+    float Average() const { return float(r + g + b) / 3; }
+    float y() const { return (r * 0.299) + (g * 0.587) + (b * 0.114); }
     bool IsBlack() const { return r == 0 && g == 0 && b == 0; }
 
     sRGB TosRGB() const { return sRGB(GammaCorrect(r), GammaCorrect(g), GammaCorrect(b)); }
     
-    static RGBSpectrum FromSPD(const double *lambda, const double *val, const int &n);
+    static RGBSpectrum FromSPD(const float *lambda, const float *val, const int &n);
+
+    friend RGBSpectrum operator * (float v, const RGBSpectrum &s) { return RGBSpectrum(s.r * v, s.g * v, s.b * v); }
+    friend RGBSpectrum Exp(const RGBSpectrum &s) { return RGBSpectrum(std::exp(s.r), std::exp(s.g), std::exp(s.b)); }
+    friend RGBSpectrum Cos(const RGBSpectrum &s) { return RGBSpectrum(std::cos(s.r), std::cos(s.g), std::cos(s.b)); }
+    friend RGBSpectrum Sqrt(const RGBSpectrum &s) { return RGBSpectrum(SafeSqrt(s.r), SafeSqrt(s.g), SafeSqrt(s.b)); }
+    friend float MaxComponent(const RGBSpectrum &s) { return std::max(s.r, std::max(s.g, s.b)); }
+    friend std::ostream &operator << (std::ostream &os, const RGBSpectrum &s)
+    {
+        os << s.r << ' ' << s.g << ' ' << s.b;
+        return os;
+    }
 public:
-    double r, g, b;
+    float r, g, b;
 };
+
+typedef RGBSpectrum Spectrum;
+RGBSpectrum BlackBody(float t);
+RGBSpectrum XYZToRGB(const RGBSpectrum &s);
+RGBSpectrum Clamp(const RGBSpectrum &s, const RGBSpectrum &l, const RGBSpectrum &r);
+RGBSpectrum ClampNegative(const RGBSpectrum &s);
 
 #endif
