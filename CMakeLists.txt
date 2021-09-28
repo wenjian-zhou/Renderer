@@ -5,11 +5,11 @@ project(Renderer)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCES
+    src/core/main.cpp 
     src/core/color.h
     src/core/global.h
     src/core/hittable.h
     src/core/hittable_list.h
-    src/core/main.cpp 
     src/core/ray.h
     src/core/sphere.h 
     src/core/vec3.h 
@@ -23,6 +23,10 @@ set(SOURCES
     src/core/box.h 
     src/core/constant_medium.h
     src/core/perlin.h
-    src/core/moving_sphere.h)
+    src/core/moving_sphere.h
+    src/core/integrator.h 
+    src/core/renderer.h 
+    src/core/renderer.cpp 
+    )
 
 add_executable(Renderer ${SOURCES})
