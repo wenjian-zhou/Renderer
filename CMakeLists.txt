@@ -5,6 +5,7 @@ project(Renderer)
 set(CMAKE_CXX_STANDARD 11)
 
 set(SOURCES
+<<<<<<< HEAD
     src/core/main.cpp 
     src/core/color.h
     src/core/global.h
@@ -28,5 +29,20 @@ set(SOURCES
     src/core/renderer.h 
     src/core/renderer.cpp 
     )
+=======
+    src/color.h
+    src/global.h
+    src/hittable.h
+    src/hittable_list.h
+    src/main.cpp 
+    src/ray.h
+    src/sphere.h 
+    src/vec3.h 
+    src/camera.h
+    src/material.h  
+    src/bvh.h
+    src/texture.h
+    src/global_stb_image.h src/aarect.h src/box.h src/constant_medium.h src/core/vector.h)
+>>>>>>> parent of 267aa56 (update integrator and perlin)
 
 add_executable(Renderer ${SOURCES})
