@@ -4,8 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/core/main.cpp.o"
-  "/Users/wenjian_zhou/Program/cpp/Renderer/src/core/renderer.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/core/renderer.cpp.o"
+  "/Users/wenjian_zhou/Program/cpp/Renderer/src/main.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

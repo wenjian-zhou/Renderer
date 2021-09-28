@@ -34,6 +34,8 @@ color ray_color(const ray &r, const color &background, const hittable &world, in
     return emitted + attenuation * ray_color(scattered, background, world, depth - 1);
 }
 
+<<<<<<< HEAD
+=======
 hittable_list random_scene()
 {
     hittable_list world;
@@ -183,6 +185,7 @@ hittable_list cornell_smoke()
     return objects;
 }
 
+>>>>>>> parent of 267aa56 (update integrator and perlin)
 int main()
 {
 
@@ -203,6 +206,9 @@ int main()
     auto aperture = 0.0;
     color background(0, 0, 0);
 
+<<<<<<< HEAD
+    
+=======
     switch (0) {
         case 1:
             world = random_scene();
@@ -264,6 +270,7 @@ int main()
             vfov = 40.0;
             break;
     }
+>>>>>>> parent of 267aa56 (update integrator and perlin)
 
     // Camera
 

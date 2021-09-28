@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Renderer.dir/src/core/main.cpp.o"
-  "CMakeFiles/Renderer.dir/src/core/renderer.cpp.o"
+  "CMakeFiles/Renderer.dir/src/main.cpp.o"
   "Renderer"
   "Renderer.pdb"
 )

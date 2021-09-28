@@ -1,1 +1,1 @@
-/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/Renderer.dir/src/core/main.cpp.o CMakeFiles/Renderer.dir/src/core/renderer.cpp.o -o Renderer 
+/usr/bin/clang++ -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/Renderer.dir/src/main.cpp.o -o Renderer 

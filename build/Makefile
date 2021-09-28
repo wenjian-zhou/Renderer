@@ -142,59 +142,32 @@ Renderer/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/build
 .PHONY : Renderer/fast
 
-src/core/main.o: src/core/main.cpp.o
+src/main.o: src/main.cpp.o
 
-.PHONY : src/core/main.o
-
-# target to build an object file
-src/core/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/core/main.cpp.o
-.PHONY : src/core/main.cpp.o
-
-src/core/main.i: src/core/main.cpp.i
-
-.PHONY : src/core/main.i
-
-# target to preprocess a source file
-src/core/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/core/main.cpp.i
-.PHONY : src/core/main.cpp.i
-
-src/core/main.s: src/core/main.cpp.s
-
-.PHONY : src/core/main.s
-
-# target to generate assembly for a file
-src/core/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/core/main.cpp.s
-.PHONY : src/core/main.cpp.s
-
-src/core/renderer.o: src/core/renderer.cpp.o
-
-.PHONY : src/core/renderer.o
+.PHONY : src/main.o
 
 # target to build an object file
-src/core/renderer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/core/renderer.cpp.o
-.PHONY : src/core/renderer.cpp.o
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
 
-src/core/renderer.i: src/core/renderer.cpp.i
+src/main.i: src/main.cpp.i
 
-.PHONY : src/core/renderer.i
+.PHONY : src/main.i
 
 # target to preprocess a source file
-src/core/renderer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/core/renderer.cpp.i
-.PHONY : src/core/renderer.cpp.i
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
 
-src/core/renderer.s: src/core/renderer.cpp.s
+src/main.s: src/main.cpp.s
 
-.PHONY : src/core/renderer.s
+.PHONY : src/main.s
 
 # target to generate assembly for a file
-src/core/renderer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/core/renderer.cpp.s
-.PHONY : src/core/renderer.cpp.s
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -205,12 +178,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Renderer"
-	@echo "... src/core/main.o"
-	@echo "... src/core/main.i"
-	@echo "... src/core/main.s"
-	@echo "... src/core/renderer.o"
-	@echo "... src/core/renderer.i"
-	@echo "... src/core/renderer.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 
