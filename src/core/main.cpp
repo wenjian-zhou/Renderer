@@ -10,7 +10,6 @@
 #include "box.h"
 #include "constant_medium.h"
 #include "bvh.h"
-#include "integrator.h"
 
 #include <iostream>
 
