@@ -23,6 +23,8 @@ set(SOURCES
     src/core/box.h 
     src/core/constant_medium.h
     src/core/perlin.h
-    src/core/moving_sphere.h)
+    src/core/moving_sphere.h
+    src/core/triangle.h
+    )
 
 add_executable(Renderer ${SOURCES})

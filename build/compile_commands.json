@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/Users/wenjian_zhou/Program/cpp/Renderer/build",
+  "command": "/usr/bin/clang++   -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -std=gnu++11 -o CMakeFiles/Renderer.dir/src/core/main.cpp.o -c /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp",
+  "file": "/Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp"
+}
+]

@@ -3,6 +3,7 @@
 #include "color.h"
 #include "hittable_list.h"
 #include "sphere.h"
+#include "triangle.h"
 #include "camera.h"
 #include "material.h"
 #include "moving_sphere.h"
@@ -35,6 +36,22 @@ color ray_color(const ray &r, const color &background, const hittable &world, in
         return emitted;
 
     return (emitted + attenuation * ray_color(scattered, background, world, depth - 1)) / RR;
+}
+
+hittable_list test_triangle()
+{
+    hittable_list objects;
+    hittable_list boxes1;
+    auto light = make_shared<diffuse_light>(color(7, 7, 7));
+    objects.add(make_shared<xz_rect>(123, 423, 147, 412, 554, light));
+
+    vec3 v0 = vec3(300, 200, 300);
+    vec3 v1 = vec3(120, 200, 300);
+    vec3 v2 = vec3(200, 300, 500);
+    auto green = make_shared<lambertian>(color(0.48, 0.83, 0.53));
+    objects.add(make_shared<triangle>(v0, v1, v2, green));
+
+    return objects;
 }
 
 hittable_list final_scene() {
@@ -123,7 +140,7 @@ int main()
 
     if (true)
     {
-        world = final_scene();
+        world = test_triangle();
         aspect_ratio = 1.0;
         image_width = 800;
         samples_per_pixel = 100;
@@ -143,8 +160,8 @@ int main()
 
     // Render
 
-    std::cout << "P3\n"
-              << image_width << ' ' << image_height << "\n255\n";
+    FILE *f = fopen("image.ppm", "w"); // Write image to PPM file.
+	fprintf(f, "P3\n%d %d\n%d\n", image_width, image_height, 255);
 
     for (int j = image_height - 1; j >= 0; --j)
     {
@@ -159,7 +176,21 @@ int main()
                 ray r = cam.get_ray(u, v);
                 pixel_color += ray_color(r, background, world, max_depth);
             }
-            write_color(std::cout, pixel_color, samples_per_pixel);
+            // write_color(std::cout, pixel_color, samples_per_pixel);
+            auto r = pixel_color.x();
+            auto g = pixel_color.y();
+            auto b = pixel_color.z();
+
+            // Divide the color by the number of samples and gamma-correct for gamma=2.0.
+            auto scale = 1.0 / samples_per_pixel;
+            r = sqrt(scale * r);
+            g = sqrt(scale * g);
+            b = sqrt(scale * b);
+
+            // Write the translated [0,255] value of each color component.
+            fprintf(f,"%d %d %d ", static_cast<int>(256 * clamp(r, 0.0, 0.999)), 
+                                   static_cast<int>(256 * clamp(g, 0.0, 0.999)), 
+                                   static_cast<int>(256 * clamp(b, 0.0, 0.999)));
         }
     }
 
