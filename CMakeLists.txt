@@ -25,6 +25,7 @@ set(SOURCES
     src/core/perlin.h
     src/core/moving_sphere.h
     src/core/triangle.h
+    src/core/mesh_triangle.h
     )
 
 add_executable(Renderer ${SOURCES})

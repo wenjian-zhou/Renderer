@@ -24,7 +24,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 30,
+				"line" : 31,
 				"parent" : 0
 			}
 		]
@@ -103,7 +103,8 @@
 				16,
 				17,
 				18,
-				19
+				19,
+				20
 			]
 		},
 		{
@@ -215,6 +216,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "src/core/triangle.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/mesh_triangle.h",
 			"sourceGroupIndex" : 0
 		}
 	],

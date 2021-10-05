@@ -4,6 +4,7 @@
 #include "hittable_list.h"
 #include "sphere.h"
 #include "triangle.h"
+#include "mesh_triangle.h"
 #include "camera.h"
 #include "material.h"
 #include "moving_sphere.h"
