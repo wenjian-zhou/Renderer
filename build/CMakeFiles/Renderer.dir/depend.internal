@@ -15,6 +15,7 @@ CMakeFiles/Renderer.dir/src/core/main.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/hittable_list.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/material.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/mesh_triangle.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/moving_sphere.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/perlin.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/ray.h
@@ -23,3 +24,4 @@ CMakeFiles/Renderer.dir/src/core/main.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/triangle.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vec3.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/external/stb_image.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/external/tiny_obj_loader.h

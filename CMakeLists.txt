@@ -26,6 +26,7 @@ set(SOURCES
     src/core/moving_sphere.h
     src/core/triangle.h
     src/core/mesh_triangle.h
+    src/external/tiny_obj_loader.h
     )
 
 add_executable(Renderer ${SOURCES})

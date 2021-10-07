@@ -39,18 +39,23 @@ color ray_color(const ray &r, const color &background, const hittable &world, in
     return (emitted + attenuation * ray_color(scattered, background, world, depth - 1)) / RR;
 }
 
-hittable_list test_triangle()
+hittable_list test_model()
 {
     hittable_list objects;
     hittable_list boxes1;
     auto light = make_shared<diffuse_light>(color(7, 7, 7));
-    objects.add(make_shared<xz_rect>(123, 423, 147, 412, 554, light));
+    objects.add(make_shared<xz_rect>(-200, 200, -200, 200, 554, light));
 
-    vec3 v0 = vec3(300, 200, 300);
-    vec3 v1 = vec3(120, 200, 300);
-    vec3 v2 = vec3(200, 300, 500);
-    auto green = make_shared<lambertian>(color(0.48, 0.83, 0.53));
-    objects.add(make_shared<triangle>(v0, v1, v2, green));
+    std::string model = "../models/bunny/bunny.obj";
+    auto skin = make_shared<lambertian>(color(1, 1, 1));
+    mesh_triangle bunny = mesh_triangle(model, skin);
+
+    hittable_list faces;
+    for (size_t s = 0; s < bunny.triangles.size(); s ++)
+    {
+        faces.add(make_shared<triangle>(bunny.triangles[s]));
+    }
+    objects.add(make_shared<bvh_node>(faces, 0, 1));
 
     return objects;
 }
@@ -141,14 +146,14 @@ int main()
 
     if (true)
     {
-        world = test_triangle();
-        aspect_ratio = 1.0;
-        image_width = 800;
+        world = test_model();
+        aspect_ratio = 1.0; // 1.0
+        image_width = 800; // 800
         samples_per_pixel = 100;
         background = color(0,0,0);
-        lookfrom = point3(478, 278, -600);
-        lookat = point3(278, 278, 0);
-        vfov = 40.0;
+        lookfrom = point3(0, 0.5, 10); // (478, 278, -600)
+        lookat = point3(0, 0, -1); // (278, 278, 0)
+        vfov = 2.0; // 40.0
     }
 
     // Camera

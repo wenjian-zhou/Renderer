@@ -7,7 +7,7 @@
 class triangle : public hittable
 {
 public:
-    triangle() {};
+    triangle() {}
     triangle(vec3 _v0, vec3 _v1, vec3 _v2, shared_ptr<material> m) : v0(_v0), v1(_v1), v2(_v2), mat_ptr(m)
     {
         e1 = v1 - v0;

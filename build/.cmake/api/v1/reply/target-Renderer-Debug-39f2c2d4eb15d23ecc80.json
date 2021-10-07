@@ -24,7 +24,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 31,
+				"line" : 32,
 				"parent" : 0
 			}
 		]
@@ -104,7 +104,8 @@
 				17,
 				18,
 				19,
-				20
+				20,
+				21
 			]
 		},
 		{
@@ -221,6 +222,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "src/core/mesh_triangle.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/external/tiny_obj_loader.h",
 			"sourceGroupIndex" : 0
 		}
 	],
