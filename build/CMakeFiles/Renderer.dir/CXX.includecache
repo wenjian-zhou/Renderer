@@ -119,6 +119,10 @@ constant_medium.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/constant_medium.h
 bvh.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bvh.h
+onb.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/onb.h
+pdf.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/pdf.h
 iostream
 -
 
@@ -129,6 +133,10 @@ hittable.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/hittable.h
 texture.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/texture.h
+onb.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/onb.h
+pdf.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/pdf.h
 
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/mesh_triangle.h
 triangle.h
@@ -141,6 +149,16 @@ global.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
 hittable.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/hittable.h
+
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/onb.h
+vec3.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/vec3.h
+
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/pdf.h
+onb.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/onb.h
+vec3.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/vec3.h
 
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/perlin.h
 global.h
@@ -155,6 +173,10 @@ hittable.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/hittable.h
 vec3.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vec3.h
+onb.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/onb.h
+pdf.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/pdf.h
 
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/texture.h
 global.h

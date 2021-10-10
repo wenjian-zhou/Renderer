@@ -24,7 +24,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 32,
+				"line" : 35,
 				"parent" : 0
 			}
 		]
@@ -38,7 +38,7 @@
 					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk"
 				},
 				{
-					"fragment" : "-std=gnu++11"
+					"fragment" : "-std=gnu++17"
 				}
 			],
 			"language" : "CXX",
@@ -48,7 +48,7 @@
 				[
 					1
 				],
-				"standard" : "11"
+				"standard" : "17"
 			},
 			"sourceIndexes" : 
 			[
@@ -105,7 +105,9 @@
 				18,
 				19,
 				20,
-				21
+				21,
+				22,
+				23
 			]
 		},
 		{
@@ -227,6 +229,16 @@
 		{
 			"backtrace" : 1,
 			"path" : "src/external/tiny_obj_loader.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/onb.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/core/pdf.h",
 			"sourceGroupIndex" : 0
 		}
 	],

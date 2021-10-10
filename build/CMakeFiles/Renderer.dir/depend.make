@@ -16,6 +16,8 @@ CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/main.cpp
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/material.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/mesh_triangle.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/moving_sphere.h
+CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/onb.h
+CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/pdf.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/perlin.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/ray.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/sphere.h

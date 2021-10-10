@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(Renderer)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCES
     src/core/color.h
@@ -27,6 +27,9 @@ set(SOURCES
     src/core/triangle.h
     src/core/mesh_triangle.h
     src/external/tiny_obj_loader.h
+    src/core/onb.h 
+    src/core/pdf.h 
+
     )
 
 add_executable(Renderer ${SOURCES})

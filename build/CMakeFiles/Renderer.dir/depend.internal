@@ -17,6 +17,8 @@ CMakeFiles/Renderer.dir/src/core/main.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/material.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/mesh_triangle.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/moving_sphere.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/onb.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/pdf.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/perlin.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/ray.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/sphere.h
