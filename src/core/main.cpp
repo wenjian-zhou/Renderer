@@ -49,7 +49,7 @@ color ray_color(
     ray scattered = ray(rec.p, p.generate(), r.time());
     auto pdf_val = p.value(scattered.direction());
 
-    return emitted + srec.attenuation * rec.mat_ptr->scattering_pdf(r, rec, scattered) * ray_color(scattered, background, world, lights, depth - 1) / pdf_val;
+    return emitted + srec.attenuation * rec.mat_ptr->eval(r, rec, scattered) * ray_color(scattered, background, world, lights, depth - 1) / pdf_val;
 }
 
 hittable_list test_model()
@@ -96,6 +96,33 @@ hittable_list cornell_box()
 
     auto glass = make_shared<dielectric>(1.5);
     objects.add(make_shared<sphere>(point3(190, 90, 190), 90, glass));
+
+    return objects;
+}
+
+hittable_list test_cornell_box()
+{
+    hittable_list objects;
+
+    auto red = make_shared<lambertian>(color(.65, .05, .05));
+    auto white = make_shared<lambertian>(color(.73, .73, .73));
+    auto green = make_shared<lambertian>(color(.12, .45, .15));
+    auto light = make_shared<diffuse_light>(color(15, 15, 15));
+
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
+    objects.add(make_shared<flip_face>(make_shared<xz_rect>(213, 343, 227, 332, 554, light)));
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
+    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+
+    shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
+    box1 = make_shared<rotate_y>(box1, 15);
+    box1 = make_shared<translate>(box1, vec3(265, 0, 295));
+    objects.add(box1);
+
+    auto m_GGX = make_shared<GGX>(color(0.5, 0.5, 0.7), 0.5, vec3(0.95, 0.64, 0.54));
+    objects.add(make_shared<sphere>(point3(190, 90, 190), 90, m_GGX));
 
     return objects;
 }
@@ -173,15 +200,15 @@ int main()
     const auto aspect_ratio = 1.0 / 1.0;
     const int image_width = 600;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 100;
+    const int samples_per_pixel = 16;
     const int max_depth = 50;
 
     // World
 
-    auto world = cornell_box();
+    auto world = test_cornell_box();
     auto lights = make_shared<hittable_list>();
     lights->add(make_shared<xz_rect>(213, 343, 227, 332, 554, make_shared<material>()));
-    lights->add(make_shared<sphere>(point3(190, 90, 190), 90, make_shared<material>()));
+    // lights->add(make_shared<sphere>(point3(190, 90, 190), 90, make_shared<material>()));
 
     color background(0, 0, 0);
 

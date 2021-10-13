@@ -79,15 +79,15 @@ include CMakeFiles/Renderer.dir/flags.make
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: CMakeFiles/Renderer.dir/flags.make
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Renderer.dir/src/core/main.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Renderer.dir/src/core/main.cpp.o -c /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Renderer.dir/src/core/main.cpp.o -c /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp
 
 CMakeFiles/Renderer.dir/src/core/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Renderer.dir/src/core/main.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp > CMakeFiles/Renderer.dir/src/core/main.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp > CMakeFiles/Renderer.dir/src/core/main.cpp.i
 
 CMakeFiles/Renderer.dir/src/core/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Renderer.dir/src/core/main.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp -o CMakeFiles/Renderer.dir/src/core/main.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wenjian_zhou/Program/cpp/Renderer/src/core/main.cpp -o CMakeFiles/Renderer.dir/src/core/main.cpp.s
 
 # Object files for target Renderer
 Renderer_OBJECTS = \

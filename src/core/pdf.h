@@ -13,6 +13,23 @@ public:
     virtual vec3 generate() const = 0;
 };
 
+class average_pdf : public pdf
+{
+public:
+    average_pdf(const vec3 &w) { uvw.build_from_w(w); normal = w; }
+    virtual double value(const vec3 &direction) const override 
+    {
+        return 0.5 / pi;
+    }
+    virtual vec3 generate() const override 
+    {
+        return uvw.local(random_in_hemisphere(normal));
+    }
+public:
+    vec3 normal;
+    onb uvw;
+};
+
 class cosine_pdf : public pdf
 {
 public:
