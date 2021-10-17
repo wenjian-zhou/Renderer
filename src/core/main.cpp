@@ -25,7 +25,6 @@ color ray_color(
     int depth)
 {
     hit_record rec;
-
     // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0)
         return color(0, 0, 0);
@@ -48,7 +47,6 @@ color ray_color(
 
     ray scattered = ray(rec.p, p.generate(), r.time());
     auto pdf_val = p.value(scattered.direction());
-
     return emitted + srec.attenuation * rec.mat_ptr->eval(r, rec, scattered) * ray_color(scattered, background, world, lights, depth - 1) / pdf_val;
 }
 
@@ -59,7 +57,7 @@ hittable_list test_model()
     auto light = make_shared<diffuse_light>(color(7, 7, 7));
     objects.add(make_shared<xz_rect>(-400, 400, -400, 400, 554, light));
 
-    std::string model = "../models/spot/spot_triangulated_good.obj";
+    std::string model = "../models/bunny/bunny.obj";
     auto skin = make_shared<lambertian>(color(0.6, 0.4, 0.8));
     mesh_triangle bunny = mesh_triangle(model, skin);
 
@@ -116,17 +114,20 @@ hittable_list test_cornell_box()
     objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
     objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
 
+    /*
     shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
     box1 = make_shared<rotate_y>(box1, 15);
     box1 = make_shared<translate>(box1, vec3(265, 0, 295));
     objects.add(box1);
-
-    auto m_GGX = make_shared<GGX>(color(0.5, 0.5, 0.7), 0.5, vec3(0.95, 0.64, 0.54));
-    objects.add(make_shared<sphere>(point3(190, 90, 190), 90, m_GGX));
-
+    */
+    auto gold = make_shared<conductor>(color(1.0f), 0.001, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
+    auto alu = make_shared<conductor>(color(1.0f), 0.001, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
+    objects.add(make_shared<sphere>(point3(82+270, 90, 82+295), 90, gold));
+    objects.add(make_shared<sphere>(point3(150, 90, 190), 90, alu));
+    
     return objects;
 }
-/*
+
 hittable_list final_scene() {
     hittable_list boxes1;
     auto ground = make_shared<lambertian>(color(0.48, 0.83, 0.53));
@@ -190,7 +191,7 @@ hittable_list final_scene() {
 
     return objects;
 }
-*/
+
 
 int main()
 {
@@ -200,7 +201,7 @@ int main()
     const auto aspect_ratio = 1.0 / 1.0;
     const int image_width = 600;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 16;
+    const int samples_per_pixel = 2048;
     const int max_depth = 50;
 
     // World

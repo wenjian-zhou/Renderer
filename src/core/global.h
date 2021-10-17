@@ -16,6 +16,7 @@ using std::sqrt;
 
 const double infinity = std::numeric_limits<double>::infinity();
 const double pi = 3.1415926535897932385;
+const double invPi = 1 / pi;
 
 // Utility Functions
 
@@ -49,6 +50,13 @@ inline int random_int(int min, int max)
 {
     // Returns a random integer in [min, max]
     return static_cast<int>(random_double(min, max + 1));
+}
+
+inline double safe_sqrt(const double &a)
+{
+    double tmp = a;
+    if (a < 0.0f) return 0;
+    else return std::sqrt(tmp);
 }
 
 // Common Headers

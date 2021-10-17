@@ -70,6 +70,11 @@ public:
         return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
     }
 
+    vec3 safe_sqrt_vec()
+    {
+        return vec3(safe_sqrt(e[0]), safe_sqrt(e[1]), safe_sqrt(e[2]));
+    }
+
 public:
     double e[3];
 };
@@ -115,6 +120,11 @@ inline vec3 operator/(vec3 v, double t)
     return (1 / t) * v;
 }
 
+inline vec3 operator/(vec3 v, vec3 w)
+{
+    return vec3(v[0] / w[0], v[1] / w[1], v[2] / w[2]);
+}
+
 inline double dot(const vec3 &u, const vec3 &v)
 {
     return u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2];
@@ -130,6 +140,11 @@ inline vec3 cross(const vec3 &u, const vec3 &v)
 inline vec3 unit_vector(vec3 v)
 {
     return v / v.length();
+}
+
+inline vec3 Lerp(vec3 a, vec3 b, float t)
+{
+    return a + (b - a) * t;
 }
 
 vec3 random_in_unit_sphere()

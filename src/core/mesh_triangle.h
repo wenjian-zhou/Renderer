@@ -13,7 +13,7 @@ public:
     mesh_triangle(std::string inputfile, std::shared_ptr<material> mat_ptr)
     {
         tinyobj::ObjReaderConfig reader_config;
-        reader_config.mtl_search_path = "../models/spot/";
+        reader_config.mtl_search_path = "../models/bunny/";
 
         tinyobj::ObjReader reader;
 
