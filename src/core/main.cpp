@@ -103,16 +103,17 @@ hittable_list test_cornell_box()
     hittable_list objects;
 
     auto red = make_shared<lambertian>(color(.65, .05, .05));
-    auto white = make_shared<lambertian>(color(.73, .73, .73));
+    auto white = make_shared<lambertian>(color(1.0, 1.0, 1.0));
     auto green = make_shared<lambertian>(color(.12, .45, .15));
     auto light = make_shared<diffuse_light>(color(15, 15, 15));
+    auto checker = make_shared<lambertian>(make_shared<checker_texture>(color(0.2f, 0.2f, 0.2f), color(0.9f, 0.9f, 0.9f)));
 
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
+    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, 955, white));
+    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, -400, white));
     objects.add(make_shared<flip_face>(make_shared<xz_rect>(213, 343, 227, 332, 554, light)));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
-    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+    //objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
+    objects.add(make_shared<xz_rect>(-10000, 10000, -10000, 10000, 0, checker));
+    objects.add(make_shared<xy_rect>(-10000, 10000, -10000, 10000, 1500, white));
 
     /*
     shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
@@ -120,10 +121,10 @@ hittable_list test_cornell_box()
     box1 = make_shared<translate>(box1, vec3(265, 0, 295));
     objects.add(box1);
     */
-    auto gold = make_shared<conductor>(color(1.0f), 0.001, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
-    auto alu = make_shared<conductor>(color(1.0f), 0.001, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
-    objects.add(make_shared<sphere>(point3(82+270, 90, 82+295), 90, gold));
-    objects.add(make_shared<sphere>(point3(150, 90, 190), 90, alu));
+    auto gold = make_shared<conductor>(color(1.0f), 0.2, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
+    auto alu = make_shared<conductor>(color(1.0f), 0.2, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
+    //objects.add(make_shared<sphere>(point3(82+270, 90, 82+295), 90, gold));
+    objects.add(make_shared<sphere>(point3(240, 90, 190), 90, alu));
     
     return objects;
 }
@@ -201,7 +202,7 @@ int main()
     const auto aspect_ratio = 1.0 / 1.0;
     const int image_width = 600;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 2048;
+    const int samples_per_pixel = 10000;
     const int max_depth = 50;
 
     // World
@@ -215,8 +216,8 @@ int main()
 
     // Camera
 
-    point3 lookfrom(278, 278, -800);
-    point3 lookat(278, 278, 0);
+    point3 lookfrom(258, 300, -200);
+    point3 lookat(258, 178, 0);
     vec3 vup(0, 1, 0);
     auto dist_to_focus = 10.0;
     auto aperture = 0.0;

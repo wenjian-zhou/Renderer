@@ -17,6 +17,23 @@ struct scatter_record
     shared_ptr<pdf> pdf_ptr;
 };
 
+vec3 toWorld(const vec3 &a, const vec3 &N)
+{
+    vec3 B, C;
+    if (std::fabs(N.x()) > std::fabs(N.y()))
+    {
+        float invLen = 1.0f / safe_sqrt(N[0] * N[0] + N[2] * N[2]);
+        C = vec3(N[2] * invLen, 0.0f, -N[0] * invLen);
+    }
+    else 
+    {
+        float invLen = 1.0f / safe_sqrt(N[1] * N[1] + N[2] * N[2]);
+        C = vec3(0.0f, N[2] * invLen, -N[1] * invLen);
+    }
+    B = cross(C, N);
+    return a.x() * B + a.y() * C + a.z() * N;
+}
+
 void fresnel(const vec3 &I, const vec3 &N, const float &ior, float &kr)
 {
     float cosi = clamp(dot(I, N), -1, 1);
@@ -88,6 +105,21 @@ public:
     {
         return 0;
     }
+
+    // return BRDF
+    virtual vec3 Eval(const vec3 &wo, const vec3 &wi) const
+    {
+        return vec3();
+    }
+
+    // return wi and pdf
+    virtual void Sample(const vec3 &N, vec3 &wi, float &pdf) const {}
+
+    // return pdf
+    virtual float Pdf(const vec3 &wo, const vec3 &wi) const 
+    {
+        return 0;
+    }
 };
 
 class lambertian : public material
@@ -109,6 +141,17 @@ public:
     {
         auto cosine = dot(rec.normal, unit_vector(scattered.direction()));
         return vec3(cosine < 0 ? 0 : (cosine / pi));
+    }
+
+    virtual void Sample(const vec3 &N, vec3 &wi, float &pdf) const override
+    {
+        wi = random_in_hemisphere(N);
+        pdf = 0.5 * invPi;
+    }
+
+    virtual vec3 Eval(const vec3 &wo, const vec3 &wi) const override
+    {
+        return vec3(invPi);
     }
 
 public:
