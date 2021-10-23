@@ -8,6 +8,7 @@ CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/bvh.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/camera.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/color.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/constant_medium.h
+CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/envmap.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/global_stb_image.h
 CMakeFiles/Renderer.dir/src/core/main.cpp.o: ../src/core/hittable.h

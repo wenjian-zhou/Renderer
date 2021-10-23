@@ -56,6 +56,16 @@ material.h
 texture.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/texture.h
 
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/envmap.h
+hittable.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/hittable.h
+vec3.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/vec3.h
+onb.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/onb.h
+pdf.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/pdf.h
+
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
 cmath
 -
@@ -101,6 +111,8 @@ hittable_list.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/hittable_list.h
 sphere.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/sphere.h
+envmap.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/envmap.h
 triangle.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/triangle.h
 mesh_triangle.h

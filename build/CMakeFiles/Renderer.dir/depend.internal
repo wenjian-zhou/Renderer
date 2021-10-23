@@ -9,6 +9,7 @@ CMakeFiles/Renderer.dir/src/core/main.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/camera.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/color.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/constant_medium.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/envmap.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global_stb_image.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/hittable.h

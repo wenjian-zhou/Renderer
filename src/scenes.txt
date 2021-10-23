@@ -88,3 +88,38 @@ hittable_list cornell_box()
 
     return objects;
 }
+
+
+hittable_list test_model()
+{
+    hittable_list objects;
+
+    auto red = make_shared<lambertian>(color(.65, .05, .05));
+    auto white = make_shared<lambertian>(color(1.0, 1.0, 1.0));
+    auto green = make_shared<lambertian>(color(.12, .45, .15));
+    auto light = make_shared<diffuse_light>(color(15, 15, 15));
+    auto checker = make_shared<lambertian>(make_shared<checker_texture>(color(0.2f, 0.2f, 0.2f), color(0.9f, 0.9f, 0.9f)));
+
+    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, 955, white));
+    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, -800, white));
+    objects.add(make_shared<flip_face>(make_shared<xz_rect>(0, 150, 0, 150, 554, light)));
+    objects.add(make_shared<xz_rect>(-10000, 10000, -10000, 10000, 0.0333099, checker));
+    objects.add(make_shared<xy_rect>(-10000, 10000, -10000, 10000, 3000, white));
+    auto gold = make_shared<conductor>(color(1.0f), 0.2, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
+    auto alu = make_shared<conductor>(color(1.0f), 0.001, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
+    std::string model = "../models/bunny/bunny.obj";
+    mesh_triangle bunny = mesh_triangle(model, alu);
+
+    hittable_list faces;
+    for (size_t s = 0; s < bunny.triangles.size(); s++)
+    {
+        faces.add(make_shared<triangle>(bunny.triangles[s]));
+    }
+    objects.add(make_shared<bvh_node>(faces, 0, 1));
+
+    return objects;
+}
+
+from(0, 4, 8)
+at(-0.02, 0, -0.2);
+fov(1.3);

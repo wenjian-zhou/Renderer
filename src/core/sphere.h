@@ -23,6 +23,7 @@ public:
     virtual vec3 random(const point3 &o) const override;
 
 public:
+    bool envmap;
     point3 center;
     double radius;
     shared_ptr<material> mat_ptr;
