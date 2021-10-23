@@ -50,12 +50,12 @@ bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
     float invDet = 1 / det;
 
     rec.t = dot(edge2, qvec) * invDet;
+    rec.p = r.at(rec.t);
     rec.u *= invDet;
     rec.v *= invDet;
     rec.normal = normal;
     rec.mat_ptr = mat_ptr;
-    rec.set_face_normal(r, normal);
-
+    //std::cout << rec.normal << std::endl;
     return true;
 }
 
@@ -73,7 +73,8 @@ bool triangle::bounding_box(double time0, double time1, aabb &output_box) const
         std::max(v0.z(), std::max(v1.z(), v2.z()))
     );
 
-    output_box = aabb(min, max);
+    output_box = aabb(vec3(min.x() - 0.0001f, min.y() - 0.0001f, min.z() - 0.0001f), 
+                      vec3(max.x() + 0.0001f, max.y() + 0.0001f, max.z() + 0.0001f));
 
     return true;
 }

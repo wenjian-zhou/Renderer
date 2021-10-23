@@ -142,6 +142,11 @@ inline vec3 unit_vector(vec3 v)
     return v / v.length();
 }
 
+inline vec3 normalize(vec3 v)
+{
+    return v / v.length();
+}
+
 inline vec3 Lerp(vec3 a, vec3 b, float t)
 {
     return a + (b - a) * t;

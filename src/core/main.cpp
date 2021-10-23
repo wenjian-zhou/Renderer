@@ -71,33 +71,6 @@ hittable_list test_model()
     return objects;
 }
 
-hittable_list cornell_box()
-{
-    hittable_list objects;
-
-    auto red = make_shared<lambertian>(color(.65, .05, .05));
-    auto white = make_shared<lambertian>(color(.73, .73, .73));
-    auto green = make_shared<lambertian>(color(.12, .45, .15));
-    auto light = make_shared<diffuse_light>(color(15, 15, 15));
-
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
-    objects.add(make_shared<flip_face>(make_shared<xz_rect>(213, 343, 227, 332, 554, light)));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
-    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
-
-    shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
-    box1 = make_shared<rotate_y>(box1, 15);
-    box1 = make_shared<translate>(box1, vec3(265, 0, 295));
-    objects.add(box1);
-
-    auto glass = make_shared<dielectric>(1.5);
-    objects.add(make_shared<sphere>(point3(190, 90, 190), 90, glass));
-
-    return objects;
-}
-
 hittable_list test_cornell_box()
 {
     hittable_list objects;
@@ -109,11 +82,11 @@ hittable_list test_cornell_box()
     auto checker = make_shared<lambertian>(make_shared<checker_texture>(color(0.2f, 0.2f, 0.2f), color(0.9f, 0.9f, 0.9f)));
 
     objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, 955, white));
-    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, -400, white));
-    objects.add(make_shared<flip_face>(make_shared<xz_rect>(213, 343, 227, 332, 554, light)));
+    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, -800, white));
+    objects.add(make_shared<flip_face>(make_shared<xz_rect>(0, 150, 0, 150, 554, light)));
     //objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
-    objects.add(make_shared<xz_rect>(-10000, 10000, -10000, 10000, 0, checker));
-    objects.add(make_shared<xy_rect>(-10000, 10000, -10000, 10000, 1500, white));
+    objects.add(make_shared<xz_rect>(-10000, 10000, -10000, 10000, 0.0333099, checker));
+    objects.add(make_shared<xy_rect>(-10000, 10000, -10000, 10000, 3000, white));
 
     /*
     shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
@@ -122,77 +95,21 @@ hittable_list test_cornell_box()
     objects.add(box1);
     */
     auto gold = make_shared<conductor>(color(1.0f), 0.2, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
-    auto alu = make_shared<conductor>(color(1.0f), 0.2, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
+    auto alu = make_shared<conductor>(color(1.0f), 0.001, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
     //objects.add(make_shared<sphere>(point3(82+270, 90, 82+295), 90, gold));
-    objects.add(make_shared<sphere>(point3(240, 90, 190), 90, alu));
-    
-    return objects;
-}
+    //objects.add(make_shared<sphere>(point3(0, 90, 0), 90, alu));
+    std::string model = "../models/bunny/bunny.obj";
+    mesh_triangle bunny = mesh_triangle(model, alu);
 
-hittable_list final_scene() {
-    hittable_list boxes1;
-    auto ground = make_shared<lambertian>(color(0.48, 0.83, 0.53));
-
-    const int boxes_per_side = 20;
-    for (int i = 0; i < boxes_per_side; i++) {
-        for (int j = 0; j < boxes_per_side; j++) {
-            auto w = 100.0;
-            auto x0 = -1000.0 + i*w;
-            auto z0 = -1000.0 + j*w;
-            auto y0 = 0.0;
-            auto x1 = x0 + w;
-            auto y1 = random_double(1,101);
-            auto z1 = z0 + w;
-
-            boxes1.add(make_shared<box>(point3(x0,y0,z0), point3(x1,y1,z1), ground));
-        }
+    hittable_list faces;
+    for (size_t s = 0; s < bunny.triangles.size(); s++)
+    {
+        faces.add(make_shared<triangle>(bunny.triangles[s]));
     }
-
-    hittable_list objects;
-
-    objects.add(make_shared<bvh_node>(boxes1, 0, 1));
-
-    auto light = make_shared<diffuse_light>(color(7, 7, 7));
-    objects.add(make_shared<xz_rect>(123, 423, 147, 412, 554, light));
-
-    auto center1 = point3(400, 400, 200);
-    auto center2 = center1 + vec3(30,0,0);
-    auto moving_sphere_material = make_shared<lambertian>(color(0.7, 0.3, 0.1));
-    objects.add(make_shared<moving_sphere>(center1, center2, 0, 1, 50, moving_sphere_material));
-
-    objects.add(make_shared<sphere>(point3(260, 150, 45), 50, make_shared<dielectric>(1.5)));
-    objects.add(make_shared<sphere>(
-        point3(0, 150, 145), 50, make_shared<metal>(color(0.8, 0.8, 0.9), 1.0)
-    ));
-
-    auto boundary = make_shared<sphere>(point3(360,150,145), 70, make_shared<dielectric>(1.5));
-    objects.add(boundary);
-    objects.add(make_shared<constant_medium>(boundary, 0.2, color(0.2, 0.4, 0.9)));
-    boundary = make_shared<sphere>(point3(0, 0, 0), 5000, make_shared<dielectric>(1.5));
-    objects.add(make_shared<constant_medium>(boundary, .0001, color(1,1,1)));
-
-    auto emat = make_shared<lambertian>(make_shared<image_texture>("../src/earthmap.jpg"));
-    objects.add(make_shared<sphere>(point3(400,200,400), 100, emat));
-    auto pertext = make_shared<noise_texture>(0.1);
-    objects.add(make_shared<sphere>(point3(220,280,300), 80, make_shared<lambertian>(pertext)));
-
-    hittable_list boxes2;
-    auto white = make_shared<lambertian>(color(.73, .73, .73));
-    int ns = 1000;
-    for (int j = 0; j < ns; j++) {
-        boxes2.add(make_shared<sphere>(point3::random(0,165), 10, white));
-    }
-
-    objects.add(make_shared<translate>(
-        make_shared<rotate_y>(
-            make_shared<bvh_node>(boxes2, 0.0, 1.0), 15),
-            vec3(-100,270,395)
-        )
-    );
+    objects.add(make_shared<bvh_node>(faces, 0, 1));
 
     return objects;
 }
-
 
 int main()
 {
@@ -202,26 +119,26 @@ int main()
     const auto aspect_ratio = 1.0 / 1.0;
     const int image_width = 600;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 10000;
+    const int samples_per_pixel = 1024;
     const int max_depth = 50;
 
     // World
 
     auto world = test_cornell_box();
     auto lights = make_shared<hittable_list>();
-    lights->add(make_shared<xz_rect>(213, 343, 227, 332, 554, make_shared<material>()));
+    lights->add(make_shared<xz_rect>(0, 150, 0, 150, 554, make_shared<material>()));
     // lights->add(make_shared<sphere>(point3(190, 90, 190), 90, make_shared<material>()));
 
     color background(0, 0, 0);
 
     // Camera
 
-    point3 lookfrom(258, 300, -200);
-    point3 lookat(258, 178, 0);
+    point3 lookfrom(0, 4, 8);
+    point3 lookat(-0.02, 0, -0.2);
     vec3 vup(0, 1, 0);
-    auto dist_to_focus = 10.0;
+    auto dist_to_focus = 1.0;
     auto aperture = 0.0;
-    auto vfov = 40.0;
+    auto vfov = 1.3;
     auto time0 = 0.0;
     auto time1 = 1.0;
 
@@ -243,6 +160,7 @@ int main()
                 auto u = (i + random_double()) / (image_width - 1);
                 auto v = (j + random_double()) / (image_height - 1);
                 ray r = cam.get_ray(u, v);
+                r.dir = normalize(r.dir);
                 pixel_color += ray_color(r, background, world, lights, max_depth);
             }
             // write_color(std::cout, pixel_color, samples_per_pixel);

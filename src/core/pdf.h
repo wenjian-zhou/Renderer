@@ -92,9 +92,9 @@ public:
     {
         
         if (random_double() < 0.5)
-            return p[0]->generate();
+            return normalize(p[0]->generate());
         else
-            return p[1]->generate();
+            return normalize(p[1]->generate());
         
     }
 
