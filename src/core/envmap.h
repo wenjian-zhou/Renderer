@@ -79,14 +79,7 @@ bool envmap::bounding_box(double time0, double time1, aabb &output_box) const
 
 double envmap::pdf_value(const point3 &o, const vec3 &v) const
 {
-    hit_record rec;
-    if (!this->hit(ray(o, v), 0.001, infinity, rec))
-        return 0;
-
-    auto cos_theta_max = sqrt(1 - radius * radius / (center - o).length_squared());
-    auto solid_angle = 2 * pi * (1 - cos_theta_max);
-
-    return 1 / solid_angle;
+    return 1 / (4 * pi * radius * radius);
 }
 
 vec3 envmap::random(const point3 &o) const
@@ -95,7 +88,12 @@ vec3 envmap::random(const point3 &o) const
     auto distance_squared = direction.length_squared();
     onb uvw;
     uvw.build_from_w(direction);
-    return uvw.local(random_to_sphere(radius, distance_squared));
+    float theta = random_double(0, 1) * pi;
+    float kesai = random_double(0, 1) * 2 * pi;
+    float z = std::cos(theta);
+    float x = std::sin(theta) * std::cos(kesai);
+    float y = std::sin(theta) * std::sin(kesai);
+    return uvw.local(vec3(x, y, z));
 }
 
 #endif

@@ -51,7 +51,7 @@ color ray_color(
     return emitted + srec.attenuation * rec.mat_ptr->eval(r, rec, scattered) * ray_color(scattered, background, world, lights, depth - 1) / pdf_val;
 }
 
-hittable_list test_envmap()
+hittable_list test_model()
 {
     hittable_list objects;
 
@@ -61,44 +61,20 @@ hittable_list test_envmap()
     auto light = make_shared<diffuse_light>(color(15, 15, 15));
     auto checker = make_shared<lambertian>(make_shared<checker_texture>(color(0.2f, 0.2f, 0.2f), color(0.9f, 0.9f, 0.9f)));
 
-    //objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, 955, white));
-    //objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, -800, white));
-    //objects.add(make_shared<flip_face>(make_shared<xz_rect>(0, 150, 0, 150, 554, light)));
-    //objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
-    //objects.add(make_shared<xz_rect>(-10000, 10000, -10000, 10000, 0.0333099, checker));
-    //objects.add(make_shared<xy_rect>(-10000, 10000, -10000, 10000, 3000, white));
-
-    /*
-    shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
-    box1 = make_shared<rotate_y>(box1, 15);
-    box1 = make_shared<translate>(box1, vec3(265, 0, 295));
-    objects.add(box1);
-    */
-    auto emat = make_shared<diffuse_light>(make_shared<image_texture>("../src/env4.jpg"));
-    objects.add(make_shared<envmap>(point3(0,0,0), 100, emat));
-
-    objects.add(make_shared<xz_rect>(-50, 50, -40, 30, -46.65495f, checker));
-
+    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, 955, white));
+    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, -800, white));
+    objects.add(make_shared<flip_face>(make_shared<xz_rect>(0, 150, 0, 150, 554, light)));
+    objects.add(make_shared<xz_rect>(-10000, 10000, -10000, 10000, 0.0333099, checker));
+    objects.add(make_shared<xy_rect>(-10000, 10000, -10000, 10000, 3000, white));
     auto gold = make_shared<conductor>(color(1.0f), 0.2, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
-    auto alu = make_shared<conductor>(color(1.0f), 0.001, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
-    //objects.add(make_shared<sphere>(point3(82+270, 90, 82+295), 90, gold));
-    //objects.add(make_shared<sphere>(point3(0, 90, 0), 90, alu));
+    auto alu = make_shared<conductor>(color(1.0f), 0.1, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
     std::string model = "../models/bunny/bunny.obj";
     mesh_triangle bunny = mesh_triangle(model, alu);
 
     hittable_list faces;
     for (size_t s = 0; s < bunny.triangles.size(); s++)
     {
-        float scale = 500.0f;
-        vec3 v0 = bunny.triangles[s].v0 * scale;
-        vec3 v1 = bunny.triangles[s].v1 * scale;
-        vec3 v2 = bunny.triangles[s].v2 * scale;
-
-        v0 += vec3(15, -50, 0);
-        v1 += vec3(15, -50, 0);
-        v2 += vec3(15, -50, 0);
-
-        faces.add(make_shared<triangle>(v0, v1, v2, alu));
+        faces.add(make_shared<triangle>(bunny.triangles[s]));
     }
     objects.add(make_shared<bvh_node>(faces, 0, 1));
 
@@ -113,26 +89,27 @@ int main()
     const auto aspect_ratio = 1.0 / 1.0;
     const int image_width = 600;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 2048;
+    const int samples_per_pixel = 4;
     const int max_depth = 50;
 
     // World
 
-    auto world = test_envmap();
+    auto world = test_model();
     auto lights = make_shared<hittable_list>();
     lights->add(make_shared<xz_rect>(0, 150, 0, 150, 554, make_shared<material>()));
+
+    //lights->add(make_shared<xz_rect>(0, 150, 0, 150, 554, make_shared<material>()));
     // lights->add(make_shared<sphere>(point3(190, 90, 190), 90, make_shared<material>()));
 
     color background(0, 0, 0);
 
     // Camera
-
-    point3 lookfrom(0, 20, 80);
-    point3 lookat(0, 0, 0);
+    point3 lookfrom(0, 4, 8);
+    point3 lookat(-0.02, 0, -0.2);
     vec3 vup(0, 1, 0);
     auto dist_to_focus = 1.0;
     auto aperture = 0.0;
-    auto vfov = 80;
+    auto vfov = 1.3;
     auto time0 = 0.0;
     auto time1 = 1.0;
 
