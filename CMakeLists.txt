@@ -27,7 +27,7 @@ set(SOURCES
     src/core/triangle.h
     src/core/mesh_triangle.h
     src/external/tiny_obj_loader.h
-    src/core/onb.h 
+    src/core/onb.h
     src/core/pdf.h )
 
 add_executable(Renderer ${SOURCES})
