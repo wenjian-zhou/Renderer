@@ -1,11 +1,11 @@
 # Renderer
 
-This renderer is based on [_Ray Tracing in One Weekend Series_](https://raytracing.github.io/), the features in this book series are implemented and I added features supporting triangle models and GGX microfacet reflection.
+This renderer is based on [_Ray Tracing in One Weekend Series_](https://raytracing.github.io/), the features in this book series are implemented and I plan to add more things to it while reading [_Physically Based Rendering_](https://www.pbr-book.org/3ed-2018/contents), so it is still in development and don't compile it yet, thanks:)
 
 ## How to build this project?
 
 * install **cmake**
-* in command-line, go to the project directory
+* open your terminal, go to the project directory
 
 ```
 mkdir build

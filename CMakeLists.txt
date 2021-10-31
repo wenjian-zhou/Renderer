@@ -12,7 +12,7 @@ set(SOURCES
     src/core/main.cpp 
     src/core/ray.h
     src/core/sphere.h 
-    src/core/vec3.h 
+    src/core/vector.h 
     src/core/camera.h
     src/core/material.h  
     src/core/bvh.h
@@ -28,8 +28,6 @@ set(SOURCES
     src/core/mesh_triangle.h
     src/external/tiny_obj_loader.h
     src/core/onb.h 
-    src/core/pdf.h 
-
-    )
+    src/core/pdf.h )
 
 add_executable(Renderer ${SOURCES})
