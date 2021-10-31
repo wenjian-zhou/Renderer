@@ -93,9 +93,9 @@ rotate_y::rotate_y(shared_ptr<hittable> p, double angle) : ptr(p)
         {
             for (int k = 0; k < 2; k++)
             {
-                auto x = i * bbox.max().x() + (1 - i) * bbox.min().x();
-                auto y = j * bbox.max().y() + (1 - j) * bbox.min().y();
-                auto z = k * bbox.max().z() + (1 - k) * bbox.min().z();
+                auto x = i * bbox.max().x + (1 - i) * bbox.min().x;
+                auto y = j * bbox.max().y + (1 - j) * bbox.min().y;
+                auto z = k * bbox.max().z + (1 - k) * bbox.min().z;
 
                 auto newx = cos_theta * x + sin_theta * z;
                 auto newz = -sin_theta * x + cos_theta * z;

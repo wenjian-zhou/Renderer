@@ -62,19 +62,19 @@ bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
 bool triangle::bounding_box(double time0, double time1, aabb &output_box) const
 {
     vec3 min = vec3(
-        std::min(v0.x(), std::min(v1.x(), v2.x())),
-        std::min(v0.y(), std::min(v1.y(), v2.y())),
-        std::min(v0.z(), std::min(v1.z(), v2.z()))
+        std::min(v0.x, std::min(v1.x, v2.x)),
+        std::min(v0.y, std::min(v1.y, v2.y)),
+        std::min(v0.z, std::min(v1.z, v2.z))
     );
 
     vec3 max = vec3(
-        std::max(v0.x(), std::max(v1.x(), v2.x())),
-        std::max(v0.y(), std::max(v1.y(), v2.y())),
-        std::max(v0.z(), std::max(v1.z(), v2.z()))
+        std::max(v0.x, std::max(v1.x, v2.x)),
+        std::max(v0.y, std::max(v1.y, v2.y)),
+        std::max(v0.z, std::max(v1.z, v2.z))
     );
 
-    output_box = aabb(vec3(min.x() - 0.0001f, min.y() - 0.0001f, min.z() - 0.0001f), 
-                      vec3(max.x() + 0.0001f, max.y() + 0.0001f, max.z() + 0.0001f));
+    output_box = aabb(vec3(min.x - 0.0001f, min.y - 0.0001f, min.z - 0.0001f), 
+                      vec3(max.x + 0.0001f, max.y + 0.0001f, max.z + 0.0001f));
 
     return true;
 }

@@ -24,7 +24,7 @@ public:
     RGBSpectrum(float _r, float _g, float _b) : r(_r), g(_g), b(_b) {}
     RGBSpectrum(const float *v) : r(v[0]), g(v[1]), b(v[2]) {}
     RGBSpectrum(const std::string &filename);
-    RGBSpectrum(const vec3 &v) : r(std::fabs(v.x())), g(std::fabs(v.y())), b(std::fabs(v.z())) {}
+    RGBSpectrum(const vec3 &v) : r(std::fabs(v.x)), g(std::fabs(v.y)), b(std::fabs(v.z)) {}
 
     float operator [] (const uint32_t &i) const
     {

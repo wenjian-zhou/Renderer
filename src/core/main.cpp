@@ -135,9 +135,9 @@ int main()
                 pixel_color += ray_color(r, background, world, lights, max_depth);
             }
             // write_color(std::cout, pixel_color, samples_per_pixel);
-            auto r = pixel_color.x();
-            auto g = pixel_color.y();
-            auto b = pixel_color.z();
+            auto r = pixel_color.x;
+            auto g = pixel_color.y;
+            auto b = pixel_color.z;
 
             // Divide the color by the number of samples and gamma-correct for gamma=2.0.
             auto scale = 1.0 / samples_per_pixel;

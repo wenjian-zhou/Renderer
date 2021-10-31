@@ -48,7 +48,7 @@ public:
 
     virtual color value(double u, double v, const point3 &p) const override
     {
-        auto sines = sin(50.0f * p.x()) * sin(50.0f * p.z());
+        auto sines = sin(50.0f * p.x) * sin(50.0f * p.z);
         if (sines < 0)
         {
             return odd->value(u, v, p);
@@ -128,7 +128,7 @@ class noise_texture : public texture {
         noise_texture(double sc) : scale(sc) {}
 
         virtual color value(double u, double v, const point3& p) const override {
-            return color(1,1,1) * 0.5 * (1 + sin(scale*p.z() + 10*noise.turb(p)));
+            return color(1,1,1) * 0.5 * (1 + sin(scale*p.z + 10*noise.turb(p)));
         }
 
     public:

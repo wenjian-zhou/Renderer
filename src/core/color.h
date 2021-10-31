@@ -40,9 +40,9 @@ struct sRGB
 
 void write_color(std::ostream &out, color pixel_color, int samples_per_pixel)
 {
-    auto r = pixel_color.x();
-    auto g = pixel_color.y();
-    auto b = pixel_color.z();
+    auto r = pixel_color.x;
+    auto g = pixel_color.y;
+    auto b = pixel_color.z;
 
     // Replace NaN components with zero. See explanation in Ray Tracing: The Rest of Your Life.
     if (r != r) r = 0.0;

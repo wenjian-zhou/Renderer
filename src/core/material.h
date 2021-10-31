@@ -20,7 +20,7 @@ struct scatter_record
 vec3 toWorld(const vec3 &a, const vec3 &N)
 {
     vec3 B, C;
-    if (std::fabs(N.x()) > std::fabs(N.y()))
+    if (std::fabs(N.x) > std::fabs(N.y))
     {
         float invLen = 1.0f / safe_sqrt(N[0] * N[0] + N[2] * N[2]);
         C = vec3(N[2] * invLen, 0.0f, -N[0] * invLen);
@@ -31,7 +31,7 @@ vec3 toWorld(const vec3 &a, const vec3 &N)
         C = vec3(0.0f, N[2] * invLen, -N[1] * invLen);
     }
     B = cross(C, N);
-    return a.x() * B + a.y() * C + a.z() * N;
+    return a.x * B + a.y * C + a.z * N;
 }
 
 void fresnel(const vec3 &I, const vec3 &N, const float &ior, float &kr)
