@@ -5,38 +5,36 @@
 #include "hittable.h"
 #include "texture.h"
 #include "onb.h"
-#include "pdf.h"
 
-struct hit_record;
+struct HitRecord;
 
 struct scatter_record
 {
-    ray specular_ray;
+    Ray specular_Ray;
     bool is_specular;
-    color attenuation;
-    shared_ptr<pdf> pdf_ptr;
+    Spectrum attenuation;
 };
 
-vec3 toWorld(const vec3 &a, const vec3 &N)
+Vector3f toWorld(const Vector3f &a, const Vector3f &N)
 {
-    vec3 B, C;
+    Vector3f B, C;
     if (std::fabs(N.x) > std::fabs(N.y))
     {
         float invLen = 1.0f / safe_sqrt(N[0] * N[0] + N[2] * N[2]);
-        C = vec3(N[2] * invLen, 0.0f, -N[0] * invLen);
+        C = Vector3f(N[2] * invLen, 0.0f, -N[0] * invLen);
     }
     else 
     {
         float invLen = 1.0f / safe_sqrt(N[1] * N[1] + N[2] * N[2]);
-        C = vec3(0.0f, N[2] * invLen, -N[1] * invLen);
+        C = Vector3f(0.0f, N[2] * invLen, -N[1] * invLen);
     }
-    B = cross(C, N);
+    B = Cross(C, N);
     return a.x * B + a.y * C + a.z * N;
 }
 
-void fresnel(const vec3 &I, const vec3 &N, const float &ior, float &kr)
+void fresnel(const Vector3f &I, const Vector3f &N, const float &ior, float &kr)
 {
-    float cosi = clamp(dot(I, N), -1, 1);
+    float cosi = clamp(Dot(I, N), -1, 1);
     float etai = 1, etat = ior;
     if (cosi > 0)
     {
@@ -61,25 +59,25 @@ void fresnel(const vec3 &I, const vec3 &N, const float &ior, float &kr)
     // kt = 1 - kr;
 }
 
-vec3 fresnelConductorExact(float cosThetaI, const vec3 &eta, const vec3 &k)
+Vector3f fresnelConductorExact(float cosThetaI, const Vector3f &eta, const Vector3f &k)
 {
     float cosThetaI2 = cosThetaI * cosThetaI,
           sinThetaI2 = 1 - cosThetaI2,
           sinThetaI4 = sinThetaI2 * sinThetaI2;
 
-    vec3 temp1 = eta * eta - k * k - vec3(sinThetaI2),
+    Vector3f temp1 = eta * eta - k * k - Vector3f(sinThetaI2),
          a2pb2 = (temp1 * temp1 + k * k * eta * eta * 4).safe_sqrt_vec(),
          a     = ((a2pb2 + temp1) * 0.5f).safe_sqrt_vec();
 
-    vec3 term1 = a2pb2 + vec3(cosThetaI2),
+    Vector3f term1 = a2pb2 + Vector3f(cosThetaI2),
          term2 = a * (2 * cosThetaI);
 
-    vec3 Rs2 = (term1 - term2) / (term1 + term2);
+    Vector3f Rs2 = (term1 - term2) / (term1 + term2);
 
-    vec3 term3 = a2pb2 * cosThetaI2 + vec3(sinThetaI4),
+    Vector3f term3 = a2pb2 * cosThetaI2 + Vector3f(sinThetaI4),
          term4 = term2 * sinThetaI2;
 
-    vec3 Rp2 = Rs2 * (term3 - term4) / (term3 + term4);
+    Vector3f Rp2 = Rs2 * (term3 - term4) / (term3 + term4);
 
     return 0.5f * (Rp2 + Rs2);
 }
@@ -88,35 +86,35 @@ class material
 {
 public:
     material() {}
-    virtual color emitted(
-        const ray &r_in, const hit_record &rec, double u, double v, const point3 &p) const
+    virtual Spectrum emitted(
+        const Ray &r_in, const hit_record &rec, double u, double v, const Point3f &p) const
     {
-        return color(0, 0, 0);
+        return Spectrum(0, 0, 0);
     }
 
     virtual bool scatter(
-        const ray &r_in, const hit_record &rec, scatter_record &srec) const
+        const Ray &r_in, const hit_record &rec, scatter_record &srec) const
     {
         return false;
     }
 
-    virtual vec3 eval(
-        const ray &r_in, const hit_record &rec, const ray &scattered) const
+    virtual Vector3f eval(
+        const Ray &r_in, const hit_record &rec, const Ray &scattered) const
     {
         return 0;
     }
 
     // return BRDF
-    virtual vec3 Eval(const vec3 &wo, const vec3 &wi) const
+    virtual Vector3f Eval(const Vector3f &wo, const Vector3f &wi) const
     {
-        return vec3();
+        return Vector3f();
     }
 
     // return wi and pdf
-    virtual void Sample(const vec3 &N, vec3 &wi, float &pdf) const {}
+    virtual void Sample(const Vector3f &N, Vector3f &wi, float &pdf) const {}
 
     // return pdf
-    virtual float Pdf(const vec3 &wo, const vec3 &wi) const 
+    virtual float Pdf(const Vector3f &wo, const Vector3f &wi) const 
     {
         return 0;
     }
@@ -125,56 +123,54 @@ public:
 class lambertian : public material
 {
 public:
-    lambertian(const color &a) : albedo(make_shared<solid_color>(a)) {}
-    lambertian(shared_ptr<texture> a) : albedo(a) {}
+    lambertian(const Spectrum &a) : albedo(make_shared<Solid_Color>(a)) {}
+    lambertian(shared_ptr<Texture> a) : albedo(a) {}
 
     virtual bool scatter(
-        const ray &r_in, const hit_record &rec, scatter_record &srec) const override
+        const Ray &r_in, const hit_record &rec, scatter_record &srec) const override
     {
         srec.is_specular = false;
-        srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
-        srec.pdf_ptr = std::make_shared<cosine_pdf>(rec.normal); //new cosine_pdf(rec.normal);
+        srec.attenuation = albedo->Value(rec.u, rec.v, rec.p);
         return true;
     }
-    virtual vec3 eval(
-        const ray &r_in, const hit_record &rec, const ray &scattered) const override
+    virtual Vector3f eval(
+        const Ray &r_in, const hit_record &rec, const Ray &scattered) const override
     {
-        auto cosine = dot(rec.normal, unit_vector(scattered.direction()));
-        return vec3(cosine < 0 ? 0 : (cosine / pi));
+        auto cosine = Dot(rec.normal, Normalize(scattered.direction()));
+        return Vector3f(cosine < 0 ? 0 : (cosine / pi));
     }
 
-    virtual void Sample(const vec3 &N, vec3 &wi, float &pdf) const override
+    virtual void Sample(const Vector3f &N, Vector3f &wi, float &pdf) const override
     {
         wi = random_in_hemisphere(N);
         pdf = 0.5 * invPi;
     }
 
-    virtual vec3 Eval(const vec3 &wo, const vec3 &wi) const override
+    virtual Vector3f Eval(const Vector3f &wo, const Vector3f &wi) const override
     {
-        return vec3(invPi);
+        return Vector3f(invPi);
     }
 
 public:
-    shared_ptr<texture> albedo;
+    shared_ptr<Texture> albedo;
 };
 
 class metal : public material
 {
 public:
-    metal(const color &a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
+    metal(const Spectrum &a, double f) : albedo(a), fuzz(f < 1 ? f : 1) {}
     virtual bool scatter(
-        const ray &r_in, const hit_record &rec, scatter_record &srec) const override
+        const Ray &r_in, const hit_record &rec, scatter_record &srec) const override
     {
-        vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
-        srec.specular_ray = ray(rec.p, reflected + fuzz * random_in_unit_sphere());
+        Vector3f reflected = Reflect(Normalize(r_in.direction()), rec.normal);
+        srec.specular_Ray = Ray(rec.p, reflected + fuzz * random_in_unit_sphere());
         srec.attenuation = albedo;
         srec.is_specular = true;
-        srec.pdf_ptr = 0;
         return true;
     }
 
 public:
-    color albedo;
+    Spectrum albedo;
     double fuzz;
 };
 
@@ -184,26 +180,25 @@ public:
     dielectric(double index_of_refraction) : ir(index_of_refraction) {}
 
     virtual bool scatter(
-        const ray &r_in, const hit_record &rec, scatter_record &srec) const override
+        const Ray &r_in, const hit_record &rec, scatter_record &srec) const override
     {
         srec.is_specular = true;
-        srec.pdf_ptr = nullptr;
-        srec.attenuation = color(1.0, 1.0, 1.0);
+        srec.attenuation = Spectrum(1.0, 1.0, 1.0);
         double refraction_ratio = rec.front_face ? (1.0 / ir) : ir;
 
-        vec3 unit_direction = unit_vector(r_in.direction());
-        double cos_theta = fmin(dot(-unit_direction, rec.normal), 1.0);
+        Vector3f unit_direction = Normalize(r_in.direction());
+        double cos_theta = fmin(Dot(-unit_direction, rec.normal), 1.0);
         double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
 
         bool cannot_refract = refraction_ratio * sin_theta > 1.0;
-        vec3 direction;
+        Vector3f direction;
 
         if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_double())
-            direction = reflect(unit_direction, rec.normal);
+            direction = Reflect(unit_direction, rec.normal);
         else
-            direction = refract(unit_direction, rec.normal, refraction_ratio);
+            direction = Refract(unit_direction, rec.normal, refraction_ratio);
 
-        srec.specular_ray = ray(rec.p, direction, r_in.time());
+        srec.specular_Ray = Ray(rec.p, direction, r_in.time());
         return true;
     }
 
@@ -223,50 +218,50 @@ private:
 class diffuse_light : public material
 {
 public:
-    diffuse_light(std::shared_ptr<texture> a) : emit(a) {}
-    diffuse_light(color c) : emit(std::make_shared<solid_color>(c)) {}
+    diffuse_light(std::shared_ptr<Texture> a) : emit(a) {}
+    diffuse_light(Spectrum c) : emit(std::make_shared<Solid_Color>(c)) {}
 
-    virtual bool scatter(const ray &r_in, const hit_record &rec, scatter_record &srec) const override
+    virtual bool scatter(const Ray &r_in, const hit_record &rec, scatter_record &srec) const override
     {
         return false;
     }
 
-    virtual color emitted(const ray &r_in, const hit_record &rec, double u, double v,
-                          const point3 &p) const override
+    virtual Spectrum emitted(const Ray &r_in, const hit_record &rec, double u, double v,
+                          const Point3f &p) const override
     {
         if (rec.front_face)
-            return emit->value(u, v, p);
+            return emit->Value(u, v, p);
         else
-            return color(0, 0, 0);
+            return Spectrum(0, 0, 0);
     }
 
 public:
-    std::shared_ptr<texture> emit;
+    std::shared_ptr<Texture> emit;
 };
 
 class isotropic : public material
 {
 public:
-    isotropic(color c) : albedo(make_shared<solid_color>(c)) {}
-    isotropic(shared_ptr<texture> a) : albedo(a) {}
+    isotropic(Spectrum c) : albedo(make_shared<Solid_Color>(c)) {}
+    isotropic(shared_ptr<Texture> a) : albedo(a) {}
 
     virtual bool scatter(
-        const ray &r_in, const hit_record &rec, scatter_record &srec) const override
+        const Ray &r_in, const hit_record &rec, scatter_record &srec) const override
     {
-        srec.specular_ray = ray(rec.p, random_in_unit_sphere(), r_in.time());
-        srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
+        srec.specular_Ray = Ray(rec.p, random_in_unit_sphere(), r_in.time());
+        srec.attenuation = albedo->Value(rec.u, rec.v, rec.p);
         return true;
     }
 
 public:
-    shared_ptr<texture> albedo;
+    shared_ptr<Texture> albedo;
 };
 
 class conductor : public material
 { // use the same sampling method and pdf as lambertian
 public:
-    conductor(const color &a, float alphaG, vec3 eta, vec3 kappa) : albedo(make_shared<solid_color>(a)), m_alphaG(alphaG), m_eta(eta), m_kappa(kappa) {}
-    conductor(shared_ptr<texture> a, float alphaG, vec3 eta, vec3 kappa) : albedo(a), m_alphaG(alphaG), m_eta(eta), m_kappa(kappa) {}
+    conductor(const Spectrum &a, float alphaG, Vector3f eta, Vector3f kappa) : albedo(make_shared<Solid_Color>(a)), m_alphaG(alphaG), m_eta(eta), m_kappa(kappa) {}
+    conductor(shared_ptr<Texture> a, float alphaG, Vector3f eta, Vector3f kappa) : albedo(a), m_alphaG(alphaG), m_eta(eta), m_kappa(kappa) {}
 
     float GGX_D(const float &theta_m) const
     {
@@ -277,11 +272,11 @@ public:
         return invPi * root * root;
     }
 
-    float Smith_G(const vec3 &wi, const vec3 &wo, const vec3 &wm, const hit_record &rec) const
+    float Smith_G(const Vector3f &wi, const Vector3f &wo, const Vector3f &wm, const hit_record &rec) const
     {
-        auto Smith1 = [&](vec3 v, vec3 m, const hit_record &rec)
+        auto Smith1 = [&](Vector3f v, Vector3f m, const hit_record &rec)
         {
-            float cosTheta = dot(rec.normal, v);
+            float cosTheta = Dot(rec.normal, v);
             float theta_v = std::acos(cosTheta);
             float tanTheta_v = std::tan(theta_v);
 
@@ -290,7 +285,7 @@ public:
                 return 1.0f;
             }
 
-            if (dot(v, m) * dot(v, rec.normal) <= 0)
+            if (Dot(v, m) * Dot(v, rec.normal) <= 0)
             {
                 return 0.0f;
             }
@@ -304,35 +299,34 @@ public:
     }
 
     virtual bool scatter(
-        const ray &r_in, const hit_record &rec, scatter_record &srec) const override
+        const Ray &r_in, const hit_record &rec, scatter_record &srec) const override
     {
         srec.is_specular = false;
-        srec.attenuation = albedo->value(rec.u, rec.v, rec.p);
-        srec.pdf_ptr = std::make_shared<GGX_pdf>(unit_vector(-r_in.direction()), rec.normal, m_alphaG); //new cosine_pdf(rec.normal);
+        srec.attenuation = albedo->Value(rec.u, rec.v, rec.p);
         return true;
     }
 
-    virtual vec3 eval(
-        const ray &r_in, const hit_record &rec, const ray &scattered) const override
+    virtual Vector3f eval(
+        const Ray &r_in, const hit_record &rec, const Ray &scattered) const override
     {
-        vec3 N = rec.normal;
-        vec3 wi = unit_vector(scattered.direction());
-        vec3 wo = unit_vector(-r_in.direction());
-        // vec3 wm = unit_vector(sampleWm(rec.normal));
-        vec3 wm = unit_vector(wi + wo);
+        Vector3f N = rec.normal;
+        Vector3f wi = Normalize(scattered.direction());
+        Vector3f wo = Normalize(-r_in.direction());
+        // Vector3f wm = Normalize(sampleWm(rec.normal));
+        Vector3f wm = Normalize(wi + wo);
 
-        if (dot(wi, rec.normal) <= 0.001f) return vec3(0.0f);
-        // std::cout << dot(wi, rec.normal) << std::endl;
-        float cosTheta_i = dot(wi, rec.normal);
-        float cosTheta_m = dot(wm, rec.normal);
-        float cosTheta_o = dot(wo, rec.normal);
-        float cosTheta_om = dot(wo, wm);
+        if (Dot(wi, rec.normal) <= 0.001f) return Vector3f(0.0f);
+        // std::cout << Dot(wi, rec.normal) << std::endl;
+        float cosTheta_i = Dot(wi, rec.normal);
+        float cosTheta_m = Dot(wm, rec.normal);
+        float cosTheta_o = Dot(wo, rec.normal);
+        float cosTheta_om = Dot(wo, wm);
 
         // std::cout << cosTheta_om << std::endl;
 
         float theta_m = std::acos(cosTheta_m);
 
-        vec3 F; 
+        Vector3f F; 
         // fresnel(wi, rec.normal, m_ior, F);
         // fresnelShilick(cosTheta_om, m_ior, rec);
         F = fresnelConductorExact(cosTheta_om, m_eta, m_kappa);
@@ -344,8 +338,8 @@ public:
 
         float root = 1 / (4 * AbsCosTheta_i * AbsCosTheta_o);
 
-        vec3 kd = vec3(1.0f) - F;
-        vec3 diffuse = albedo->value(rec.u, rec.v, rec.p) / pi;
+        Vector3f kd = Vector3f(1.0f) - F;
+        Spectrum diffuse = albedo->Value(rec.u, rec.v, rec.p) / pi;
         // std::cout << "F, D, G: " << F << ' ' << D << ' ' << G << std::endl;
         // return ((1 - m_metallic) * kd * diffuse + root * D * F * G) * (cosTheta_i < 0 ? 0 : cosTheta_i);
         return root * D * F * G * (cosTheta_i < 0 ? 0 : cosTheta_i);
@@ -353,9 +347,9 @@ public:
 
 public:
     float m_alphaG;
-    shared_ptr<texture> albedo;
-    vec3 m_eta;
-    vec3 m_kappa;
+    shared_ptr<Texture> albedo;
+    Vector3f m_eta;
+    Vector3f m_kappa;
 };
 
 #endif

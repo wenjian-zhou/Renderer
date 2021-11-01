@@ -1,40 +1,40 @@
 #ifndef RENDERER_ONB_H
 #define RENDERER_ONB_H
 
-#include "vec3.h"
+#include "vector.h"
 
-class onb
+class ONB
 {
 public:
-    onb() {}
+    ONB() {}
 
-    inline vec3 operator [] (int i) const { return axis[i]; }
+    inline Vector3f operator [] (int i) const { return axis[i]; }
 
-    vec3 u() const { return axis[0]; }
-    vec3 v() const { return axis[1]; }
-    vec3 w() const { return axis[2]; }
+    Vector3f u() const { return axis[0]; }
+    Vector3f v() const { return axis[1]; }
+    Vector3f w() const { return axis[2]; }
 
-    vec3 local(double a, double b, double c) const
+    Vector3f local(double a, double b, double c) const
     {
         return a * u() + b * v() + c * w();
     }
 
-    vec3 local(const vec3 &a) const 
+    Vector3f local(const Vector3f &a) const 
     {
         return a.x * u() + a.y * v() + a.z * w();
     }
 
-    void build_from_w(const vec3&);
+    void build_from_w(const Vector3f&);
 public:
-    vec3 axis[3];
+    Vector3f axis[3];
 };
 
-void onb::build_from_w(const vec3 &n)
+void ONB::build_from_w(const Vector3f &n)
 {
-    axis[2] = unit_vector(n);
-    vec3 a = (fabs(w().x) > 0.9) ? vec3(0, 1, 0) : vec3(1, 0, 0);
-    axis[1] = unit_vector(cross(w(), a));
-    axis[0] = cross(w(), v());
+    axis[2] = Normalize(n);
+    Vector3f a = (fabs(w().x) > 0.9) ? Vector3f(0, 1, 0) : Vector3f(1, 0, 0);
+    axis[1] = Normalize(Cross(w(), a));
+    axis[0] = Cross(w(), v());
 }
 
 #endif

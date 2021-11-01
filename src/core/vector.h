@@ -9,18 +9,18 @@
 
 using std::sqrt;
 
-class vec3
+class Vector3f
 {
 public:
-    vec3() { x = y = z = 0; }
-    vec3(float xx) : x(xx), y(xx), z(xx) {}
-    vec3(float xx, float yy, float zz) : x(xx), y(yy), z(zz) {}
+    Vector3f() { x = y = z = 0; }
+    Vector3f(float xx) : x(xx), y(xx), z(xx) {}
+    Vector3f(float xx, float yy, float zz) : x(xx), y(yy), z(zz) {}
 
-    vec3 operator-() const { return vec3(-x, -y, -z); }
+    Vector3f operator-() const { return Vector3f(-x, -y, -z); }
     float operator[](int i) const { return (i == 0) ? x : (i == 1) ? y : z; }
     float &operator[](int i) { return (i == 0) ? x : (i == 1) ? y : z; }
 
-    vec3 &operator+=(const vec3 &v)
+    Vector3f &operator+=(const Vector3f &v)
     {
         x += v.x;
         y += v.y;
@@ -28,7 +28,7 @@ public:
         return *this;
     }
 
-    vec3 &operator*=(const double t)
+    Vector3f &operator*=(const double t)
     {
         x *= t;
         y *= t;
@@ -36,29 +36,29 @@ public:
         return *this;
     }
 
-    vec3 &operator/=(const double t)
+    Vector3f &operator/=(const double t)
     {
         return *this *= 1 / t;
     }
 
-    double length() const
+    double Length() const
     {
-        return sqrt(length_squared());
+        return sqrt(LengthSquared());
     }
 
-    double length_squared() const
+    double LengthSquared() const
     {
         return x * x + y * y + z * z;
     }
 
-    inline static vec3 random()
+    inline static Vector3f Random()
     {
-        return vec3(random_double(), random_double(), random_double());
+        return Vector3f(random_double(), random_double(), random_double());
     }
 
-    inline static vec3 random(double min, double max)
+    inline static Vector3f Random(double min, double max)
     {
-        return vec3(random_double(min, max), random_double(min, max), random_double(min, max));
+        return Vector3f(random_double(min, max), random_double(min, max), random_double(min, max));
     }
 
     bool near_zero() const
@@ -68,161 +68,156 @@ public:
         return (fabs(x) < s) && (fabs(y) < s) && (fabs(z) < s);
     }
 
-    vec3 safe_sqrt_vec()
+    Vector3f safe_sqrt_vec()
     {
-        return vec3(safe_sqrt(x), safe_sqrt(y), safe_sqrt(z));
+        return Vector3f(safe_sqrt(x), safe_sqrt(y), safe_sqrt(z));
     }
 
 public:
     float x, y, z;
 };
 
-// Type aliases for vec3
-using point3 = vec3; // 3D point
-using color = vec3;  // RGB color
+// Type aliases for Vector3f
+using Point3f = Vector3f; // 3D point
+using Color = Vector3f;  // RGB color
 
-// vec3 Utility Functions
+// Vector3f Utility Functions
 
-inline std::ostream &operator<<(std::ostream &out, const vec3 &v)
+inline std::ostream &operator<<(std::ostream &out, const Vector3f &v)
 {
     return out << v.x << ' ' << v.y << ' ' << v.z;
 }
 
-inline vec3 operator+(const vec3 &u, const vec3 &v)
+inline Vector3f operator+(const Vector3f &u, const Vector3f &v)
 {
-    return vec3(u.x + v.x, u.y + v.y, u.z + v.z);
+    return Vector3f(u.x + v.x, u.y + v.y, u.z + v.z);
 }
 
-inline vec3 operator-(const vec3 &u, const vec3 &v)
+inline Vector3f operator-(const Vector3f &u, const Vector3f &v)
 {
-    return vec3(u.x - v.x, u.y - v.y, u.z - v.z);
+    return Vector3f(u.x - v.x, u.y - v.y, u.z - v.z);
 }
 
-inline vec3 operator*(const vec3 &u, const vec3 &v)
+inline Vector3f operator*(const Vector3f &u, const Vector3f &v)
 {
-    return vec3(u.x * v.x, u.y * v.y, u.z * v.z);
+    return Vector3f(u.x * v.x, u.y * v.y, u.z * v.z);
 }
 
-inline vec3 operator*(double t, const vec3 &v)
+inline Vector3f operator*(double t, const Vector3f &v)
 {
-    return vec3(t * v.x, t * v.y, t * v.z);
+    return Vector3f(t * v.x, t * v.y, t * v.z);
 }
 
-inline vec3 operator*(const vec3 &v, double t)
+inline Vector3f operator*(const Vector3f &v, double t)
 {
     return t * v;
 }
 
-inline vec3 operator/(vec3 v, double t)
+inline Vector3f operator/(Vector3f v, double t)
 {
     return (1 / t) * v;
 }
 
-inline vec3 operator/(vec3 v, vec3 w)
+inline Vector3f operator/(Vector3f v, Vector3f w)
 {
-    return vec3(v[0] / w[0], v[1] / w[1], v[2] / w[2]);
+    return Vector3f(v[0] / w[0], v[1] / w[1], v[2] / w[2]);
 }
 
-inline double dot(const vec3 &u, const vec3 &v)
+inline double Dot(const Vector3f &u, const Vector3f &v)
 {
     return u.x * v.x + u.y * v.y + u.z * v.z;
 }
 
-inline vec3 cross(const vec3 &u, const vec3 &v)
+inline Vector3f Cross(const Vector3f &u, const Vector3f &v)
 {
-    return vec3(u.y * v.z - u.z * v.y,
+    return Vector3f(u.y * v.z - u.z * v.y,
                 u.z * v.x - u.x * v.z,
                 u.x * v.y - u.y * v.x);
 }
 
-inline vec3 unit_vector(vec3 v)
+inline Vector3f Normalize(Vector3f v)
 {
-    return v / v.length();
+    return v / v.Length();
 }
 
-inline vec3 normalize(vec3 v)
-{
-    return v / v.length();
-}
-
-inline vec3 Lerp(vec3 a, vec3 b, float t)
+inline Vector3f Lerp(Vector3f a, Vector3f b, float t)
 {
     return a + (b - a) * t;
 }
 
-vec3 random_in_unit_sphere()
+Vector3f random_in_unit_sphere()
 {
     while (true)
     {
-        auto p = vec3::random(-1, 1);
-        if (p.length_squared() >= 1)
+        auto p = Vector3f::Random(-1, 1);
+        if (p.LengthSquared() >= 1)
             continue;
         return p;
     }
 }
 
-vec3 random_unit_vector()
+Vector3f random_unit_vector()
 {
-    return unit_vector(random_in_unit_sphere());
+    return Normalize(random_in_unit_sphere());
 }
 
-vec3 random_in_hemisphere(const vec3 &normal)
+Vector3f random_in_hemisphere(const Vector3f &normal)
 {
-    vec3 in_unit_sphere = random_in_unit_sphere();
-    if (dot(in_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
+    Vector3f in_unit_sphere = random_in_unit_sphere();
+    if (Dot(in_unit_sphere, normal) > 0.0) // In the same hemisphere as the normal
         return in_unit_sphere;
     else
         return -in_unit_sphere;
 }
 
-vec3 reflect(const vec3 &v, const vec3 &n)
+Vector3f Reflect(const Vector3f &v, const Vector3f &n)
 {
-    return v - 2 * dot(v, n) * n;
+    return v - 2 * Dot(v, n) * n;
 }
 
-vec3 refract(const vec3 &uv, const vec3 &n, double etai_over_etat)
+Vector3f Refract(const Vector3f &uv, const Vector3f &n, double etai_over_etat)
 {
-    auto cos_theta = fmin(dot(-uv, n), 1.0);
-    vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
-    vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+    auto cos_theta = fmin(Dot(-uv, n), 1.0);
+    Vector3f r_out_perp = etai_over_etat * (uv + cos_theta * n);
+    Vector3f r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.LengthSquared())) * n;
     return r_out_perp + r_out_parallel;
 }
 
-vec3 random_in_unit_disk()
+Vector3f random_in_unit_disk()
 {
     while (true)
     {
-        auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
-        if (p.length_squared() >= 1)
+        auto p = Vector3f(random_double(-1, 1), random_double(-1, 1), 0);
+        if (p.LengthSquared() >= 1)
             continue;
         return p;
     }
 }
 
 // remember to pass radians not angles
-inline vec3 SphericalDirection(const float &sinTheta, const float &cosTheta, const float &phi)
+inline Vector3f SphericalDirection(const float &sinTheta, const float &cosTheta, const float &phi)
 {
-    return vec3(sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta);
+    return Vector3f(sinTheta * std::cos(phi), sinTheta * std::sin(phi), cosTheta);
 }
 
 // remember to pass radians not angles
-inline vec3 SphericalDirection(const float &sinTheta, const float &cosTheta, const float &phi, const vec3 &x, const vec3 &y, const vec3 &z)
+inline Vector3f SphericalDirection(const float &sinTheta, const float &cosTheta, const float &phi, const Vector3f &x, const Vector3f &y, const Vector3f &z)
 {
     return sinTheta * std::cos(phi) * x + sinTheta * std::sin(phi) * y + cosTheta * z;
 }
 
-inline float SphericalTheta(const vec3 &v)
+inline float SphericalTheta(const Vector3f &v)
 {
     return (std::acos(clamp(v.z, -1, 1)));
 }
 
-inline float SphericalPhi(const vec3 &v)
+inline float SphericalPhi(const Vector3f &v)
 {
     float p = std::atan2(v.y, v.x);
     return (p < 0) ? (p + 2 * pi) : p;
 }
 
-inline vec3 random_cosine_direction() 
+inline Vector3f random_cosine_direction() 
 {
     auto r1 = random_double();
     auto r2 = random_double();
@@ -232,10 +227,10 @@ inline vec3 random_cosine_direction()
     auto x = cos(phi)*sqrt(r2);
     auto y = sin(phi)*sqrt(r2);
 
-    return vec3(x, y, z);
+    return Vector3f(x, y, z);
 }
 
-inline vec3 random_to_sphere(double radius, double distance_squared)
+inline Vector3f random_to_sphere(double radius, double distance_squared)
 {
     auto r1 = random_double();
     auto r2 = random_double();
@@ -245,7 +240,7 @@ inline vec3 random_to_sphere(double radius, double distance_squared)
     auto x = cos(phi) * sqrt(1 - z * z);
     auto y = sin(phi) * sqrt(1 - z * z);
 
-    return vec3(x, y, z);
+    return Vector3f(x, y, z);
 }
 
 #endif

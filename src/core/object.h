@@ -7,61 +7,61 @@
 
 class material;
 
-struct hit_record
+struct HitRecord
 {
-    point3 p;
-    vec3 normal;
+    Point3f p;
+    Vector3f normal;
     shared_ptr<material> mat_ptr;
     double t;
     double u, v;
     bool front_face;
 
-    inline void set_face_normal(const ray &r, const vec3 &outward_normal)
+    inline void set_face_normal(const Ray &r, const Vector3f &outward_normal)
     {
-        front_face = dot(r.direction(), outward_normal) < 0;
+        front_face = Dot(r.direction(), outward_normal) < 0;
         normal = front_face ? outward_normal : -outward_normal;
     }
 };
 
-class hittable
+class Object
 {
 public:
-    virtual bool hit(const ray &r, double t_min, double t_max, hit_record &rec) const = 0;
+    virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const = 0;
     virtual bool bounding_box(double time0, double time1, aabb &output_box) const = 0;
-    virtual double pdf_value(const point3 &o, const vec3 &v) const
+    virtual double pdf_value(const Point3f &o, const Vector3f &v) const
     {
         return 0.0;
     }
 
-    virtual vec3 random(const vec3 &o) const
+    virtual Vector3f random(const Vector3f &o) const
     {
-        return vec3(1, 0, 0);
+        return Vector3f(1, 0, 0);
     }
 };
 
-class translate : public hittable
+class translate : public Object
 {
 public:
-    translate(shared_ptr<hittable> p, const vec3 &displacement)
+    translate(shared_ptr<Object> p, const Vector3f &displacement)
         : ptr(p), offset(displacement) {}
 
     virtual bool hit(
-        const ray &r, double t_min, double t_max, hit_record &rec) const override;
+        const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
 
     virtual bool bounding_box(double time0, double time1, aabb &output_box) const override;
 
 public:
-    shared_ptr<hittable> ptr;
-    vec3 offset;
+    shared_ptr<Object> ptr;
+    Vector3f offset;
 };
 
-class rotate_y : public hittable
+class rotate_y : public Object
 {
 public:
-    rotate_y(shared_ptr<hittable> p, double angle);
+    rotate_y(shared_ptr<Object> p, double angle);
 
     virtual bool hit(
-        const ray &r, double t_min, double t_max, hit_record &rec) const override;
+        const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
 
     virtual bool bounding_box(double time0, double time1, aabb &output_box) const override
     {
@@ -70,22 +70,22 @@ public:
     }
 
 public:
-    shared_ptr<hittable> ptr;
+    shared_ptr<Object> ptr;
     double sin_theta;
     double cos_theta;
     bool hasbox;
     aabb bbox;
 };
 
-rotate_y::rotate_y(shared_ptr<hittable> p, double angle) : ptr(p)
+rotate_y::rotate_y(shared_ptr<Object> p, double angle) : ptr(p)
 {
     auto radians = degrees_to_radians(angle);
     sin_theta = sin(radians);
     cos_theta = cos(radians);
     hasbox = ptr->bounding_box(0, 1, bbox);
 
-    point3 min(infinity, infinity, infinity);
-    point3 max(-infinity, -infinity, -infinity);
+    Point3f min(infinity, infinity, infinity);
+    Point3f max(-infinity, -infinity, -infinity);
 
     for (int i = 0; i < 2; i++)
     {
@@ -100,7 +100,7 @@ rotate_y::rotate_y(shared_ptr<hittable> p, double angle) : ptr(p)
                 auto newx = cos_theta * x + sin_theta * z;
                 auto newz = -sin_theta * x + cos_theta * z;
 
-                vec3 tester(newx, y, newz);
+                Vector3f tester(newx, y, newz);
 
                 for (int c = 0; c < 3; c++)
                 {
@@ -114,9 +114,9 @@ rotate_y::rotate_y(shared_ptr<hittable> p, double angle) : ptr(p)
     bbox = aabb(min, max);
 }
 
-bool translate::hit(const ray &r, double t_min, double t_max, hit_record &rec) const
+bool translate::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {
-    ray moved_r(r.origin() - offset, r.direction(), r.time());
+    Ray moved_r(r.origin() - offset, r.direction(), r.time());
     if (!ptr->hit(moved_r, t_min, t_max, rec))
         return false;
 
@@ -138,7 +138,7 @@ bool translate::bounding_box(double time0, double time1, aabb &output_box) const
     return true;
 }
 
-bool rotate_y::hit(const ray &r, double t_min, double t_max, hit_record &rec) const
+bool rotate_y::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {
     auto origin = r.origin();
     auto direction = r.direction();
@@ -149,7 +149,7 @@ bool rotate_y::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
     direction[0] = cos_theta * r.direction()[0] - sin_theta * r.direction()[2];
     direction[2] = sin_theta * r.direction()[0] + cos_theta * r.direction()[2];
 
-    ray rotated_r(origin, direction, r.time());
+    Ray rotated_r(origin, direction, r.time());
 
     if (!ptr->hit(rotated_r, t_min, t_max, rec))
         return false;
@@ -169,13 +169,13 @@ bool rotate_y::hit(const ray &r, double t_min, double t_max, hit_record &rec) co
     return true;
 }
 
-class flip_face : public hittable
+class flip_face : public Object
 {
 public:
-    flip_face(shared_ptr<hittable> p) : ptr(p) {}
+    flip_face(shared_ptr<Object> p) : ptr(p) {}
 
     virtual bool hit(
-        const ray &r, double t_min, double t_max, hit_record &rec) const override
+        const Ray &r, double t_min, double t_max, HitRecord &rec) const override
     {
 
         if (!ptr->hit(r, t_min, t_max, rec))
@@ -191,7 +191,7 @@ public:
     }
 
 public:
-    shared_ptr<hittable> ptr;
+    shared_ptr<Object> ptr;
 };
 
 #endif

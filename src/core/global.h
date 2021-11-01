@@ -2,9 +2,19 @@
 #define GLOBAL_H
 
 #include <cmath>
+#include <vector>
 #include <limits>
 #include <memory>
 #include <cstdlib>
+
+// Class Declarations
+
+class Vector3f;
+class Ray;
+class RGBSpectrum;
+typedef RGBSpectrum Spectrum;
+class Object;
+class Light;
 
 // Usings
 
@@ -62,6 +72,6 @@ inline double safe_sqrt(const double &a)
 // Common Headers
 
 #include "ray.h"
-#include "vec3.h"
+#include "vector.h"
 
 #endif

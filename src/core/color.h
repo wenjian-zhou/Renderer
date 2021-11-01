@@ -1,7 +1,9 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "vec3.h"
+#include "global.h"
+#include "vector.h"
+#include "spectrum.h"
 
 #include <iostream>
 #include <algorithm>
@@ -38,11 +40,11 @@ struct sRGB
     float r, g, b;
 };
 
-void write_color(std::ostream &out, color pixel_color, int samples_per_pixel)
+void write_color(std::ostream &out, Spectrum pixel_color, int samples_per_pixel)
 {
-    auto r = pixel_color.x;
-    auto g = pixel_color.y;
-    auto b = pixel_color.z;
+    auto r = pixel_color.r;
+    auto g = pixel_color.g;
+    auto b = pixel_color.b;
 
     // Replace NaN components with zero. See explanation in Ray Tracing: The Rest of Your Life.
     if (r != r) r = 0.0;
