@@ -1,82 +1,98 @@
 #ifndef RENDERER_TRIANGLE_H
 #define RENDERER_TRIANGLE_H
 
-#include "hittable.h"
-#include "vec3.h"
+#define TINYOBJLOADER_IMPLEMENTATION
 
-class triangle : public hittable
+#include "object.h"
+#include "vector.h"
+#include "../external/tiny_obj_loader.h"
+
+class Triangle : public Object
 {
 public:
-    triangle() {}
-    triangle(vec3 _v0, vec3 _v1, vec3 _v2, shared_ptr<material> m) : v0(_v0), v1(_v1), v2(_v2), mat_ptr(m)
+    Triangle() {}
+    Triangle(Vector3f _v0, Vector3f _v1, Vector3f _v2, shared_ptr<Material> m) : v0(_v0), v1(_v1), v2(_v2), mat_ptr(m)
     {
         e1 = v1 - v0;
         e2 = v2 - v0;
-        normal = unit_vector(cross(e1, e2));
-        area = cross(e1, e2).length() * 0.5f;
+        normal = Normalize(Cross(e1, e2));
+        area = Cross(e1, e2).Length() * 0.5f;
     }
 
-    virtual bool hit(const ray &r, double t_min, double t_max, hit_record &rec) const override;
+    virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
     virtual bool bounding_box(double time0, double time1, aabb &output_box) const override;
+    bool Intersect(const Ray &ray, HitRecord *isect) const;
 
 public:
-    vec3 v0, v1, v2; // vertices A, B, C, counter-clockwise order
-    vec3 e1, e2; // 2 edges v1-v0, v2-v0
-    vec3 t0, t1, t2; // texture coords
-    vec3 normal;
+    Vector3f v0, v1, v2; // vertices A, B, C, counter-clockwise order
+    Vector3f e1, e2; // 2 edges v1-v0, v2-v0
+    Vector3f t0, t1, t2; // texture coords
+    Vector3f normal;
     double area;
-    std::shared_ptr<material> mat_ptr;
+    std::shared_ptr<Material> mat_ptr;
 };
 
-bool triangle::hit(const ray &r, double t_min, double t_max, hit_record &rec) const
+class TriangleMesh : public Triangle
 {
-    vec3 edge1 = v1 - v0;
-    vec3 edge2 = v2 - v0;
-    vec3 pvec = cross(r.dir, edge2);
-    float det = dot(edge1, pvec);
-    if (det == 0 || det < 0)
-        return false;
+public:
+    TriangleMesh() {}
+    TriangleMesh(std::string inputfile, std::shared_ptr<Material> mat_ptr)
+    {
+        tinyobj::ObjReaderConfig reader_config;
+        reader_config.mtl_search_path = inputfile;
 
-    vec3 tvec = r.orig - v0;
-    rec.u = dot(tvec, pvec);
-    if (rec.u < 0 || rec.u > det)
-        return false;
+        tinyobj::ObjReader reader;
 
-    vec3 qvec = cross(tvec, edge1);
-    rec.v = dot(r.dir, qvec);
-    if (rec.v < 0 || rec.u + rec.v > det)
-        return false;
+        if (!reader.ParseFromFile(inputfile, reader_config)) 
+        {
+            if (!reader.Error().empty()) 
+            {
+                std::cerr << "TinyObjReader: " << reader.Error();
+            }
+            exit(1);
+        }
 
-    float invDet = 1 / det;
+        if (!reader.Warning().empty())
+        {
+            std::cout << "TinyObjReader: " << reader.Warning();
+        }
 
-    rec.t = dot(edge2, qvec) * invDet;
-    rec.p = r.at(rec.t);
-    rec.u *= invDet;
-    rec.v *= invDet;
-    rec.normal = normal;
-    rec.mat_ptr = mat_ptr;
-    //std::cout << rec.normal << std::endl;
-    return true;
-}
+        auto &attrib = reader.GetAttrib();
+        auto &shapes = reader.GetShapes();
+        auto &materials = reader.GetMaterials();
 
-bool triangle::bounding_box(double time0, double time1, aabb &output_box) const
-{
-    vec3 min = vec3(
-        std::min(v0.x, std::min(v1.x, v2.x)),
-        std::min(v0.y, std::min(v1.y, v2.y)),
-        std::min(v0.z, std::min(v1.z, v2.z))
-    );
+        // Loop over shapes
+        for (size_t s = 0;  s < shapes.size(); s ++)
+        {
+            // Loop over faces (polygon)
+            size_t index_offset = 0;
+            for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f ++)
+            {
+                size_t fv = size_t(shapes[s].mesh.num_face_vertices[f]);
 
-    vec3 max = vec3(
-        std::max(v0.x, std::max(v1.x, v2.x)),
-        std::max(v0.y, std::max(v1.y, v2.y)),
-        std::max(v0.z, std::max(v1.z, v2.z))
-    );
+                // Loop over vertices in the face
+                std::vector<Vector3f> vertices;
+                for (size_t v = 0; v < fv; v ++)
+                {
+                    tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
+                    tinyobj::real_t vx = attrib.vertices[3*size_t(idx.vertex_index)+0];
+                    tinyobj::real_t vy = attrib.vertices[3*size_t(idx.vertex_index)+1];
+                    tinyobj::real_t vz = attrib.vertices[3*size_t(idx.vertex_index)+2];
 
-    output_box = aabb(vec3(min.x - 0.0001f, min.y - 0.0001f, min.z - 0.0001f), 
-                      vec3(max.x + 0.0001f, max.y + 0.0001f, max.z + 0.0001f));
+                    vertices.push_back(Vector3f(vx, vy, vz));
+                }
+                Triangle face = Triangle(vertices[0], vertices[1], vertices[2], mat_ptr);
+                Triangles.push_back(face);
+                index_offset += fv;
 
-    return true;
-}
+                // per-face material
+                shapes[s].mesh.material_ids[f];
+            }
+        }
+    }
+public:
+    std::vector<Triangle> Triangles;
+};
+
 
 #endif

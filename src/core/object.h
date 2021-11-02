@@ -22,6 +22,8 @@ public:
     {
         return Vector3f(1, 0, 0);
     }
+
+    virtual bool Intersect(const Ray &ray, HitRecord *isect) const = 0;
 };
 
 class translate : public Object
