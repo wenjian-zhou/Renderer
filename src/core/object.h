@@ -3,25 +3,10 @@
 
 #include "global.h"
 #include "ray.h"
-#include "aabb.h"
+#include "../accelerators/aabb.h"
+#include "record.h"
 
 class material;
-
-struct HitRecord
-{
-    Point3f p;
-    Vector3f normal;
-    shared_ptr<material> mat_ptr;
-    double t;
-    double u, v;
-    bool front_face;
-
-    inline void set_face_normal(const Ray &r, const Vector3f &outward_normal)
-    {
-        front_face = Dot(r.direction(), outward_normal) < 0;
-        normal = front_face ? outward_normal : -outward_normal;
-    }
-};
 
 class Object
 {
@@ -84,8 +69,8 @@ rotate_y::rotate_y(shared_ptr<Object> p, double angle) : ptr(p)
     cos_theta = cos(radians);
     hasbox = ptr->bounding_box(0, 1, bbox);
 
-    Point3f min(infinity, infinity, infinity);
-    Point3f max(-infinity, -infinity, -infinity);
+    Point3f min(INF, INF, INF);
+    Point3f max(-INF, -INF, -INF);
 
     for (int i = 0; i < 2; i++)
     {

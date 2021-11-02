@@ -15,6 +15,11 @@ class RGBSpectrum;
 typedef RGBSpectrum Spectrum;
 class Object;
 class Light;
+class Sampler;
+class Camera;
+class Material;
+class Film;
+struct HitRecord;
 
 // Usings
 
@@ -24,15 +29,15 @@ using std::sqrt;
 
 // Constants
 
-const double infinity = std::numeric_limits<double>::infinity();
-const double pi = 3.1415926535897932385;
-const double invPi = 1 / pi;
+const float INF = std::numeric_limits<float>::infinity();
+const double PI = 3.1415926535897932385;
+const double invPI = 1 / PI;
 
 // Utility Functions
 
 inline double degrees_to_radians(double degrees)
 {
-    return degrees * pi / 180.0;
+    return degrees * PI / 180.0;
 }
 
 inline double random_double()
@@ -68,10 +73,5 @@ inline double safe_sqrt(const double &a)
     if (a < 0.0f) return 0;
     else return std::sqrt(tmp);
 }
-
-// Common Headers
-
-#include "ray.h"
-#include "vector.h"
 
 #endif

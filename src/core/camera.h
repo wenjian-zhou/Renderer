@@ -3,13 +3,13 @@
 
 #include "global.h"
 
-class camera
+class Camera
 {
 public:
-    camera(
-        point3 lookfrom,
-        point3 lookat,
-        vec3 vup,
+    Camera(
+        Point3f lookfrom,
+        Point3f lookat,
+        Vector3f vup,
         double vfov, // vertical field-of-view in degrees
         double aspect_ratio,
         double aperture,
@@ -22,9 +22,9 @@ public:
         auto viewport_height = 2.0 * h;
         auto viewport_width = aspect_ratio * viewport_height;
 
-        w = unit_vector(lookfrom - lookat);
-        u = unit_vector(cross(vup, w));
-        v = cross(w, u);
+        w = Normalize(lookfrom - lookat);
+        u = Normalize(Cross(vup, w));
+        v = Cross(w, u);
 
         origin = lookfrom;
         horizontal = focus_dist * viewport_width * u;
@@ -36,23 +36,23 @@ public:
         time1 = _time1;
     }
 
-    ray get_ray(double s, double t) const
+    Ray get_Ray(double s, double t) const
     {
-        vec3 rd = lens_radius * random_in_unit_disk();
-        vec3 offset = u * rd.x + v * rd.y;
+        Vector3f rd = lens_radius * random_in_unit_disk();
+        Vector3f offset = u * rd.x + v * rd.y;
 
-        return ray(
+        return Ray(
             origin + offset,
             lower_left_corner + s * horizontal + t * vertical - origin - offset,
             random_double(time0, time1));
     }
 
 private:
-    point3 origin;
-    point3 lower_left_corner;
-    vec3 horizontal;
-    vec3 vertical;
-    vec3 u, v, w;
+    Point3f origin;
+    Point3f lower_left_corner;
+    Vector3f horizontal;
+    Vector3f vertical;
+    Vector3f u, v, w;
     double lens_radius;
     double time0, time1; // shutter open/close times
 };
