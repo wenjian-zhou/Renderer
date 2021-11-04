@@ -15,6 +15,7 @@ class RGBSpectrum;
 typedef RGBSpectrum Spectrum;
 class Object;
 class Light;
+struct VisibilityTester;
 class Sampler;
 class Camera;
 class Material;

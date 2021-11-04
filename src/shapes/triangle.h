@@ -4,7 +4,6 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 
 #include "object.h"
-#include "vector.h"
 #include "../external/tiny_obj_loader.h"
 
 class Triangle : public Object
@@ -21,7 +20,7 @@ public:
 
     virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
     virtual bool bounding_box(double time0, double time1, aabb &output_box) const override;
-    bool Intersect(const Ray &ray, HitRecord *isect) const;
+    bool Intersect(const Ray &ray, HitRecord &isect) const;
 
 public:
     Vector3f v0, v1, v2; // vertices A, B, C, counter-clockwise order

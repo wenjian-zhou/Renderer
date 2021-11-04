@@ -3,9 +3,14 @@
 
 #include "global.h"
 
+#include "vector.h"
 #include "scene.h"
 #include "spectrum.h"
 #include "ray.h"
+#include "camera.h"
+#include "sampler.h"
+#include "material.h"
+#include "light.h"
 
 class Integrator {
 public:

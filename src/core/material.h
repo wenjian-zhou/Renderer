@@ -6,6 +6,7 @@
 #include "texture.h"
 #include "onb.h"
 #include "record.h"
+#include "spectrum.h"
 
 struct HitRecord;
 
@@ -87,6 +88,11 @@ class Material
 {
 public:
     Material() {}
+
+    virtual Spectrum Le(const Vector3f &wo) const {
+        return Spectrum(0.f);
+    }
+
     virtual Spectrum emitted(
         const Ray &r_in, const HitRecord &rec, double u, double v, const Point3f &p) const
     {
@@ -106,9 +112,9 @@ public:
     }
 
     // return BRDF
-    virtual Vector3f Eval(const Vector3f &wo, const Vector3f &wi) const
+    virtual Spectrum Eval(const Vector3f &wo, const Vector3f &wi) const
     {
-        return Vector3f();
+        return Spectrum(0.f);
     }
 
     // return wi and pdf
@@ -147,9 +153,9 @@ public:
         pdf = 0.5 * invPI;
     }
 
-    virtual Vector3f Eval(const Vector3f &wo, const Vector3f &wi) const override
+    virtual Spectrum Eval(const Vector3f &wo, const Vector3f &wi) const override
     {
-        return Vector3f(invPI);
+        return Spectrum(invPI);
     }
 
 public:

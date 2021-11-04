@@ -123,9 +123,13 @@ inline Vector3f operator/(Vector3f v, Vector3f w)
     return Vector3f(v[0] / w[0], v[1] / w[1], v[2] / w[2]);
 }
 
-inline double Dot(const Vector3f &u, const Vector3f &v)
+inline float Dot(const Vector3f &u, const Vector3f &v)
 {
     return u.x * v.x + u.y * v.y + u.z * v.z;
+}
+
+inline float AbsDot(const Vector3f &u, const Vector3f &v) {
+    return std::abs(Dot(u, v));
 }
 
 inline Vector3f Cross(const Vector3f &u, const Vector3f &v)
@@ -214,7 +218,7 @@ inline float SphericalTheta(const Vector3f &v)
 inline float SphericalPhi(const Vector3f &v)
 {
     float p = std::atan2(v.y, v.x);
-    return (p < 0) ? (p + 2 * pi) : p;
+    return (p < 0) ? (p + 2 * PI) : p;
 }
 
 inline Vector3f random_cosine_direction() 
@@ -223,7 +227,7 @@ inline Vector3f random_cosine_direction()
     auto r2 = random_double();
     auto z = sqrt(1-r2);
 
-    auto phi = 2*pi*r1;
+    auto phi = 2*PI*r1;
     auto x = cos(phi)*sqrt(r2);
     auto y = sin(phi)*sqrt(r2);
 
@@ -236,7 +240,7 @@ inline Vector3f random_to_sphere(double radius, double distance_squared)
     auto r2 = random_double();
     auto z = 1 + r2 * (sqrt(1 - radius * radius / distance_squared) - 1);
 
-    auto phi = 2 * pi * r1;
+    auto phi = 2 * PI * r1;
     auto x = cos(phi) * sqrt(1 - z * z);
     auto y = sin(phi) * sqrt(1 - z * z);
 

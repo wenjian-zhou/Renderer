@@ -1,9 +1,7 @@
 #ifndef WHITTED_H
 #define WHITTED_H
 
-#include "../core/global.h"
 #include "../core/integrator.h"
-#include "../core/spectrum.h"
 
 class WhittedIntegrator : public SamplerIntegrator {
 public:

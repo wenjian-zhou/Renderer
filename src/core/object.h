@@ -3,10 +3,9 @@
 
 #include "global.h"
 #include "ray.h"
+#include "vector.h"
 #include "../accelerators/aabb.h"
 #include "record.h"
-
-class material;
 
 class Object
 {
@@ -23,7 +22,7 @@ public:
         return Vector3f(1, 0, 0);
     }
 
-    virtual bool Intersect(const Ray &ray, HitRecord *isect) const = 0;
+    virtual bool Intersect(const Ray &ray, HitRecord &isect) const = 0;
 };
 
 class translate : public Object

@@ -1,6 +1,6 @@
 #include "triangle.h"
 
-bool Triangle::Intersect(const Ray &ray, HitRecord *isect) const {
+bool Triangle::Intersect(const Ray &ray, HitRecord &isect) const {
     Vector3f edge1 = v1 - v0;
     Vector3f edge2 = v2 - v0;
     Vector3f pvec = Cross(ray.dir, edge2);
@@ -9,23 +9,23 @@ bool Triangle::Intersect(const Ray &ray, HitRecord *isect) const {
         return false;
 
     Vector3f tvec = ray.orig - v0;
-    isect->u = Dot(tvec, pvec);
-    if (isect->u < 0 || isect->u > det)
+    isect.u = Dot(tvec, pvec);
+    if (isect.u < 0 || isect.u > det)
         return false;
 
     Vector3f qvec = Cross(tvec, edge1);
-    isect->v = Dot(ray.dir, qvec);
-    if (isect->v < 0 || isect->u + isect->v > det)
+    isect.v = Dot(ray.dir, qvec);
+    if (isect.v < 0 || isect.u + isect.v > det)
         return false;
 
     float invDet = 1 / det;
 
-    isect->t = Dot(edge2, qvec) * invDet;
-    isect->p = ray.at(isect->t);
-    isect->u *= invDet;
-    isect->v *= invDet;
-    isect->normal = normal;
-    isect->mat_ptr = mat_ptr;
+    isect.t = Dot(edge2, qvec) * invDet;
+    isect.p = ray.at(isect.t);
+    isect.u *= invDet;
+    isect.v *= invDet;
+    isect.normal = normal;
+    isect.mat_ptr = mat_ptr;
     //std::cout << rec.normal << std::endl;
     return true;
 }
