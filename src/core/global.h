@@ -10,6 +10,9 @@
 // Class Declarations
 
 class Vector3f;
+class Vector2f;
+class Vector4f;
+class Transform;
 class Ray;
 class RGBSpectrum;
 typedef RGBSpectrum Spectrum;
@@ -21,6 +24,8 @@ class Camera;
 class Material;
 class Film;
 struct HitRecord;
+class Scene;
+class Renderer;
 
 // Usings
 

@@ -3,10 +3,23 @@
 
 #include "global.h"
 
-class Camera
+#include "transform.h"
+
+class Camera {
+public:
+    Camera() {}
+    
+
+    Transform screenToWorld, cameraToWorld;
+    float fov;
+
+};
+
+
+class camera
 {
 public:
-    Camera(
+    camera(
         Point3f lookfrom,
         Point3f lookat,
         Vector3f vup,
@@ -55,5 +68,6 @@ private:
     Vector3f u, v, w;
     double lens_radius;
     double time0, time1; // shutter open/close times
+
 };
 #endif

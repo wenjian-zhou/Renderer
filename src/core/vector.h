@@ -9,12 +9,22 @@
 
 using std::sqrt;
 
+class Vector2f {
+public:
+    Vector2f() { x = y = 0; }
+    Vector2f(float xx) : x(xx), y(xx) {}
+    Vector2f(float xx, float yy) : x(xx), y(yy) {}
+public:
+    float x, y;
+};
+
 class Vector3f
 {
 public:
     Vector3f() { x = y = z = 0; }
     Vector3f(float xx) : x(xx), y(xx), z(xx) {}
     Vector3f(float xx, float yy, float zz) : x(xx), y(yy), z(zz) {}
+    Vector3f(const Vector2f &v, float zz) : x(v.x), y(v.y), z(zz) {}
 
     Vector3f operator-() const { return Vector3f(-x, -y, -z); }
     float operator[](int i) const { return (i == 0) ? x : (i == 1) ? y : z; }
@@ -75,6 +85,28 @@ public:
 
 public:
     float x, y, z;
+};
+
+class Vector4f {
+public:
+    Vector4f() { x = y = z = w = 0; }
+    Vector4f(float xx) : x(xx), y(xx), z(xx), w(xx) {}
+    Vector4f(float xx, float yy, float zz, float ww) : x(xx), y(yy), z(zz), w(ww) {}
+    Vector4f(const Vector3f &v, float w) : x(v.x), y(v.y), z(v.z), w(w) {}
+
+    Vector4f operator*(const float m) const { return Vector4f(m * x, m * y, m * z, m * w); }
+    Vector4f &operator/=(const float m) {
+        x /= m;
+        y /= m;
+        z /= m;
+        w /= m;
+        return *this;
+    }
+
+    float operator[](int i) const { return (i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w; }
+    float &operator[](int i) { return (i == 0) ? x : (i == 1) ? y : (i == 2) ? z : w; }
+public:
+    float x, y, z, w;
 };
 
 // Type aliases for Vector3f
