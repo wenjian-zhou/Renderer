@@ -4,14 +4,14 @@
 #include "global.h"
 #include "ray.h"
 #include "vector.h"
-#include "../accelerators/aabb.h"
+#include "../accelerators/AABB.h"
 #include "record.h"
 
 class Object
 {
 public:
     virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const = 0;
-    virtual bool bounding_box(double time0, double time1, aabb &output_box) const = 0;
+    virtual bool bounding_box(double time0, double time1, AABB &output_box) const = 0;
     virtual double pdf_value(const Point3f &o, const Vector3f &v) const
     {
         return 0.0;
@@ -34,7 +34,7 @@ public:
     virtual bool hit(
         const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
 
-    virtual bool bounding_box(double time0, double time1, aabb &output_box) const override;
+    virtual bool bounding_box(double time0, double time1, AABB &output_box) const override;
 
 public:
     shared_ptr<Object> ptr;
@@ -49,7 +49,7 @@ public:
     virtual bool hit(
         const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
 
-    virtual bool bounding_box(double time0, double time1, aabb &output_box) const override
+    virtual bool bounding_box(double time0, double time1, AABB &output_box) const override
     {
         output_box = bbox;
         return hasbox;
@@ -60,7 +60,7 @@ public:
     double sin_theta;
     double cos_theta;
     bool hasbox;
-    aabb bbox;
+    AABB bbox;
 };
 
 rotate_y::rotate_y(shared_ptr<Object> p, double angle) : ptr(p)
@@ -97,7 +97,7 @@ rotate_y::rotate_y(shared_ptr<Object> p, double angle) : ptr(p)
         }
     }
 
-    bbox = aabb(min, max);
+    bbox = AABB(min, max);
 }
 
 bool translate::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
@@ -112,12 +112,12 @@ bool translate::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) co
     return true;
 }
 
-bool translate::bounding_box(double time0, double time1, aabb &output_box) const
+bool translate::bounding_box(double time0, double time1, AABB &output_box) const
 {
     if (!ptr->bounding_box(time0, time1, output_box))
         return false;
 
-    output_box = aabb(
+    output_box = AABB(
         output_box.min() + offset,
         output_box.max() + offset);
 
@@ -171,7 +171,7 @@ public:
         return true;
     }
 
-    virtual bool bounding_box(double time0, double time1, aabb &output_box) const override
+    virtual bool bounding_box(double time0, double time1, AABB &output_box) const override
     {
         return ptr->bounding_box(time0, time1, output_box);
     }

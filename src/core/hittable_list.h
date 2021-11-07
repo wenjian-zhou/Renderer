@@ -1,8 +1,8 @@
 #ifndef HITTABLE_LIST_H
 #define HITTABLE_LIST_H
 
-#include "hittable.h"
-#include "aabb.h"
+#include "Object.h"
+#include "AABB.h"
 
 #include <memory>
 #include <vector>
@@ -10,32 +10,32 @@
 using std::make_shared;
 using std::shared_ptr;
 
-class hittable_list : public hittable
+class ObjectList : public Object
 {
 public:
-    hittable_list() {}
-    hittable_list(shared_ptr<hittable> object) { add(object); }
+    ObjectList() {}
+    ObjectList(shared_ptr<Object> object) { add(object); }
 
     void clear() { objects.clear(); }
-    void add(shared_ptr<hittable> object) { objects.push_back(object); }
+    void add(shared_ptr<Object> object) { objects.push_back(object); }
 
     virtual bool hit(
-        const ray &r, double t_min, double t_max, hit_record &rec) const override;
+        const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
 
     virtual bool bounding_box(
-        double time0, double time1, aabb &output_box) const override;
+        double time0, double time1, AABB &output_box) const override;
 
-    virtual double pdf_value(const point3 &o, const vec3 &v) const override;
+    virtual double pdf_value(const Point3f &o, const Vector3f &v) const override;
 
-    virtual vec3 random(const vec3 &o) const override;
+    virtual Vector3f random(const Vector3f &o) const override;
 
 public:
-    std::vector<shared_ptr<hittable>> objects;
+    std::vector<shared_ptr<Object>> objects;
 };
 
-bool hittable_list::hit(const ray &r, double t_min, double t_max, hit_record &rec) const
+bool ObjectList::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {
-    hit_record temp_rec;
+    HitRecord temp_rec;
     bool hit_anything = false;
     auto closest_so_far = t_max;
 
@@ -52,12 +52,12 @@ bool hittable_list::hit(const ray &r, double t_min, double t_max, hit_record &re
     return hit_anything;
 }
 
-bool hittable_list::bounding_box(double time0, double time1, aabb &output_box) const
+bool ObjectList::bounding_box(double time0, double time1, AABB &output_box) const
 {
     if (objects.empty())
         return false;
 
-    aabb temp_box;
+    AABB temp_box;
     bool first_box = true;
 
     for (const auto &object : objects)
@@ -71,7 +71,7 @@ bool hittable_list::bounding_box(double time0, double time1, aabb &output_box) c
     return true;
 }
 
-double hittable_list::pdf_value(const point3 &o, const vec3 &v) const
+double ObjectList::pdf_value(const Point3f &o, const Vector3f &v) const
 {
     auto weight = 1.0 / objects.size();
     auto sum = 0.0;
@@ -82,7 +82,7 @@ double hittable_list::pdf_value(const point3 &o, const vec3 &v) const
     return sum;
 }
 
-vec3 hittable_list::random(const vec3 &o) const
+Vector3f ObjectList::random(const Vector3f &o) const
 {
     auto int_size = static_cast<int>(objects.size());
     return objects[random_int(0, int_size - 1)]->random(o);

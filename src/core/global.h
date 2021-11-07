@@ -26,6 +26,7 @@ class Film;
 struct HitRecord;
 class Scene;
 class Renderer;
+class BSDF;
 
 // Usings
 
