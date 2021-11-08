@@ -27,6 +27,7 @@ struct HitRecord;
 class Scene;
 class Renderer;
 class BSDF;
+class Medium;
 
 // Usings
 
@@ -41,6 +42,13 @@ const double PI = 3.1415926535897932385;
 const double invPI = 1 / PI;
 
 // Utility Functions
+
+template <typename T, typename U, typename V>
+inline T Clamp(T val, U low, V high) {
+    if (val < low) return low;
+    else if (val > high) return high;
+    else return val;
+}
 
 inline double degrees_to_radians(double degrees)
 {

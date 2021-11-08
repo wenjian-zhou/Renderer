@@ -112,6 +112,7 @@ public:
 // Type aliases for Vector3f
 using Point3f = Vector3f; // 3D point
 using Color = Vector3f;  // RGB color
+using Point2f = Vector2f;
 
 // Vector3f Utility Functions
 

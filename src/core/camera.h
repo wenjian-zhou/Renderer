@@ -8,11 +8,13 @@
 class Camera {
 public:
     Camera() {}
+    Camera(const Transform &c2w, const float &fov, const std::shared_ptr<Medium> medium)
+        : cameraToWorld(c2w), fov(fov), medium(medium) {}
     
 
     Transform screenToWorld, cameraToWorld;
     float fov;
-
+    std::shared_ptr<Medium> medium;
 };
 
 
