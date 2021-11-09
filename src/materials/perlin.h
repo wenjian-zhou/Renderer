@@ -8,7 +8,7 @@ class Perlin {
         Perlin() {
             ranvec = new Vector3f[point_count];
             for (int i = 0; i < point_count; ++i) {
-                ranvec[i] = unit_vector(Vector3f::random(-1, 1));
+                ranvec[i] = Normalize(Vector3f::Random(-1, 1));
             }
 
             perm_x = perlin_generate_perm();
@@ -98,7 +98,7 @@ class Perlin {
                         accum += (i*uu + (1-i)*(1-uu))
                                * (j*vv + (1-j)*(1-vv))
                                * (k*ww + (1-k)*(1-ww))
-                               * dot(c[i][j][k], weight_v);
+                               * Dot(c[i][j][k], weight_v);
                     }
 
             return accum;

@@ -26,8 +26,11 @@ class Film;
 struct HitRecord;
 class Scene;
 class Renderer;
+class Fresnel;
+class BxDF;
 class BSDF;
 class Medium;
+class MicrofacetDistribution;
 
 // Usings
 
