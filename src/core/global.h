@@ -31,6 +31,8 @@ class BxDF;
 class BSDF;
 class Medium;
 class MicrofacetDistribution;
+class PhaseFunction;
+struct MediumRecord;
 
 // Usings
 
@@ -43,6 +45,7 @@ using std::sqrt;
 const float INF = std::numeric_limits<float>::infinity();
 const double PI = 3.1415926535897932385;
 const double invPI = 1 / PI;
+const float Inv4Pi = 0.07957747154594766788;
 
 // Utility Functions
 

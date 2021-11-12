@@ -19,4 +19,8 @@ struct HitRecord
     }
 };
 
+struct MediumRecord {
+    
+};
+
 #endif
