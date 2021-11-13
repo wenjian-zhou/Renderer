@@ -22,7 +22,7 @@ public:
         return Vector3f(1, 0, 0);
     }
 
-    virtual bool Intersect(const Ray &ray, HitRecord &isect) const = 0;
+    virtual bool Intersect(const Ray &ray, HitRecord *isect) const = 0;
 };
 
 class translate : public Object
@@ -102,7 +102,7 @@ rotate_y::rotate_y(shared_ptr<Object> p, double angle) : ptr(p)
 
 bool translate::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {
-    Ray moved_r(r.origin() - offset, r.direction(), r.time());
+    Ray moved_r(r.o - offset, r.d, r.time);
     if (!ptr->hit(moved_r, t_min, t_max, rec))
         return false;
 
@@ -126,16 +126,16 @@ bool translate::bounding_box(double time0, double time1, AABB &output_box) const
 
 bool rotate_y::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {
-    auto origin = r.origin();
-    auto direction = r.direction();
+    auto origin = r.o;
+    auto direction = r.d;
 
-    origin[0] = cos_theta * r.origin()[0] - sin_theta * r.origin()[2];
-    origin[2] = sin_theta * r.origin()[0] + cos_theta * r.origin()[2];
+    origin[0] = cos_theta * r.o[0] - sin_theta * r.o[2];
+    origin[2] = sin_theta * r.o[0] + cos_theta * r.o[2];
 
-    direction[0] = cos_theta * r.direction()[0] - sin_theta * r.direction()[2];
-    direction[2] = sin_theta * r.direction()[0] + cos_theta * r.direction()[2];
+    direction[0] = cos_theta * r.d[0] - sin_theta * r.d[2];
+    direction[2] = sin_theta * r.d[0] + cos_theta * r.d[2];
 
-    Ray rotated_r(origin, direction, r.time());
+    Ray rotated_r(origin, direction, r.time);
 
     if (!ptr->hit(rotated_r, t_min, t_max, rec))
         return false;

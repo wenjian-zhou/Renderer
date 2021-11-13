@@ -51,12 +51,12 @@ public:
         return *this *= 1 / t;
     }
 
-    double Length() const
+    float Length() const
     {
         return sqrt(LengthSquared());
     }
 
-    double LengthSquared() const
+    float LengthSquared() const
     {
         return x * x + y * y + z * z;
     }

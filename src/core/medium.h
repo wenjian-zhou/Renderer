@@ -3,6 +3,8 @@
 
 #include "global.h"
 #include "vector.h"
+#include "spectrum.h"
+#include "ray.h"
 
 class PhaseFunction {
 public:
@@ -28,7 +30,7 @@ class Medium {
 public:
     virtual ~Medium() {}
     virtual Spectrum Tr(const Ray &ray, Sampler &sampler) const = 0;
-    virtual Spectrum Sample(const Ray &ray, Sampler &sampler, MediumRecord &mi) const = 0;
+    virtual Spectrum Sample(const Ray &ray, Sampler &sampler, MediumRecord *mi) const = 0;
 };
 
 #endif
