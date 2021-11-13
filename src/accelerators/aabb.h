@@ -2,6 +2,8 @@
 #define AABB_H
 
 #include "../core/global.h"
+#include "../core/vector.h"
+#include "../core/ray.h"
 
 class AABB
 {
@@ -19,10 +21,10 @@ public:
     bool hit(const Ray& r, double t_min, double t_max) const 
     {
             for (int a = 0; a < 3; a++) {
-                auto t0 = fmin((minimum[a] - r.origin()[a]) / r.direction()[a],
-                               (maximum[a] - r.origin()[a]) / r.direction()[a]);
-                auto t1 = fmax((minimum[a] - r.origin()[a]) / r.direction()[a],
-                               (maximum[a] - r.origin()[a]) / r.direction()[a]);
+                auto t0 = fmin((minimum[a] - r.o[a]) / r.d[a],
+                               (maximum[a] - r.o[a]) / r.d[a]);
+                auto t1 = fmax((minimum[a] - r.o[a]) / r.d[a],
+                               (maximum[a] - r.o[a]) / r.d[a]);
                 t_min = fmax(t0, t_min);
                 t_max = fmin(t1, t_max);
                 if (t_max <= t_min)

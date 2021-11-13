@@ -5,6 +5,7 @@
 #include "vector.h"
 #include "spectrum.h"
 #include "ray.h"
+#include "transform.h"
 
 class PhaseFunction {
 public:

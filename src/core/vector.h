@@ -9,83 +9,362 @@
 
 using std::sqrt;
 
-class Vector2f {
+template <typename T> class Vector2 {
 public:
-    Vector2f() { x = y = 0; }
-    Vector2f(float xx) : x(xx), y(xx) {}
-    Vector2f(float xx, float yy) : x(xx), y(yy) {}
+    Vector2() { x = y = 0; }
+    Vector2(T xx, T yy) : x(xx), y(yy) {}
+    bool HasNaNs() const {
+        return std::isnan(x) || std::isnan(y);
+    }
+
+    Vector2(const Vector2<T> &v) {
+        x = v.x; y = v.y;
+    }
+    Vector2<T> &operator=(const Vector2<T> &v) {
+        x = v.x; y = v.y;
+        return *this;
+    }
+    friend std::ostream& operator<<(std::ostream& os, const Vector2<T> &v) {
+        os << "[" << v.x << ", " << v.y << "]";
+        return os;
+    }
+
+    Vector2<T> operator+(const Vector2<T> &v) const {
+        return Vector2(x + v.x, y + v.y);
+    }
+
+    Vector2<T>& operator+=(const Vector2<T> &v) {
+        x += v.x; y += v.y;
+        return *this;
+    }
+
+    Vector2<T> operator-(const Vector2<T> &v) const {
+        return Vector2(x - v.x, y - v.y);
+    }
+
+    Vector2<T>& operator-=(const Vector2<T> &v) {
+        x -= v.x; y -= v.y;
+        return *this;
+    }
+    bool operator==(const Vector2<T> &v) const {
+        return x == v.x && y == v.y;
+    }
+    bool operator!=(const Vector2<T> &v) const {
+        return x != v.x || y != v.y;
+    }
+    Vector2<T> operator*(T f) const { return Vector2<T>(f*x, f*y); }
+
+    Vector2<T> &operator*=(T f) {
+        x *= f; y *= f;
+        return *this;
+    }
+
+    Vector2<T> operator/(T f) const {
+        float inv = 1.f / f;
+        return Vector2<T>(x * inv, y * inv);
+    }
+
+    Vector2<T> &operator/=(T f) {
+        float inv = 1.f / f;
+        x *= inv; y *= inv;
+        return *this;
+    }
+
+    Vector2<T> operator-() const { return Vector2<T>(-x, -y); }
+    T operator[](int i) const {
+        if (i == 0) return x;
+        return y;
+    }
+
+    T &operator[](int i) {
+        if (i == 0) return x;
+        return y;
+    }
+
+    float LengthSquared() const { return x * x + y * y; }
+    float Length() const { return std::sqrt(LengthSquared()); }
+    
 public:
-    float x, y;
+    T x, y;
 };
 
-class Vector3f
+template <typename T> Vector2<T>
+Lerp(float t, const Vector2<T> &p0, const Vector2<T> &p1);
+
+template <typename T> class Vector3 {
+public:
+    T operator[](int i) const {
+        if (i == 0) return x;
+        if (i == 1) return y;
+        return z;
+    }
+    T &operator[](int i) {
+        if (i == 0) return x;
+        if (i == 1) return y;
+        return z;
+    }
+
+    Vector3() { x = y = z = 0; }
+    Vector3(T xx) : x(xx), y(xx), z(xx) {}
+    Vector3(T x, T y, T z) : x(x), y(y), z(z) {}
+    Vector3(const Vector3<T> &v) {
+        x = v.x; y = v.y; z = v.z;
+    }
+
+    bool HasNaNs() const {
+        return std::isnan(x) || std::isnan(y) || std::isnan(z);
+    }
+
+    Vector3<T> &operator=(const Vector3<T> &v) {
+        x = v.x; y = v.y; z = v.z;
+        return *this;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Vector3<T> &v) {
+        os << "[" << v.x << ", " << v.y << ", " << v.z << "]";
+        return os;
+    }
+
+    Vector3<T> operator+(const Vector3<T> &v) const {
+        return Vector3(x + v.x, y + v.y, z + v.z);
+    }
+    Vector3<T>& operator+=(const Vector3<T> &v) {
+        x += v.x; y += v.y; z += v.z;
+        return *this;
+    }
+
+    Vector3<T> operator-(const Vector3<T> &v) const {
+        return Vector3(x - v.x, y - v.y, z - v.z);
+    }
+    Vector3<T>& operator-=(const Vector3<T> &v) {
+        x -= v.x; y -= v.y; z -= v.z;
+        return *this;
+    }
+
+    bool operator==(const Vector3<T> &v) const {
+        return x == v.x && y == v.y && z == v.z;
+    }
+    bool operator!=(const Vector3<T> &v) const {
+        return x != v.x || y != v.y || z != v.z;
+    }
+    Vector3<T> operator*(T s) const { return Vector3<T>(s * x, s * y, s * z); }
+    Vector3<T> &operator*=(T s) {
+        x *= s; y *= s; z *= s;
+        return *this;
+    }
+
+    Vector3<T> operator/(T f) const {
+        float inv = 1.f / f;
+        return Vector3<T>(x * inv, y * inv, z * inv);
+    }
+    Vector3<T>& operator/=(T f) {
+        float inv = 1.f / f;
+        x *= inv; y *= inv; z *= inv;
+        return *this;
+    }
+
+    Vector3<T> operator-() const { return Vector3<T>(-x, -y, -z); }
+    float LengthSquared() const { return x * x + y * y + z * z; }
+    float Length() const { return std::sqrt(LengthSquared()); }
+public:
+    T x, y, z;
+};
+
+template <typename T> inline Vector3<T>
+operator*(T s, const Vector3<T> &v);
+template <typename T> Vector3<T> Abs(const Vector3<T> &v);
+template <typename T> inline T 
+Dot(const Vector3<T> &v1, const Vector3<T> &v2);
+template <typename T>
+inline T AbsDot(const Vector3<T> &v1, const Vector3<T> &v2);
+template <typename T> inline Vector3<T>
+Cross(const Vector3<T> &v1, const Vector3<T> &v2);
+template <typename T> inline Vector3<T>
+Normalize(const Vector3<T> &v);
+template <typename T> T
+MinComponent(const Vector3<T> &v);
+template <typename T> T
+MaxComponent(const Vector3<T> &v);
+template <typename T> Vector3<T> 
+Min(const Vector3<T> &p1, const Vector3<T> &p2);
+template <typename T> Vector3<T>
+Max(const Vector3<T> &p1, const Vector3<T> &p2);
+template <typename T> Vector3<T>
+Permute(const Vector3<T> &v, int x, int y, int z);
+template <typename T> inline void
+CoordinateSystem(const Vector3<T> &v1, Vector3<T> *v2, Vector3<T> *v3);
+template <typename T> inline float
+Distance(const Vector3<T> &p1, const Vector3<T> &p2);
+template <typename T> Vector3<T>
+Lerp(float t, const Vector3<T> &p0, const Vector3<T> &p1);
+template <typename T> Vector3<T> Floor(const Vector3<T> &p);
+template <typename T> Vector3<T> Ceil(const Vector3<T> &p);
+template <typename T> inline Vector3<T>
+Faceforward(const Vector3<T> &n, const Vector3<T> &v);
+
+typedef Vector2<float> Vector2f;
+typedef Vector2<int> Vector2i;
+typedef Vector3<float> Vector3f;
+typedef Vector3<int> Vector3i;
+
+inline Vector3f operator*(const Vector3f &u, const Vector3f &v)
 {
+    return Vector3f(u.x * v.x, u.y * v.y, u.z * v.z);
+}
+
+inline Vector3f operator/(Vector3f v, Vector3f w)
+{
+    return Vector3f(v[0] / w[0], v[1] / w[1], v[2] / w[2]);
+}
+
+template <typename T> class Bounds2 {
 public:
-    Vector3f() { x = y = z = 0; }
-    Vector3f(float xx) : x(xx), y(xx), z(xx) {}
-    Vector3f(float xx, float yy, float zz) : x(xx), y(yy), z(zz) {}
-    Vector3f(const Vector2f &v, float zz) : x(v.x), y(v.y), z(zz) {}
-
-    Vector3f operator-() const { return Vector3f(-x, -y, -z); }
-    float operator[](int i) const { return (i == 0) ? x : (i == 1) ? y : z; }
-    float &operator[](int i) { return (i == 0) ? x : (i == 1) ? y : z; }
-
-    Vector3f &operator+=(const Vector3f &v)
-    {
-        x += v.x;
-        y += v.y;
-        z += v.z;
-        return *this;
+    Bounds2() {
+        T minNum = std::numeric_limits<T>::lowest();
+        T maxNum = std::numeric_limits<T>::max();
+        pMin = Vector2<T>(maxNum, maxNum);
+        pMax = Vector2<T>(minNum, minNum);
+    }
+    Bounds2(const Vector2<T> &p) : pMin(p), pMax(p) {}
+    Bounds2(const Vector2<T> &p1, const Vector2<T> &p2) {
+        pMin = Vector2<T>(std::min(p1.x, p2.x), std::min(p1.y, p2.y));
+        pMax = Vector2<T>(std::max(p1.x, p2.x), std::max(p1.y, p2.y));
+    }
+    template <typename U> explicit operator Bounds2<U>() const {
+        return Bounds2<U>((Vector2<U>)pMin, (Vector2<U>)pMax);
     }
 
-    Vector3f &operator*=(const double t)
-    {
-        x *= t;
-        y *= t;
-        z *= t;
-        return *this;
+    Vector2<T> Diagonal() const {
+        return pMax - pMin;
     }
 
-    Vector3f &operator/=(const double t)
-    {
-        return *this *= 1 / t;
+    T Area() const {
+        Vector2<T> d = pMax - pMin;
+        return (d.x * d.y);
+    }
+    int MaximumExtent() const {
+        Vector2<T> diag = Diagonal();
+        if (diag.x > diag.y)
+            return 0;
+        else 
+            return 1;
+    }
+    inline const Vector2<T> & operator[](int i) const {
+        return (i == 0) ? pMin : pMax;
+    }
+    inline Vector2<T> &operator[](int i) {
+        return (i == 0) ? pMin : pMax;
+    }
+    bool operator==(const Bounds2<T> &b) const {
+        return b.pMin == pMin && b.pMax == pMax;
+    }
+    bool operator!=(const Bounds2<T> &b) const {
+        return b.pMin != pMin || b.pMax != pMax;
     }
 
-    float Length() const
-    {
-        return sqrt(LengthSquared());
+    Vector2<T> Lerp(const Vector2f &t) const {
+        return Vector2<T>(::Lerp(t.x, pMin.x, pMax.x), ::Lerp(t.y, pMin.y, pMax.y));
     }
-
-    float LengthSquared() const
-    {
-        return x * x + y * y + z * z;
+    Vector2<T> Offset(const Vector2<T> &p) const {
+        Vector2<T> o = p - pMin;
+        if (pMax.x > pMin.x) o.x /= pMax.x - pMin.x;
+        if (pMax.y > pMin.y) o.y /= pMax.y - pMin.y;
+        return o;
     }
-
-    inline static Vector3f Random()
-    {
-        return Vector3f(random_double(), random_double(), random_double());
-    }
-
-    inline static Vector3f Random(double min, double max)
-    {
-        return Vector3f(random_double(min, max), random_double(min, max), random_double(min, max));
-    }
-
-    bool near_zero() const
-    {
-        // Return true if the vector is close to zero in all dimensions.
-        const auto s = 1e-8;
-        return (fabs(x) < s) && (fabs(y) < s) && (fabs(z) < s);
-    }
-
-    Vector3f safe_sqrt_vec()
-    {
-        return Vector3f(safe_sqrt(x), safe_sqrt(y), safe_sqrt(z));
-    }
-
 public:
-    float x, y, z;
+    Vector2<T> pMin, pMax;
 };
+
+template <typename T> class Bounds3 {
+public:
+    Bounds3() {
+        T minNum = std::numeric_limits<T>::lowest();
+        T maxNum = std::numeric_limits<T>::max();
+        pMin = Vector3<T>(maxNum, maxNum, maxNum);
+        pMax = Vector3<T>(minNum, minNum, minNum);
+    }
+    Bounds3(const Vector3<T> &p) : pMin(p), pMax(p) {}
+    Bounds3(const Vector3<T> &p1, const Vector3<T> &p2)
+        : pMin(std::min(p1.x, p2.x), std::min(p1.y, p2.y),
+               std::min(p1.z, p2.z)),
+          pMax(std::max(p1.x, p2.x), std::max(p1.y, p2.y),
+               std::max(p1.z, p2.z)) {}
+    const Vector3<T> &operator[](int i) const;
+    Vector3<T> &operator[](int i);
+    bool operator==(const Bounds3<T> &b) const {
+        return b.pMin == pMin && b.pMax == pMax;
+    }
+    bool operator!=(const Bounds3<T> &b) const {
+        return b.pMin != pMin || b.pMax != pMax;
+    }
+    Vector3<T> Corner(int corner) const {
+        return Vector3<T>((*this)[(corner & 1)].x,
+                        (*this)[(corner & 2) ? 1 : 0].y,
+                        (*this)[(corner & 4) ? 1 : 0].z);
+    }
+    Vector3<T> Diagonal() const { return pMax - pMin; }
+    T SurfaceArea() const {
+        Vector3<T> d = Diagonal();
+        return 2 * (d.x * d.y + d.x * d.z + d.y * d.z);
+    }
+    T Volume() const {
+        Vector3<T> d = Diagonal();
+        return d.x * d.y * d.z;
+    }
+    int MaximumExtent() const {
+        Vector3<T> d = Diagonal();
+        if (d.x > d.y && d.x > d.z)
+            return 0;
+        else if (d.y > d.z)
+            return 1;
+        else
+            return 2;
+    }
+    Vector3<T> Lerp(const Vector3f &t) const {
+        return Vector3<T>(::Lerp(t.x, pMin.x, pMax.x),
+                        ::Lerp(t.y, pMin.y, pMax.y),
+                        ::Lerp(t.z, pMin.z, pMax.z));
+    }
+    Vector3<T> Offset(const Vector3<T> &p) const {
+        Vector3<T> o = p - pMin;
+        if (pMax.x > pMin.x) o.x /= pMax.x - pMin.x;
+        if (pMax.y > pMin.y) o.y /= pMax.y - pMin.y;
+        if (pMax.z > pMin.z) o.z /= pMax.z - pMin.z;
+        return o;
+    }
+    void BoundingSphere(Vector3<T> *center, float *radius) const {
+        *center = (pMin + pMax) / 2;
+        *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
+    }
+    template <typename U> explicit operator Bounds3<U>() const {
+        return Bounds3<U>((Vector3<U>)pMin, (Vector3<U>)pMax);
+    }
+    bool IntersectP(const Ray &ray, float *hitt0 = nullptr, float *hitt1 = nullptr) const;
+    inline bool IntersectP(const Ray &ray, const Vector3f &invDir,
+                            const int dirIsNeg[3]) const;
+public:
+    Vector3<T> pMin, pMax;
+};
+
+template <typename T> Bounds3 <T>
+Union(const Bounds3<T> &b, const Vector3<T> &p);
+template <typename T> Bounds3<T>
+Union(const Bounds3<T> &b1, const Bounds3<T> &b2);
+template <typename T> Bounds3<T>
+Intersect(const Bounds3<T> &b1, const Bounds3<T> &b2);
+template <typename T>
+bool Overlaps(const Bounds3<T> &b1, const Bounds3<T> &b2);
+template <typename T>
+bool Inside(const Vector3<T> &p, const Bounds3<T> &b);
+template <typename T>
+bool InsideExclusive(const Vector3<T> &p, const Bounds3<T> &b);
+template <typename T, typename U> inline Bounds3<T>
+Expand(const Bounds3<T> &b, U delta);
+
+typedef Bounds2<float> Bounds2f;
+typedef Bounds2<int>   Bounds2i;
+typedef Bounds3<float> Bounds3f;
+typedef Bounds3<int>   Bounds3i;
 
 class Vector4f {
 public:
@@ -111,82 +390,17 @@ public:
 
 // Type aliases for Vector3f
 using Point3f = Vector3f; // 3D point
+using Point3i = Vector3i;
 using Color = Vector3f;  // RGB color
 using Point2f = Vector2f;
 
 // Vector3f Utility Functions
 
-inline std::ostream &operator<<(std::ostream &out, const Vector3f &v)
-{
-    return out << v.x << ' ' << v.y << ' ' << v.z;
-}
-
-inline Vector3f operator+(const Vector3f &u, const Vector3f &v)
-{
-    return Vector3f(u.x + v.x, u.y + v.y, u.z + v.z);
-}
-
-inline Vector3f operator-(const Vector3f &u, const Vector3f &v)
-{
-    return Vector3f(u.x - v.x, u.y - v.y, u.z - v.z);
-}
-
-inline Vector3f operator*(const Vector3f &u, const Vector3f &v)
-{
-    return Vector3f(u.x * v.x, u.y * v.y, u.z * v.z);
-}
-
-inline Vector3f operator*(double t, const Vector3f &v)
-{
-    return Vector3f(t * v.x, t * v.y, t * v.z);
-}
-
-inline Vector3f operator*(const Vector3f &v, double t)
-{
-    return t * v;
-}
-
-inline Vector3f operator/(Vector3f v, double t)
-{
-    return (1 / t) * v;
-}
-
-inline Vector3f operator/(Vector3f v, Vector3f w)
-{
-    return Vector3f(v[0] / w[0], v[1] / w[1], v[2] / w[2]);
-}
-
-inline float Dot(const Vector3f &u, const Vector3f &v)
-{
-    return u.x * v.x + u.y * v.y + u.z * v.z;
-}
-
-inline float AbsDot(const Vector3f &u, const Vector3f &v) {
-    return std::abs(Dot(u, v));
-}
-
-inline Vector3f Cross(const Vector3f &u, const Vector3f &v)
-{
-    return Vector3f(u.y * v.z - u.z * v.y,
-                u.z * v.x - u.x * v.z,
-                u.x * v.y - u.y * v.x);
-}
-
-inline Vector3f Normalize(Vector3f v)
-{
-    return v / v.Length();
-}
-
-inline Vector3f Lerp(Vector3f a, Vector3f b, float t)
-{
-    return a + (b - a) * t;
-}
-
 Vector3f random_in_unit_sphere()
 {
     while (true)
     {
-        auto p = Vector3f::Random(-1, 1);
+        auto p = Vector3f(1.f, 1.f, 1.f);
         if (p.LengthSquared() >= 1)
             continue;
         return p;
