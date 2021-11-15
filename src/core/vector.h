@@ -421,9 +421,9 @@ Vector3f random_in_hemisphere(const Vector3f &normal)
         return -in_unit_sphere;
 }
 
-Vector3f Reflect(const Vector3f &v, const Vector3f &n)
+Vector3f Reflect(const Vector3f &wo, const Vector3f &n)
 {
-    return v - 2 * Dot(v, n) * n;
+    return -wo + 2 * Dot(wo, n) * n;
 }
 
 Vector3f Refract(const Vector3f &uv, const Vector3f &n, double etai_over_etat)

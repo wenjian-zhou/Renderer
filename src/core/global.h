@@ -58,6 +58,10 @@ inline T Clamp(T val, U low, V high) {
     else return val;
 }
 
+inline float Lerp(float t, float v1, float v2) {
+    return (1 - t) * v1 + t * v2;
+}
+
 inline double degrees_to_radians(double degrees)
 {
     return degrees * PI / 180.0;

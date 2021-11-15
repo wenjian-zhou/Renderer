@@ -4,6 +4,7 @@
 #include "global.h"
 
 struct MediumRecord {
+    MediumRecord() {}
     const Medium *inside, *outside;
     MediumRecord(const Medium *medium) : inside(medium), outside(medium) {}
     MediumRecord(const Medium *inside, const Medium *outside) : inside(inside), outside(outside) {}
@@ -12,6 +13,7 @@ struct MediumRecord {
 
 struct HitRecord
 {
+    HitRecord() {}
     Point3f p;
     Vector3f normal;
     shared_ptr<Material> mat_ptr;

@@ -59,10 +59,10 @@ Spectrum FresnelDielectric::Evaluate(float cosThetaI) const {
     return FrDielectric(cosThetaI, etaI, etaT);
 }
 
-Spectrum SpecularReflection::Sample_f(const Vector3f &wo, Vector3f &wi, const Point2f &sample, float &pdf, BxDFType *sampledType) const {
-    wi = Vector3f(-wo.x, -wo.y, wo.z);
-    pdf = 1;
-    return fresnel->Evaluate(CosTheta(wi)) * R / AbsCosTheta(wi);
+Spectrum SpecularReflection::Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &sample, float *pdf, BxDFType *sampledType) const {
+    *wi = Vector3f(-wo.x, -wo.y, wo.z);
+    *pdf = 1;
+    return fresnel->Evaluate(CosTheta(*wi)) * R / AbsCosTheta(*wi);
 }
 
 Spectrum LambertionReflection::f(const Vector3f &wo, const Vector3f &wi) const {
