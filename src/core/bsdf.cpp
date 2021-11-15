@@ -106,3 +106,15 @@ Spectrum MicrofacetTransmission::f(const Vector3f &wo,
                     AbsDot(wi, wh) * AbsDot(wo, wh) * factor * factor /
                     (cosThetaI * cosThetaO * sqrtDenom * sqrtDenom));
 }
+
+Spectrum BSDF::f(const Vector3f &woW, const Vector3f &wiW, BxDFType flags) const {
+    Vector3f wi = WorldToLocal(wiW), wo = WorldToLocal(woW);
+    bool reflect = Dot(wiW, n) * Dot(woW, n) > 0;
+    Spectrum f(0.f);
+    for (int i = 0; i < nBxDFs; ++ i)
+        if (bxdfs[i]->MatchesFlags(flags) &&
+            ((reflect && (bxdfs[i]->type & BSDF_REFLECTION)) ||
+            (!reflect && (bxdfs[i]->type & BSDF_TRANSMISSION))))
+            f += bxdfs[i]->f(wo, wi);
+    return f;
+}

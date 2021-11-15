@@ -33,6 +33,7 @@ class Medium;
 class MicrofacetDistribution;
 class PhaseFunction;
 struct MediumRecord;
+enum class TransportMode;
 
 // Usings
 

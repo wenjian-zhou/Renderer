@@ -186,6 +186,27 @@ private:
     const TransportMode mode;
 };
 
+class FresnelSpecular : public BxDF {
+public:
+    FresnelSpecular(const Spectrum &R, const Spectrum &T, float etaA, float etaB, TransportMode mode)
+                : BxDF(BxDFType(BSDF_REFLECTION | BSDF_TRANSMISSION | BSDF_SPECULAR)),
+                  R(R), T(T), etaA(etaA), etaB(etaB), fresnel(etaA, etaB), mode(mode) {}
+
+    Spectrum f(const Vector3f &wo, const Vector3f &wi) const {
+        return Spectrum(0.f);
+    }
+    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u,
+                      float *pdf, BxDFType *sampledType) const;
+    float Pdf(const Vector3f &wo, const Vector3f &wi) const {
+        return 0;
+    }
+private:
+    const Spectrum R, T;
+    const float etaA, etaB;
+    const FresnelDielectric fresnel;
+    const TransportMode mode;
+};
+
 class LambertionReflection : public BxDF {
 public:
     LambertionReflection(const Spectrum &R)
@@ -230,9 +251,21 @@ private:
 
 class BSDF {
 public:
-    BSDF(float eta = 1) : eta(eta) {}
+    BSDF(const Vector3f &n, float eta = 1) : n(n), eta(eta) {
+        Vector3f temp = (std::fabs(n.x) > 0.9f) ? Vector3f(0, 1, 0) : Vector3f(1, 0, 0);
+        sn = Normalize(Cross(n, temp));
+        tn = Cross(n, sn);
+    }
     void Add(BxDF *b) {
         bxdfs[nBxDFs++] = b;
+    }
+    Vector3f WorldToLocal(const Vector3f &v) const {
+        return Vector3f(Dot(sn, v), Dot(tn, v), Dot(n, v));
+    }
+    Vector3f LocalToWorld(const Vector3f &v) const {
+        return Vector3f(sn.x * v.x + tn.x * v.y + n.x * v.z,
+                        sn.y * v.x + tn.y * v.y + n.y * v.z,
+                        sn.z * v.x + tn.z * v.y + n.z * v.z);
     }
     Spectrum f(const Vector3f &woW, const Vector3f &wiW, BxDFType flags = BSDF_ALL) const;
     Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType type = BSDF_ALL, BxDFType *sampledType = nullptr) const;
@@ -241,6 +274,8 @@ public:
 private:
     ~BSDF() {}
 
+    const Vector3f n;
+    Vector3f sn, tn;
     int nBxDFs = 0;
     static constexpr int MaxBxDFs = 8;
     BxDF *bxdfs[MaxBxDFs];
