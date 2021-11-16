@@ -9,13 +9,14 @@
 #include "ray.h"
 #include "camera.h"
 #include "sampler.h"
+#include "bsdf.h"
 #include "material.h"
 #include "light.h"
+#include "record.h"
 
 class Integrator {
 public:
     virtual ~Integrator();
-    virtual void Render(const Scene &scene) = 0;
 };
 
 class SamplerIntegrator : public Integrator {
@@ -24,8 +25,7 @@ public:
                       std::shared_ptr<Sampler> sampler)
                     : camera(camera), sampler(sampler) {}
     
-    void Render(const Scene &scene);
-    virtual Spectrum Li(const Ray &ray, const Scene &scene, const Sampler &sampler) const = 0;
+    virtual Spectrum Li(const Ray &ray, const Scene &scene, Sampler &sampler) const = 0;
 public:
     std::shared_ptr<Camera> camera;
     std::shared_ptr<Sampler> sampler;

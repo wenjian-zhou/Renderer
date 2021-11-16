@@ -2,6 +2,7 @@
 #define RECORD_H
 
 #include "global.h"
+#include "ray.h"
 
 struct MediumRecord {
     MediumRecord() {}
@@ -17,8 +18,10 @@ struct HitRecord
     Point3f p;
     Vector3f normal;
     shared_ptr<Material> mat_ptr;
+    BSDF *bsdf;
     double t;
     double u, v;
+    Spectrum Le;
     bool front_face;
     MediumRecord mediumRecord;
 

@@ -2,6 +2,9 @@
 #define MATERIAL_H
 
 #include "global.h"
+#include "spectrum.h"
+#include "bsdf.h"
+#include "record.h"
 
 class Material {
 public:

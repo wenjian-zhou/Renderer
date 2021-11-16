@@ -1,6 +1,3 @@
-#ifndef WHITTED_H
-#define WHITTED_H
-
 #include "../core/integrator.h"
 
 class WhittedIntegrator : public SamplerIntegrator {
@@ -13,5 +10,3 @@ public:
 public:
     const int maxDepth;
 };
-
-#endif
