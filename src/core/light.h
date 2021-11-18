@@ -5,11 +5,21 @@
 #include "spectrum.h"
 #include "scene.h"
 
+enum class LightFlags : int { DeltaPosition = 1, DeltaDirection = 2, Area = 4, Infinite = 8 };
+
+inline bool IsDelta(int flags) {
+    return flags & (int)LightFlags::DeltaPosition ||
+           flags & (int)LightFlags::DeltaDirection;
+}
+
 class Light {
 public:
+    Light(int flags) : flags(flags) {}
     virtual ~Light();
     virtual Spectrum Le(const Ray &ray) const;
-    virtual Spectrum Sample_Li(const HitRecord &isect, const Point3f &u, Vector3f &wi, float &pdf, VisibilityTester &vis) const = 0;
+    virtual Spectrum Sample_Li(const HitRecord &isect, const Point3f &u, Vector3f *wi, float *pdf, VisibilityTester *vis) const = 0;
+public:
+    const int flags;
 };
 
 struct VisibilityTester {

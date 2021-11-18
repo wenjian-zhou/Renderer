@@ -26,6 +26,7 @@ bool Triangle::Intersect(const Ray &ray, HitRecord *isect) const {
     isect->v *= invDet;
     isect->normal = normal;
     isect->mat_ptr = mat_ptr;
+    isect->wo = -ray.d;
     //std::cout << rec.normal << std::endl;
     return true;
 }

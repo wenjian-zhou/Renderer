@@ -17,6 +17,7 @@ struct HitRecord
     HitRecord() {}
     Point3f p;
     Vector3f normal;
+    Vector3f wo, wi;
     shared_ptr<Material> mat_ptr;
     BSDF *bsdf;
     double t;
@@ -34,6 +35,10 @@ struct HitRecord
     {
         front_face = Dot(r.d, outward_normal) < 0;
         normal = front_face ? outward_normal : -outward_normal;
+    }
+
+    bool IsSurface() const {
+        return normal != Vector3f(0.f);
     }
 };
 

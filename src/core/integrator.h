@@ -14,6 +14,9 @@
 #include "light.h"
 #include "record.h"
 
+Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &scene, Sampler &sampler, bool handleMedia, bool specular);
+Spectrum UniformSampleOneLight(const HitRecord &it, const Scene &scene, Sampler &sampler);
+
 class Integrator {
 public:
     virtual ~Integrator();
