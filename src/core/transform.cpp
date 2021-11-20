@@ -94,3 +94,29 @@ Transform Inverse(const Transform &t) {
 Transform Transpose(const Transform &t) {
     return Transform(Transpose(t.m), Transpose(t.invM));
 }
+
+Transform Scale(const float &x, const float &y, const float &z) {
+    Matrix4x4 m(x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1);
+    Matrix4x4 minv(1/x,   0,   0, 0,
+                   0,   1/y,   0, 0,
+                   0,     0, 1/z, 0,
+                   0,     0,   0, 1);
+    return Transform(m, minv);
+}
+
+Transform Perspective(const float &fov, const float &width, const float &height) {
+    float rad = fov;
+    float h = std::cos(0.5 * rad) / std::sin(0.5 * rad);
+    float w = h * height / width;
+
+    Matrix4x4 result(0.f);
+    result.m[0][0] = w;
+    result.m[1][1] = h;
+    result.m[2][2] = - (10000.f + 0.001f) / (10000.f - 0.001f);
+    result.m[2][3] = - 1.f;
+    result.m[3][2] = - (2.f * 10000.f * 0.001f) / (10000.f - 0.001f);
+    return Transform(result);
+}

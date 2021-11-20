@@ -1,7 +1,6 @@
 #ifndef BXDF_H
 #define BXDF_H
 
-#include "global.h"
 #include "spectrum.h"
 #include "vector.h"
 #include "microfacet.h"
@@ -47,9 +46,6 @@ inline float CosDPhi(const Vector3f &wa, const Vector3f &wb) {
 inline bool SameHemisphere(const Vector3f &w, const Vector3f &wp) {
     return w.z * wp.z > 0;
 }
-inline Vector3f Reflect(const Vector3f &wo, const Vector3f &n) {
-    return -wo + 2 * Dot(wo, n) * n;
-}
 inline bool Refract(const Vector3f &wi, const Vector3f &n, float eta, Vector3f *wt) {
     float cosThetaI = Dot(wi, n);
     float sin2ThetaI = std::max(0.f, 1.f - cosThetaI * cosThetaI);
@@ -60,6 +56,19 @@ inline bool Refract(const Vector3f &wi, const Vector3f &n, float eta, Vector3f *
     float cosThetaT = std::sqrt(1.f - sin2ThetaT);
     *wt = eta * (-wi) + (eta * cosThetaI - cosThetaT) * n;
     return true;
+}
+inline Vector3f LocalToWorld(const Vector3f &a, const Vector3f &N){
+        Vector3f B, C;
+        if (std::fabs(N.x) > std::fabs(N.y)){
+            float invLen = 1.0f / std::sqrt(N.x * N.x + N.z * N.z);
+            C = Vector3f(N.z * invLen, 0.0f, -N.x *invLen);
+        }
+        else {
+            float invLen = 1.0f / std::sqrt(N.y * N.y + N.z * N.z);
+            C = Vector3f(0.0f, N.z * invLen, -N.y *invLen);
+        }
+        B = Cross(C, N);
+        return a.x * B + a.y * C + a.z * N;
 }
 
 // ******************************
@@ -77,7 +86,6 @@ Spectrum FrConductor(float cosThetaI, const Spectrum &etai, const Spectrum &etat
 
 class Fresnel {
 public:
-    virtual ~Fresnel();
     virtual Spectrum Evaluate(float cosI) const = 0;
 };
 
@@ -119,12 +127,12 @@ public:
     }
     virtual Spectrum f(const Vector3f &wo, const Vector3f &wi) const = 0;
     virtual Spectrum Sample_f(const Vector3f &wo, Vector3f *wi,
-                              const Point2f &sample, float *pdf) const;
+                              const Point2f &sample, float *pdf, BxDFType *sampledType) const;
     virtual Spectrum rho(const Vector3f &wo, int nSamples,
-                         const Point2f &samples) const;
+                         const Point2f &samples) const {}
     virtual Spectrum rho(int nSamples, const Point2f &samples1,
-                         const Point2f &samples2) const;
-    virtual float Pdf(const Vector3f &wo, const Vector3f &wi) const;
+                         const Point2f &samples2) const {}
+    virtual float Pdf(const Vector3f &wo, const Vector3f &wi) const {}
 
 public:
     const BxDFType type;
@@ -142,7 +150,7 @@ public:
     }
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const;
     Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &sample,
-        float *pdf, BxDFType *sampledType) const;
+        float *pdf, BxDFType *sampledType) const {}
 public:
     BxDF *bxdf;
     Spectrum scale;
@@ -225,8 +233,8 @@ public:
         : BxDF(BxDFType(BSDF_REFLECTION | BSDF_GLOSSY)), R(R), distribution(distribution), fresnel(fresnel) {}
     
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const;
-    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const;
-    float Pdf(const Vector3f &wo, const Vector3f &wi) const;
+    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const {}
+    float Pdf(const Vector3f &wo, const Vector3f &wi) const {}
 private:
     const Spectrum R;
     const MicrofacetDistribution *distribution;
@@ -239,8 +247,8 @@ public:
         : BxDF(BxDFType(BSDF_TRANSMISSION | BSDF_GLOSSY)), T(T), distribution(distribution), etaA(etaA), etaB(etaB), fresnel(etaA, etaB), mode(mode) {}
     
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const;
-    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const;
-    float Pdf(const Vector3f &wo, const Vector3f &wi) const;
+    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const {}
+    float Pdf(const Vector3f &wo, const Vector3f &wi) const {}
 private:
     const Spectrum T;
     const MicrofacetDistribution *distribution;
@@ -256,6 +264,7 @@ public:
         sn = Normalize(Cross(n, temp));
         tn = Cross(n, sn);
     }
+    ~BSDF() {}
     void Add(BxDF *b) {
         bxdfs[nBxDFs++] = b;
     }
@@ -272,7 +281,6 @@ public:
     float Pdf(const Vector3f &wo, const Vector3f &wi, BxDFType flags = BSDF_ALL) const;
     const float eta;
 private:
-    ~BSDF() {}
 
     const Vector3f n;
     Vector3f sn, tn;

@@ -9,9 +9,6 @@
 
 // Class Declarations
 
-class Vector3f;
-class Vector2f;
-class Vector4f;
 class Transform;
 class Ray;
 class RGBSpectrum;
@@ -49,6 +46,8 @@ static constexpr float MaxFloat = std::numeric_limits<float>::max();
 const double PI = 3.1415926535897932385;
 const double invPI = 1 / PI;
 const float Inv4Pi = 0.07957747154594766788;
+const float PiOver2 = 1.57079632679489661923;
+const float PiOver4 = 0.78539816339744830961;
 
 // Utility Functions
 

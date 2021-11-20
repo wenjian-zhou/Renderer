@@ -1,7 +1,6 @@
 #ifndef AABB_H
 #define AABB_H
 
-#include "../core/global.h"
 #include "../core/vector.h"
 #include "../core/ray.h"
 
@@ -37,7 +36,7 @@ public:
     Point3f maximum;
 };
 
-AABB surrounding_box(AABB box0, AABB box1)
+inline AABB surrounding_box(AABB box0, AABB box1)
 {
     Point3f small(fmin(box0.min().x, box1.min().x),
                  fmin(box0.min().y, box1.min().y),

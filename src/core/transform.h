@@ -1,8 +1,6 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include "global.h"
-
 #include "vector.h"
 
 struct Matrix4x4 {

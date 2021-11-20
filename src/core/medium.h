@@ -1,7 +1,6 @@
 #ifndef MEDIUM_H
 #define MEDIUM_H
 
-#include "global.h"
 #include "vector.h"
 #include "spectrum.h"
 #include "ray.h"
@@ -22,7 +21,7 @@ class HenyeyGreenstein : public PhaseFunction {
 public:
     HenyeyGreenstein(float g) : g(g) {}
     float p(const Vector3f &wo, const Vector3f &wi) const;
-    float Sample_p(const Vector3f &wo, Vector3f &wi, const Point2f &sample) const;
+    float Sample_p(const Vector3f &wo, Vector3f &wi, const Point2f &sample) const {}
 private:
     const float g;
 };

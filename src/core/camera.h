@@ -1,17 +1,27 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "global.h"
-
 #include "transform.h"
+#include "sampler.h"
 
 class Camera {
 public:
     Camera() {}
     Camera(const Transform &c2w, const float &fov, const std::shared_ptr<Medium> medium)
         : cameraToWorld(c2w), fov(fov), medium(medium) {}
-    
 
+    void Setup(const uint32_t& w, const uint32_t& h) {
+        Transform w2s = Scale(0.5f * w, 0.5f * h, 1.f) * Translate(1.f, 1.f, 0.f) *
+            Perspective(fov, w, h) * Inverse(cameraToWorld);
+        screenToWorld = Inverse(w2s);
+    }
+    virtual void GenerateRay(const Point2f &pos, Sampler &sampler, Ray *ray) const {
+        Vector3f p = screenToWorld.TransformPoint(Vector3f(pos + sampler.Next2D(), -0.1f));
+        Vector3f o = cameraToWorld.TransformPoint(Vector3f(0, 0, 0));
+        *ray = Ray(o, Normalize(p - o));
+    }
+    
+public:
     Transform screenToWorld, cameraToWorld;
     float fov;
     std::shared_ptr<Medium> medium;
@@ -58,8 +68,7 @@ public:
 
         return Ray(
             origin + offset,
-            lower_left_corner + s * horizontal + t * vertical - origin - offset,
-            random_double(time0, time1));
+            lower_left_corner + s * horizontal + t * vertical - origin - offset);
     }
 
 private:

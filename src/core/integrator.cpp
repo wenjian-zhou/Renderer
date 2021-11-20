@@ -16,7 +16,7 @@ Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &sc
     Vector3f wi;
     float lightPdf = 0, scatteringPdf = 0;
     VisibilityTester visibility;
-    Spectrum Li = light.Sample_Li(it, Point3f(0.f), &wi, &lightPdf, &visibility);
+    Spectrum Li = light.Sample_Li(it, Point2f(), &wi, &lightPdf, &visibility);
     
     if (lightPdf > 0 && !Li.IsBlack()) {
         Spectrum f;

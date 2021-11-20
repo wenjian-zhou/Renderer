@@ -1,7 +1,6 @@
 #ifndef SAMPLER_H
 #define SAMPLER_H
 
-#include "global.h"
 #include "vector.h"
 
 #include <random>

@@ -6,20 +6,21 @@ Spectrum PathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sampler) 
     bool specularBounce = false;
     for (int bounces = 0; ; ++bounces) {
         HitRecord isect;
-        bool foundIntersection = scene.Intersect(ray, &isect);
-
+        bool foundIntersection = scene.Intersect(ray, isect);
         if (bounces == 0 || specularBounce) {
             if (foundIntersection)
                 L += beta * isect.Le;
             else
-                for (const auto &light : scene.lights)
+                for (const auto &light : scene.lights) {
                     L += beta * light->Le(ray);
+                }
         }
 
         if (!foundIntersection || bounces >= maxDepth)
             break;
-
+        
         isect.mat_ptr->ComputeScatteringFunctions(&isect, TransportMode::Radiance);
+
         if (!isect.bsdf) {
             ray = Ray(ray.o, ray.d, ray.tMax, ray.time, ray.medium);
             bounces --;
@@ -46,6 +47,5 @@ Spectrum PathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sampler) 
             beta /= 1 - q;
         }
     }
-
     return L;
 }

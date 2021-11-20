@@ -611,7 +611,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
 /// Returns true when loading .obj/.mtl become success.
 /// Returns warning message into `warn`, and error message into `err`
 /// See `examples/callback_api/` for how to use this function.
-bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
+inline bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
                          void *user_data = NULL,
                          MaterialReader *readMatFn = NULL,
                          std::string *warn = NULL, std::string *err = NULL);
@@ -627,7 +627,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
              bool default_vcols_fallback = true);
 
 /// Loads materials into std::map
-void LoadMtl(std::map<std::string, int> *material_map,
+inline void LoadMtl(std::map<std::string, int> *material_map,
              std::vector<material_t> *materials, std::istream *inStream,
              std::string *warning, std::string *err);
 
@@ -1922,7 +1922,7 @@ static std::string JoinPath(const std::string &dir,
   }
 }
 
-void LoadMtl(std::map<std::string, int> *material_map,
+inline void LoadMtl(std::map<std::string, int> *material_map,
              std::vector<material_t> *materials, std::istream *inStream,
              std::string *warning, std::string *err) {
   (void)err;
@@ -2985,7 +2985,7 @@ bool LoadObj(attrib_t *attrib, std::vector<shape_t> *shapes,
   return true;
 }
 
-bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
+inline bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
                          void *user_data /*= NULL*/,
                          MaterialReader *readMatFn /*= NULL*/,
                          std::string *warn, /* = NULL*/
@@ -3269,7 +3269,7 @@ bool LoadObjWithCallback(std::istream &inStream, const callback_t &callback,
   return true;
 }
 
-bool ObjReader::ParseFromFile(const std::string &filename,
+inline bool ObjReader::ParseFromFile(const std::string &filename,
                               const ObjReaderConfig &config) {
   std::string mtl_search_path;
 
@@ -3293,7 +3293,7 @@ bool ObjReader::ParseFromFile(const std::string &filename,
   return valid_;
 }
 
-bool ObjReader::ParseFromString(const std::string &obj_text,
+inline bool ObjReader::ParseFromString(const std::string &obj_text,
                                 const std::string &mtl_text,
                                 const ObjReaderConfig &config) {
   std::stringbuf obj_buf(obj_text);

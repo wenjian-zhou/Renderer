@@ -3,8 +3,6 @@
 
 #include <algorithm>
 
-#include "global.h"
-
 #include "../core/object.h"
 #include "../core/hittable_list.h"
 
@@ -94,6 +92,8 @@ public:
 
     virtual bool bounding_box(double time0, double time1, AABB &output_box) const override;
 
+    virtual bool Intersect(const Ray &ray, HitRecord &isect) const override;
+
 public:
     shared_ptr<Object> left;
     shared_ptr<Object> right;
@@ -114,6 +114,16 @@ bool BVH::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
     bool hit_left = left->hit(r, t_min, t_max, rec);
     bool hit_right = right->hit(r, t_min, hit_left ? rec.t : t_max, rec);
 
+    return hit_left || hit_right;
+}
+
+bool BVH::Intersect(const Ray &ray, HitRecord &isect) const {
+    if (!box.hit(ray, 0.00001, ray.tMax)) {
+        return false;
+    }
+    
+    bool hit_left = left->Intersect(ray, isect);
+    bool hit_right = right->Intersect(ray, isect);
     return hit_left || hit_right;
 }
 

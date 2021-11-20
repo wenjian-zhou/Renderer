@@ -1,8 +1,8 @@
 #ifndef HITTABLE_LIST_H
 #define HITTABLE_LIST_H
 
-#include "Object.h"
-#include "AABB.h"
+#include "object.h"
+#include "../accelerators/aabb.h"
 
 #include <memory>
 #include <vector>
@@ -28,10 +28,32 @@ public:
     virtual double pdf_value(const Point3f &o, const Vector3f &v) const override;
 
     virtual Vector3f random(const Vector3f &o) const override;
+    bool Intersect(const Ray &ray, HitRecord &isect) const ;
 
 public:
     std::vector<shared_ptr<Object>> objects;
 };
+
+bool ObjectList::Intersect(const Ray &ray, HitRecord &isect) const {
+    HitRecord temp_rec;
+    bool hit_anything = false;
+    auto closest_so_far = INF;
+
+    for (const auto &object : objects)
+    {
+        if (object->Intersect(ray, temp_rec))
+        {
+            hit_anything = true;
+            if (closest_so_far > temp_rec.t) {
+                closest_so_far = temp_rec.t;
+                isect = temp_rec;
+            }
+        }
+    }
+
+    return hit_anything;
+    return false;
+}
 
 bool ObjectList::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {

@@ -47,6 +47,15 @@ Spectrum FrConductor(float cosThetaI, const Spectrum &etai,
     return 0.5 * (Rp + Rs);
 }
 
+Spectrum BxDF::Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u,
+                        float *pdf, BxDFType *sampledType) const {
+    // Cosine-sample the hemisphere, flipping the direction if necessary
+    *wi = CosineSampleHemisphere(u);
+    if (wo.z < 0) wi->z *= -1;
+    *pdf = Pdf(wo, *wi);
+    return f(wo, *wi);
+}
+
 Spectrum ScaledBxDF::f(const Vector3f &wo, const Vector3f &wi) const {
     return scale * bxdf->f(wo, wi);
 }
@@ -117,4 +126,12 @@ Spectrum BSDF::f(const Vector3f &woW, const Vector3f &wiW, BxDFType flags) const
             (!reflect && (bxdfs[i]->type & BSDF_TRANSMISSION))))
             f += bxdfs[i]->f(wo, wi);
     return f;
+}
+
+Spectrum BSDF::Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType type = BSDF_ALL, BxDFType *sampledType = nullptr) const {
+
+}
+
+float BSDF::Pdf(const Vector3f &wo, const Vector3f &wi, BxDFType flags = BSDF_ALL) const {
+
 }

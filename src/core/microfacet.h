@@ -1,6 +1,7 @@
 #ifndef MICROFACET_H
 #define MICROFACET_H
 
+#include "vector.h"
 #include "bsdf.h"
 
 class MicrofacetDistribution {
@@ -28,7 +29,7 @@ public:
     TrowbridgeReitzDistribution(float alphax, float alphay, bool samplevis = true)
         : MicrofacetDistribution(samplevis), alphax(alphax), alphay(alphay) {}
     float D(const Vector3f &wh) const;
-    Vector3f Sample_wh(const Vector3f &wo, const Point2f &u) const;
+    Vector3f Sample_wh(const Vector3f &wo, const Point2f &u) const {}
 private:
     float Lambda(const Vector3f &w) const;
     const float alphax, alphay;

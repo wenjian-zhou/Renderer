@@ -1,8 +1,8 @@
 #ifndef RECORD_H
 #define RECORD_H
 
-#include "global.h"
 #include "ray.h"
+#include "spectrum.h"
 
 struct MediumRecord {
     MediumRecord() {}
