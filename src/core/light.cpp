@@ -1,7 +1,7 @@
 #include "light.h"
 
 Spectrum Light::Le(const Ray &ray) const {
-    return Spectrum(1.f);
+    return Spectrum(0.f);
 }
 
 bool VisibilityTester::Unoccluded(const Scene &scene) {

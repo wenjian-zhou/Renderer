@@ -57,19 +57,6 @@ inline bool Refract(const Vector3f &wi, const Vector3f &n, float eta, Vector3f *
     *wt = eta * (-wi) + (eta * cosThetaI - cosThetaT) * n;
     return true;
 }
-inline Vector3f LocalToWorld(const Vector3f &a, const Vector3f &N){
-        Vector3f B, C;
-        if (std::fabs(N.x) > std::fabs(N.y)){
-            float invLen = 1.0f / std::sqrt(N.x * N.x + N.z * N.z);
-            C = Vector3f(N.z * invLen, 0.0f, -N.x *invLen);
-        }
-        else {
-            float invLen = 1.0f / std::sqrt(N.y * N.y + N.z * N.z);
-            C = Vector3f(0.0f, N.z * invLen, -N.y *invLen);
-        }
-        B = Cross(C, N);
-        return a.x * B + a.y * C + a.z * N;
-}
 
 // ******************************
 //   BSDF inline functions end
@@ -132,7 +119,7 @@ public:
                          const Point2f &samples) const {}
     virtual Spectrum rho(int nSamples, const Point2f &samples1,
                          const Point2f &samples2) const {}
-    virtual float Pdf(const Vector3f &wo, const Vector3f &wi) const {}
+    virtual float Pdf(const Vector3f &wo, const Vector3f &wi) const;
 
 public:
     const BxDFType type;
@@ -268,6 +255,7 @@ public:
     void Add(BxDF *b) {
         bxdfs[nBxDFs++] = b;
     }
+    int NumComponents(BxDFType flags = BSDF_ALL) const;
     Vector3f WorldToLocal(const Vector3f &v) const {
         return Vector3f(Dot(sn, v), Dot(tn, v), Dot(n, v));
     }

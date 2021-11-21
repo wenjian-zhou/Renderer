@@ -56,6 +56,10 @@ Spectrum BxDF::Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u,
     return f(wo, *wi);
 }
 
+float BxDF::Pdf(const Vector3f &wo, const Vector3f &wi) const {
+    return SameHemisphere(wo, wi) ? AbsCosTheta(wi) * invPI : 0;
+}
+
 Spectrum ScaledBxDF::f(const Vector3f &wo, const Vector3f &wi) const {
     return scale * bxdf->f(wo, wi);
 }
@@ -128,10 +132,74 @@ Spectrum BSDF::f(const Vector3f &woW, const Vector3f &wiW, BxDFType flags) const
     return f;
 }
 
-Spectrum BSDF::Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType type = BSDF_ALL, BxDFType *sampledType = nullptr) const {
+Spectrum BSDF::Sample_f(const Vector3f &woWorld, Vector3f *wiWorld, const Point2f &u, float *pdf, BxDFType type, BxDFType *sampledType) const {
+    int matchingComps = NumComponents(type);
 
+    if (matchingComps == 0) {
+        *pdf = 0;
+        if (sampledType) *sampledType = BxDFType(0);
+        return Spectrum(0.f);
+    }
+    int comp = std::min((int)std::floor(u[0] * matchingComps), matchingComps - 1);
+
+    BxDF *bxdf = nullptr;
+    int count = comp;
+    for (int i = 0; i < nBxDFs; ++i) {
+        if (bxdfs[i]->MatchesFlags(type) && count-- == 0) {
+            bxdf = bxdfs[i];
+            break;
+        }
+    }
+
+    Vector3f wi, wo = WorldToLocal(woWorld);
+    if (wo.z == 0) return 0.f;
+    *pdf = 0;
+    if (sampledType) *sampledType = bxdf->type;
+    Spectrum f = bxdf->Sample_f(wo, &wi, u, pdf, sampledType);
+
+    if (*pdf == 0) {
+        if (sampledType) *sampledType = BxDFType(0);
+        return 0.f;
+    }
+    *wiWorld = LocalToWorld(wi);
+
+    if (!(bxdf->type & BSDF_SPECULAR) && matchingComps > 1)
+        for (int i = 0; i < nBxDFs; ++i)
+            if (bxdfs[i] != bxdf && bxdfs[i]->MatchesFlags(type))
+                *pdf += bxdfs[i]->Pdf(wo, wi);
+    if (matchingComps > 1) *pdf /= matchingComps;
+
+    if (!(bxdf->type & BSDF_SPECULAR)) {
+        bool reflect = Dot(*wiWorld, n) * Dot(woWorld, n) > 0;
+        f = 0.f;
+        for (int i = 0; i < nBxDFs; ++ i)
+            if (bxdfs[i]->MatchesFlags(type) &&
+                ((reflect && (bxdfs[i]->type & BSDF_REFLECTION)) ||
+                (!reflect && (bxdfs[i]->type & BSDF_TRANSMISSION))))
+                f += bxdfs[i]->f(wo, wi);
+    }
+    return f;
 }
 
-float BSDF::Pdf(const Vector3f &wo, const Vector3f &wi, BxDFType flags = BSDF_ALL) const {
+float BSDF::Pdf(const Vector3f &woWorld, const Vector3f &wiWorld, BxDFType flags) const {
+    if (nBxDFs == 0.f) return 0.f;
+    Vector3f wo = WorldToLocal(woWorld), wi = WorldToLocal(wiWorld);
+    if (wo.z == 0) return 0.;
+    float pdf = 0.f;
+    int matchingComps = 0;
+    for (int i = 0; i < nBxDFs; ++i)
+        if (bxdfs[i]->MatchesFlags(flags)) {
+            ++matchingComps;
+            pdf += bxdfs[i]->Pdf(wo, wi);
+        }
+    float v = matchingComps > 0 ? pdf / matchingComps : 0.f;
+    return v;
+}
 
+int BSDF::NumComponents(BxDFType flags) const {
+    int num = 0;
+    for (int i = 0; i < nBxDFs; ++i) {
+        if (bxdfs[i]->MatchesFlags(flags)) ++num;
+    }
+    return num;
 }

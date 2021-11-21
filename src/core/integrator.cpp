@@ -6,7 +6,7 @@ Spectrum UniformSampleOneLight(const HitRecord &it, const Scene &scene, Sampler 
     int lightNum = std::min((int)(sampler.Next1D() * nLights), nLights - 1);
     const std::shared_ptr<Light> &light = scene.lights[lightNum];
 
-    // sample lights using MIS
+    return EstimateDirect(it, *light, scene, sampler, false, false) / 1.f;
 }
 
 Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &scene, Sampler &sampler, bool handleMedia, bool specular) {
@@ -33,12 +33,12 @@ Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &sc
             // TODO else if(handleMedia)
 
             if (!Li.IsBlack()) {
-                if (IsDelta(light.flags))
+                if (IsDelta(light.flags)) {
                     Ld += f * Li / lightPdf;
+                }
                 // else compute weight
             }
         }
     }
-
     return Ld;
 }

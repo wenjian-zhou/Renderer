@@ -14,7 +14,7 @@ void Renderer::Render() {
 
     std::vector<std::shared_ptr<Object>> objects; std::vector<std::shared_ptr<Light>> lights;
 
-    auto pointLight = make_shared<PointLight>(4.f, Point3f(75, 75, 550));
+    auto pointLight = make_shared<PointLight>(500.f, Point3f(0, 0, 10));
 
     auto matte = std::make_shared<Matte>(Spectrum(0.4, 0.6, 0.3), 1.f);
 

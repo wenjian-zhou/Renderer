@@ -22,7 +22,7 @@ struct HitRecord
     BSDF *bsdf;
     double t;
     double u, v;
-    Spectrum Le;
+    Spectrum Le = 0.f;
     bool front_face;
     MediumRecord mediumRecord;
 

@@ -38,6 +38,10 @@ memory
 cstdlib
 -
 
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.cpp
+integrator.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.h
+
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.h
 bsdf.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
@@ -141,12 +145,4 @@ cmath
 -
 iostream
 -
-
-/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.cpp
-path.h
-/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.h
-
-/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.h
-../core/integrator.h
-/Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.h
 
