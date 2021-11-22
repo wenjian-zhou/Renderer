@@ -1,3 +1,6 @@
+#ifndef MATERIAL_GLASS_H
+#define MATERIAL_GLASS_H
+
 #include "../core/material.h"
 
 class Glass : public Material {
@@ -11,3 +14,5 @@ private:
     float roughness;
     float index;
 };
+
+#endif

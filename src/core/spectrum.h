@@ -85,7 +85,7 @@ public:
 
     float Average() const { return float(r + g + b) / 3; }
     float y() const { return (r * 0.299) + (g * 0.587) + (b * 0.114); }
-    bool IsBlack() const { return r == 0 && g == 0 && b == 0; }
+    bool IsBlack() const { return r == 0.f && g == 0.f && b == 0.f; }
 
     sRGB TosRGB() const { return sRGB(GammaCorrect(r), GammaCorrect(g), GammaCorrect(b)); }
     

@@ -16,27 +16,69 @@ Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &sc
     Vector3f wi;
     float lightPdf = 0, scatteringPdf = 0;
     VisibilityTester visibility;
-    Spectrum Li = light.Sample_Li(it, Point2f(), &wi, &lightPdf, &visibility);
+    Spectrum Li = light.Sample_Li(it, sampler.Next2D(), &wi, &lightPdf, &visibility);
     
     if (lightPdf > 0 && !Li.IsBlack()) {
         Spectrum f;
         if (it.IsSurface()) {
             const HitRecord &isect = (const HitRecord &)it;   
             f = isect.bsdf->f(isect.wo, wi, bsdfFlags) * AbsDot(wi, isect.normal);
-            scatteringPdf = isect.bsdf->Pdf(isect.wo, wi, bsdfFlags);   
+            scatteringPdf = isect.bsdf->Pdf(isect.wo, wi, bsdfFlags); 
         }
         // TODO else if : medium case
 
         if (!f.IsBlack()) {
-            if (!visibility.Unoccluded(scene))
+            if (!visibility.Unoccluded(scene)) {
                 Li = Spectrum(0.f);
+            }
             // TODO else if(handleMedia)
 
             if (!Li.IsBlack()) {
                 if (IsDelta(light.flags)) {
                     Ld += f * Li / lightPdf;
                 }
-                // else compute weight
+                else {
+                    float weight = PowerHeuristic(1, lightPdf, 1, scatteringPdf);
+                    Ld += f * Li * weight / lightPdf;
+                }
+            }
+        }
+
+        if (!IsDelta(light.flags)) {
+            Spectrum f;
+            bool sampledSpecular = false;
+            if (it.IsSurface()) {
+                BxDFType sampledType;
+                const HitRecord &isect = (const HitRecord &)it;
+                f = isect.bsdf->Sample_f(isect.wo, &wi, sampler.Next2D(), &scatteringPdf, bsdfFlags, &sampledType);
+                f *= AbsDot(wi, isect.normal);
+                sampledSpecular = (sampledType & BSDF_SPECULAR) != 0;
+            }
+            else {
+                // medium
+            }
+
+            if (!f.IsBlack() && scatteringPdf > 0) {
+                float weight = 1;
+                if (!sampledSpecular) {
+                    lightPdf = light.Pdf_Li(it, wi);
+                    if (lightPdf == 0) return Ld;
+                    weight = PowerHeuristic(1, scatteringPdf, 1, lightPdf);
+                }
+
+                HitRecord lightIsect;
+                Ray ray = Ray(it.p, wi);
+                Spectrum Tr(1.f);
+                bool foundSurfaceInteraction = handleMedia ? scene.IntersectTr(ray, sampler, lightIsect, &Tr)
+                                                           : scene.Intersect(ray, lightIsect);
+
+                Spectrum Li(0.f);
+                if (foundSurfaceInteraction) {
+                    
+                } else {
+                    Li = light.Le(ray);
+                }
+                if (!Li.IsBlack()) Ld += f * Li * Tr * weight / scatteringPdf;
             }
         }
     }

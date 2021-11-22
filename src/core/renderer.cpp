@@ -6,7 +6,9 @@
 #include "../core/light.h"
 #include "../core/material.h"
 #include "../lights/point.h"
+#include "../lights/diffuse.h"
 #include "../shapes/triangle.h"
+#include "../shapes/aarect.h"
 #include "../materials/matte.h"
 #include "../integrators/path.h"
 
@@ -14,19 +16,26 @@ void Renderer::Render() {
 
     std::vector<std::shared_ptr<Object>> objects; std::vector<std::shared_ptr<Light>> lights;
 
-    auto pointLight = make_shared<PointLight>(500.f, Point3f(0, 0, 10));
+    auto white = std::make_shared<Matte>(Spectrum(1.f, 1.f, 1.f), 1.f);
+    auto red = std::make_shared<Matte>(Spectrum(.65, .05, .05), 1.f);
 
-    auto matte = std::make_shared<Matte>(Spectrum(0.4, 0.6, 0.3), 1.f);
+    auto light = make_shared<XZRect>(0, 1, 0, 1, 5, white);
+    auto diffuseLight = make_shared<DiffuseAreaLight>(8.f, 1, light, false);
 
     std::string model = "../models/bunny/bunny.obj";
-    TriangleMesh bunny = TriangleMesh(model, matte);
+    TriangleMesh bunny = TriangleMesh(model, red);
     ObjectList list;
     for (int s = 0; s < bunny.Triangles.size(); s++) {
         list.add(make_shared<Triangle>(bunny.Triangles[s]));
     }
+    objects.push_back(std::make_shared<YZRect>(-10, 10, -10, 10, 10, white));
+    objects.push_back(std::make_shared<YZRect>(-10, 10, -10, 10, -10, white));
+    objects.push_back(std::make_shared<XYRect>(-10, 10, -10, 10, 10.f, white));
+    objects.push_back(std::make_shared<XYRect>(-10.f, 10.f, -10.f, 10.f, -10.f, white));
+    objects.push_back(std::make_shared<XZRect>(-1.f, 1.f, -1.f, 1.f, (float)0.0333099, white));
 
     objects.push_back(std::make_shared<BVH>(list, 0, 1));
-    lights.push_back(pointLight);
+    lights.push_back(diffuseLight);
 
     Scene scene(objects, lights);
 
@@ -36,9 +45,7 @@ void Renderer::Render() {
     Vector3f vup(0, 1, 0);
     auto dist_to_focus = 1.0;
     auto aperture = 0.0;
-    auto time0 = 0.0;
-    auto time1 = 1.0;
-    int spp = 4;
+    int spp = 128;
 
     camera cam(lookfrom, lookat, vup, vfov, 1.0, aperture, dist_to_focus, 0.f, 0.f);
     m_camera = std::make_shared<camera>(cam);

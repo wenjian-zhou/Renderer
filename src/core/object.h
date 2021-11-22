@@ -22,6 +22,9 @@ public:
     }
 
     virtual bool Intersect(const Ray &ray, HitRecord &isect) const = 0;
+
+public:
+    float area = 0;
 };
 
 #endif

@@ -42,10 +42,12 @@ set(SOURCES
     ./src/integrators/path.cpp 
     ./src/lights/point.h 
     ./src/lights/point.cpp 
+    ./src/lights/diffuse.h 
+    ./src/lights/diffuse.cpp
     ./src/materials/matte.h 
     ./src/materials/matte.cpp 
     ./src/shapes/triangle.h 
-    ./src/shapes/triangle.cpp 
+    ./src/shapes/aarect.h 
     ./src/main/main.cpp
 )
 
