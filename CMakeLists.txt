@@ -46,6 +46,8 @@ set(SOURCES
     ./src/lights/diffuse.cpp
     ./src/materials/matte.h 
     ./src/materials/matte.cpp 
+    ./src/materials/glass.h 
+    ./src/materials/glass.cpp
     ./src/shapes/triangle.h 
     ./src/shapes/aarect.h 
     ./src/main/main.cpp

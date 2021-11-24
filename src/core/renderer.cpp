@@ -10,29 +10,36 @@
 #include "../shapes/triangle.h"
 #include "../shapes/aarect.h"
 #include "../materials/matte.h"
+#include "../materials/glass.h"
 #include "../integrators/path.h"
 
 void Renderer::Render() {
 
     std::vector<std::shared_ptr<Object>> objects; std::vector<std::shared_ptr<Light>> lights;
 
-    auto white = std::make_shared<Matte>(Spectrum(1.f, 1.f, 1.f), 1.f);
-    auto red = std::make_shared<Matte>(Spectrum(.65, .05, .05), 1.f);
+    auto white = std::make_shared<Matte>(Spectrum(.8f, .8f, .8f), 1.f);
+    auto red = std::make_shared<Matte>(Spectrum(.45, .05, .05), 1.f);
+    auto blue = std::make_shared<Matte>(Spectrum(.09, .09, .57), 1.f);
+    auto green = std::make_shared<Matte>(Spectrum(.05, .45, .05), 1.f);
+    auto black = std::make_shared<Matte>(Spectrum(.01, .01, .01), 1.f);
 
-    auto light = make_shared<XZRect>(0, 1, 0, 1, 5, white);
-    auto diffuseLight = make_shared<DiffuseAreaLight>(8.f, 1, light, false);
+    auto roughGlass = std::make_shared<Glass>(Spectrum(.8f), Spectrum(.8f), 0.f, 1.5f);
+
+    auto light = make_shared<XZRect>(-0.5, 0.5, -0.5, 0.5, 5, white);
+    auto diffuseLight = make_shared<DiffuseAreaLight>(12.f, 1, light, false);
 
     std::string model = "../models/bunny/bunny.obj";
-    TriangleMesh bunny = TriangleMesh(model, red);
+    std::string mtl_path = "../models/bunny/";
+    TriangleMesh bunny = TriangleMesh(model, mtl_path, roughGlass);
     ObjectList list;
     for (int s = 0; s < bunny.Triangles.size(); s++) {
         list.add(make_shared<Triangle>(bunny.Triangles[s]));
     }
-    objects.push_back(std::make_shared<YZRect>(-10, 10, -10, 10, 10, white));
-    objects.push_back(std::make_shared<YZRect>(-10, 10, -10, 10, -10, white));
-    objects.push_back(std::make_shared<XYRect>(-10, 10, -10, 10, 10.f, white));
-    objects.push_back(std::make_shared<XYRect>(-10.f, 10.f, -10.f, 10.f, -10.f, white));
-    objects.push_back(std::make_shared<XZRect>(-1.f, 1.f, -1.f, 1.f, (float)0.0333099, white));
+    objects.push_back(std::make_shared<YZRect>(-0.5, 0.5, -0.5, 0.5, 0.09, red));
+    objects.push_back(std::make_shared<YZRect>(-0.5, 0.5, -0.5, 0.5, -0.13, green));
+    //objects.push_back(std::make_shared<XYRect>(-0.5, 0.5, -0.5, 0.5, 0.5f, white));
+    objects.push_back(std::make_shared<XYRect>(-0.5f, 0.5f, -0.5f, 0.5f, -0.07f, blue));
+    objects.push_back(std::make_shared<XZRect>(-1.f, 1.f, -1.f, 1.f, (float)0.0333099, black));
 
     objects.push_back(std::make_shared<BVH>(list, 0, 1));
     lights.push_back(diffuseLight);

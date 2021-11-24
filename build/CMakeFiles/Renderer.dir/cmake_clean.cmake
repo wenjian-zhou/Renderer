@@ -13,6 +13,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o"
   "CMakeFiles/Renderer.dir/src/lights/point.cpp.o"
   "CMakeFiles/Renderer.dir/src/main/main.cpp.o"
+  "CMakeFiles/Renderer.dir/src/materials/glass.cpp.o"
   "CMakeFiles/Renderer.dir/src/materials/matte.cpp.o"
   "Renderer"
   "Renderer.pdb"

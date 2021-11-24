@@ -218,10 +218,11 @@ class MicrofacetReflection : public BxDF {
 public:
     MicrofacetReflection(const Spectrum &R, MicrofacetDistribution *distribution, Fresnel *fresnel)
         : BxDF(BxDFType(BSDF_REFLECTION | BSDF_GLOSSY)), R(R), distribution(distribution), fresnel(fresnel) {}
-    
+    ~MicrofacetReflection() { delete distribution; delete fresnel; }
+
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const;
-    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const {}
-    float Pdf(const Vector3f &wo, const Vector3f &wi) const {}
+    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const;
+    float Pdf(const Vector3f &wo, const Vector3f &wi) const;
 private:
     const Spectrum R;
     const MicrofacetDistribution *distribution;
@@ -232,10 +233,11 @@ class MicrofacetTransmission : public BxDF {
 public:
     MicrofacetTransmission(const Spectrum &T, MicrofacetDistribution *distribution, float etaA, float etaB, TransportMode mode)
         : BxDF(BxDFType(BSDF_TRANSMISSION | BSDF_GLOSSY)), T(T), distribution(distribution), etaA(etaA), etaB(etaB), fresnel(etaA, etaB), mode(mode) {}
-    
+    ~MicrofacetTransmission() { delete distribution; }
+
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const;
-    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const {}
-    float Pdf(const Vector3f &wo, const Vector3f &wi) const {}
+    Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const;
+    float Pdf(const Vector3f &wo, const Vector3f &wi) const;
 private:
     const Spectrum T;
     const MicrofacetDistribution *distribution;
@@ -251,7 +253,7 @@ public:
         sn = Normalize(Cross(n, temp));
         tn = Cross(n, sn);
     }
-    ~BSDF() {}
+    ~BSDF();
     void Add(BxDF *b) {
         bxdfs[nBxDFs++] = b;
     }

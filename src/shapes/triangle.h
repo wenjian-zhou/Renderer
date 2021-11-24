@@ -32,8 +32,8 @@ bool Triangle::Intersect(const Ray &ray, HitRecord &isect) const {
     Vector3f edge1 = v1 - v0;
     Vector3f edge2 = v2 - v0;
     Vector3f pvec = Cross(ray.d, edge2);
-    float det = Dot(edge1, pvec);
-    if (det == 0 || det < 0)
+    float det = AbsDot(edge1, pvec);
+    if (det == 0)
         return false;
 
     Vector3f tvec = ray.o - v0;
@@ -48,7 +48,7 @@ bool Triangle::Intersect(const Ray &ray, HitRecord &isect) const {
 
     float invDet = 1 / det;
 
-    if (ray.tMax <= Dot(edge2, qvec) * invDet) return false;
+    if (ray.tMax <= Dot(edge2, qvec) * invDet || Dot(edge2, qvec) * invDet < 0.0001f) return false;
 
     ray.tMax = Dot(edge2, qvec) * invDet;
     isect.t = ray.tMax;
@@ -58,7 +58,6 @@ bool Triangle::Intersect(const Ray &ray, HitRecord &isect) const {
     isect.normal = normal;
     isect.mat_ptr = mat_ptr;
     isect.wo = -ray.d;
-    //std::cout << rec.normal << std::endl;
     return true;
 }
 
@@ -120,10 +119,10 @@ class TriangleMesh : public Object
 {
 public:
     TriangleMesh() {}
-    TriangleMesh(std::string inputfile, std::shared_ptr<Material> mat_ptr)
+    TriangleMesh(std::string inputfile, std::string mtlsource, std::shared_ptr<Material> mat_ptr)
     {
         tinyobj::ObjReaderConfig reader_config;
-        reader_config.mtl_search_path = inputfile;
+        reader_config.mtl_search_path = mtlsource;
 
         tinyobj::ObjReader reader;
 

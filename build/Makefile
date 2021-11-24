@@ -520,6 +520,33 @@ src/main/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/main/main.cpp.s
 .PHONY : src/main/main.cpp.s
 
+src/materials/glass.o: src/materials/glass.cpp.o
+
+.PHONY : src/materials/glass.o
+
+# target to build an object file
+src/materials/glass.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/glass.cpp.o
+.PHONY : src/materials/glass.cpp.o
+
+src/materials/glass.i: src/materials/glass.cpp.i
+
+.PHONY : src/materials/glass.i
+
+# target to preprocess a source file
+src/materials/glass.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/glass.cpp.i
+.PHONY : src/materials/glass.cpp.i
+
+src/materials/glass.s: src/materials/glass.cpp.s
+
+.PHONY : src/materials/glass.s
+
+# target to generate assembly for a file
+src/materials/glass.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/glass.cpp.s
+.PHONY : src/materials/glass.cpp.s
+
 src/materials/matte.o: src/materials/matte.cpp.o
 
 .PHONY : src/materials/matte.o
@@ -598,6 +625,9 @@ help:
 	@echo "... src/main/main.o"
 	@echo "... src/main/main.i"
 	@echo "... src/main/main.s"
+	@echo "... src/materials/glass.o"
+	@echo "... src/materials/glass.i"
+	@echo "... src/materials/glass.s"
 	@echo "... src/materials/matte.o"
 	@echo "... src/materials/matte.i"
 	@echo "... src/materials/matte.s"

@@ -78,6 +78,24 @@ Spectrum SpecularReflection::Sample_f(const Vector3f &wo, Vector3f *wi, const Po
     return fresnel->Evaluate(CosTheta(*wi)) * R / AbsCosTheta(*wi);
 }
 
+Spectrum SpecularTransmission::Sample_f(const Vector3f &wo, Vector3f *wi,
+                                        const Point2f &sample, float *pdf,
+                                        BxDFType *sampledType) const {
+    // Figure out which $\eta$ is incident and which is transmitted
+    bool entering = CosTheta(wo) > 0;
+    float etaI = entering ? etaA : etaB;
+    float etaT = entering ? etaB : etaA;
+
+    // Compute ray direction for specular transmission
+    if (!Refract(wo, Faceforward(Vector3f(0, 0, 1), wo), etaI / etaT, wi))
+        return 0.f;
+    *pdf = 1;
+    Spectrum ft = T * (Spectrum(1.) - fresnel.Evaluate(CosTheta(*wi)));
+    // Account for non-symmetry with transmission to different medium
+    if (mode == TransportMode::Radiance) ft *= (etaI * etaI) / (etaT * etaT);
+    return ft / AbsCosTheta(*wi);
+}
+
 Spectrum LambertionReflection::f(const Vector3f &wo, const Vector3f &wi) const {
     return R * invPI;
 }
@@ -91,6 +109,27 @@ Spectrum MicrofacetReflection::f(const Vector3f &wo, const Vector3f &wi) const {
     wh = Normalize(wh);
     Spectrum F = fresnel->Evaluate(Dot(wi, wh));
     return R * distribution->D(wh) * distribution->G(wo, wi) * F / (4 * cosThetaO * cosThetaI);
+}
+
+Spectrum MicrofacetReflection::Sample_f(const Vector3f &wo, Vector3f *wi,
+                                        const Point2f &u, float *pdf,
+                                        BxDFType *sampledType) const {
+    // Sample microfacet orientation $\wh$ and reflected direction $\wi$
+    if (wo.z == 0) return 0.;
+    Vector3f wh = distribution->Sample_wh(wo, u);
+    if (Dot(wo, wh) < 0) return 0.;   // Should be rare
+    *wi = Reflect(wo, wh);
+    if (!SameHemisphere(wo, *wi)) return Spectrum(0.f);
+
+    // Compute PDF of _wi_ for microfacet reflection
+    *pdf = distribution->Pdf(wo, wh) / (4 * Dot(wo, wh));
+    return f(wo, *wi);
+}
+
+float MicrofacetReflection::Pdf(const Vector3f &wo, const Vector3f &wi) const {
+    if (!SameHemisphere(wo, wi)) return 0;
+    Vector3f wh = Normalize(wo + wi);
+    return distribution->Pdf(wo, wh) / (4 * Dot(wo, wh));
 }
 
 Spectrum MicrofacetTransmission::f(const Vector3f &wo,
@@ -118,6 +157,35 @@ Spectrum MicrofacetTransmission::f(const Vector3f &wo,
            std::abs(distribution->D(wh) * distribution->G(wo, wi) * eta * eta *
                     AbsDot(wi, wh) * AbsDot(wo, wh) * factor * factor /
                     (cosThetaI * cosThetaO * sqrtDenom * sqrtDenom));
+}
+
+Spectrum MicrofacetTransmission::Sample_f(const Vector3f &wo, Vector3f *wi,
+                                          const Point2f &u, float *pdf,
+                                          BxDFType *sampledType) const {
+    if (wo.z == 0) return 0.;
+    Vector3f wh = distribution->Sample_wh(wo, u);
+    if (Dot(wo, wh) < 0) return 0.;  // Should be rare
+
+    float eta = CosTheta(wo) > 0 ? (etaA / etaB) : (etaB / etaA);
+    if (!Refract(wo, (Vector3f)wh, eta, wi)) return 0.f;
+    *pdf = Pdf(wo, *wi);
+    return f(wo, *wi);
+}
+
+float MicrofacetTransmission::Pdf(const Vector3f &wo,
+                                  const Vector3f &wi) const {
+    if (SameHemisphere(wo, wi)) return 0;
+    // Compute $\wh$ from $\wo$ and $\wi$ for microfacet transmission
+    float eta = CosTheta(wo) > 0 ? (etaB / etaA) : (etaA / etaB);
+    Vector3f wh = Normalize(wo + wi * eta);
+
+    if (Dot(wo, wh) * Dot(wi, wh) > 0) return 0;
+
+    // Compute change of variables _dwh\_dwi_ for microfacet transmission
+    float sqrtDenom = Dot(wo, wh) + eta * Dot(wi, wh);
+    float dwh_dwi =
+        std::abs((eta * eta * Dot(wi, wh)) / (sqrtDenom * sqrtDenom));
+    return distribution->Pdf(wo, wh) * dwh_dwi;
 }
 
 Spectrum BSDF::f(const Vector3f &woW, const Vector3f &wiW, BxDFType flags) const {
@@ -194,6 +262,10 @@ float BSDF::Pdf(const Vector3f &woWorld, const Vector3f &wiWorld, BxDFType flags
         }
     float v = matchingComps > 0 ? pdf / matchingComps : 0.f;
     return v;
+}
+
+BSDF::~BSDF() {
+    for (int i = nBxDFs - 1; i >= 0; i --) delete bxdfs[i];
 }
 
 int BSDF::NumComponents(BxDFType flags) const {

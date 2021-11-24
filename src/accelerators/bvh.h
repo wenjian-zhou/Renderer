@@ -118,7 +118,7 @@ bool BVH::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 }
 
 bool BVH::Intersect(const Ray &ray, HitRecord &isect) const {
-    if (!box.hit(ray, 0.0001, ray.tMax)) {
+    if (!box.hit(ray, 0.001, ray.tMax)) {
         return false;
     }
     
