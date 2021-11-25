@@ -24,7 +24,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 56,
+				"line" : 60,
 				"parent" : 0
 			}
 		]
@@ -67,7 +67,9 @@
 				38,
 				40,
 				42,
-				45
+				44,
+				48,
+				49
 			]
 		}
 	],
@@ -125,7 +127,9 @@
 				39,
 				41,
 				43,
-				44
+				45,
+				46,
+				47
 			]
 		},
 		{
@@ -147,7 +151,9 @@
 				38,
 				40,
 				42,
-				45
+				44,
+				48,
+				49
 			]
 		}
 	],
@@ -341,6 +347,17 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "src/integrators/volpath.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/integrators/volpath.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
 			"path" : "src/lights/point.h",
 			"sourceGroupIndex" : 0
 		},
@@ -392,6 +409,17 @@
 			"backtrace" : 1,
 			"path" : "src/shapes/aarect.h",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/medium/homogeneous.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/medium/homogeneous.cpp",
+			"sourceGroupIndex" : 1
 		},
 		{
 			"backtrace" : 1,

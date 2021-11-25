@@ -35,18 +35,16 @@ public:
 };
 
 bool ObjectList::Intersect(const Ray &ray, HitRecord &isect) const {
-    HitRecord temp_rec;
     bool hit_anything = false;
     auto closest_so_far = INF;
 
     for (const auto &object : objects)
     {
-        if (object->Intersect(ray, temp_rec))
+        if (object->Intersect(ray, isect))
         {
             hit_anything = true;
-            if (closest_so_far > temp_rec.t) {
-                closest_so_far = temp_rec.t;
-                isect = temp_rec;
+            if (closest_so_far > isect.t) {
+                closest_so_far = isect.t;
             }
         }
     }

@@ -3,13 +3,16 @@
 
 #include "ray.h"
 #include "spectrum.h"
+#include "medium.h"
 
 struct MediumRecord {
-    MediumRecord() {}
-    const Medium *inside, *outside;
-    MediumRecord(const Medium *medium) : inside(medium), outside(medium) {}
-    MediumRecord(const Medium *inside, const Medium *outside) : inside(inside), outside(outside) {}
+    MediumRecord() { inside = outside = nullptr; }
+    std::shared_ptr<Medium> inside, outside;
+    MediumRecord(std::shared_ptr<Medium> medium) : inside(medium), outside(medium) {}
+    MediumRecord(std::shared_ptr<Medium> inside, std::shared_ptr<Medium> outside) : inside(inside), outside(outside) {}
     // bool IsMediumTransition const { return inside != outside; }
+    bool IsValid() const { return phase != nullptr; }
+    std::shared_ptr<PhaseFunction> phase;
 };
 
 struct HitRecord
@@ -18,8 +21,8 @@ struct HitRecord
     Point3f p;
     Vector3f normal;
     Vector3f wo, wi;
-    shared_ptr<Material> mat_ptr;
-    BSDF *bsdf;
+    shared_ptr<Material> mat_ptr = nullptr;
+    BSDF *bsdf = nullptr;
     double t;
     double u, v;
     Spectrum Le = 0.f;
@@ -27,7 +30,7 @@ struct HitRecord
     MediumRecord mediumRecord;
 
     std::shared_ptr<Material> GetMaterial() { return mat_ptr; }
-    const Medium *GetMedium(const Vector3f &d) {
+    const std::shared_ptr<Medium> GetMedium(const Vector3f &d) {
         return (Dot(normal, d) > 0) ? mediumRecord.outside : mediumRecord.inside;
     }
 

@@ -439,6 +439,33 @@ src/integrators/path.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/integrators/path.cpp.s
 .PHONY : src/integrators/path.cpp.s
 
+src/integrators/volpath.o: src/integrators/volpath.cpp.o
+
+.PHONY : src/integrators/volpath.o
+
+# target to build an object file
+src/integrators/volpath.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o
+.PHONY : src/integrators/volpath.cpp.o
+
+src/integrators/volpath.i: src/integrators/volpath.cpp.i
+
+.PHONY : src/integrators/volpath.i
+
+# target to preprocess a source file
+src/integrators/volpath.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.i
+.PHONY : src/integrators/volpath.cpp.i
+
+src/integrators/volpath.s: src/integrators/volpath.cpp.s
+
+.PHONY : src/integrators/volpath.s
+
+# target to generate assembly for a file
+src/integrators/volpath.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.s
+.PHONY : src/integrators/volpath.cpp.s
+
 src/lights/diffuse.o: src/lights/diffuse.cpp.o
 
 .PHONY : src/lights/diffuse.o
@@ -574,6 +601,33 @@ src/materials/matte.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/matte.cpp.s
 .PHONY : src/materials/matte.cpp.s
 
+src/medium/homogeneous.o: src/medium/homogeneous.cpp.o
+
+.PHONY : src/medium/homogeneous.o
+
+# target to build an object file
+src/medium/homogeneous.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o
+.PHONY : src/medium/homogeneous.cpp.o
+
+src/medium/homogeneous.i: src/medium/homogeneous.cpp.i
+
+.PHONY : src/medium/homogeneous.i
+
+# target to preprocess a source file
+src/medium/homogeneous.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.i
+.PHONY : src/medium/homogeneous.cpp.i
+
+src/medium/homogeneous.s: src/medium/homogeneous.cpp.s
+
+.PHONY : src/medium/homogeneous.s
+
+# target to generate assembly for a file
+src/medium/homogeneous.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.s
+.PHONY : src/medium/homogeneous.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -616,6 +670,9 @@ help:
 	@echo "... src/integrators/path.o"
 	@echo "... src/integrators/path.i"
 	@echo "... src/integrators/path.s"
+	@echo "... src/integrators/volpath.o"
+	@echo "... src/integrators/volpath.i"
+	@echo "... src/integrators/volpath.s"
 	@echo "... src/lights/diffuse.o"
 	@echo "... src/lights/diffuse.i"
 	@echo "... src/lights/diffuse.s"
@@ -631,6 +688,9 @@ help:
 	@echo "... src/materials/matte.o"
 	@echo "... src/materials/matte.i"
 	@echo "... src/materials/matte.s"
+	@echo "... src/medium/homogeneous.o"
+	@echo "... src/medium/homogeneous.i"
+	@echo "... src/medium/homogeneous.s"
 .PHONY : help
 
 

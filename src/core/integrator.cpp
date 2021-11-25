@@ -1,15 +1,14 @@
 #include "integrator.h"
 
-Spectrum UniformSampleOneLight(const HitRecord &it, const Scene &scene, Sampler &sampler) {
+Spectrum UniformSampleOneLight(const Ray &r, const HitRecord &it, const Scene &scene, Sampler &sampler, bool handleMedia) {
     int nLights = int(scene.lights.size());
     if (nLights == 0) return Spectrum(0.f);
     int lightNum = std::min((int)(sampler.Next1D() * nLights), nLights - 1);
     const std::shared_ptr<Light> &light = scene.lights[lightNum];
-
-    return EstimateDirect(it, *light, scene, sampler, false, false) / 1.f;
+    return EstimateDirect(r, it, *light, scene, sampler, handleMedia, false) * (float)nLights;
 }
 
-Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &scene, Sampler &sampler, bool handleMedia, bool specular) {
+Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, const Scene &scene, Sampler &sampler, bool handleMedia, bool specular) {
     BxDFType bsdfFlags = specular ? BSDF_ALL :
                          BxDFType(BSDF_ALL & ~BSDF_SPECULAR);
     Spectrum Ld(0.f);
@@ -17,21 +16,33 @@ Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &sc
     float lightPdf = 0, scatteringPdf = 0;
     VisibilityTester visibility;
     Spectrum Li = light.Sample_Li(it, sampler.Next2D(), &wi, &lightPdf, &visibility);
-    
+
+    Point2f uScattering = sampler.Next2D();
+    Point2f uLight = sampler.Next2D();
+
     if (lightPdf > 0 && !Li.IsBlack()) {
         Spectrum f;
-        if (it.IsSurface()) {
-            const HitRecord &isect = (const HitRecord &)it;   
+        if (it.IsSurface() && it.bsdf) {
+            const HitRecord &isect = (const HitRecord &)it; 
             f = isect.bsdf->f(isect.wo, wi, bsdfFlags) * AbsDot(wi, isect.normal);
             scatteringPdf = isect.bsdf->Pdf(isect.wo, wi, bsdfFlags); 
         }
-        // TODO else if : medium case
+        else {
+            const MediumRecord &mi = (const MediumRecord &) it.mediumRecord;
+            float p = mi.phase->p(it.wo, wi);
+            f = Spectrum(p);
+            scatteringPdf = p;
+        }
 
         if (!f.IsBlack()) {
-            if (!visibility.Unoccluded(scene)) {
+            if (handleMedia) {
+                //std::cout << visibility.Tr(r, scene, sampler) << std::endl;
+                Li *= visibility.Tr(r, scene, sampler);
+            }
+            else if (!visibility.Unoccluded(scene)) {
                 Li = Spectrum(0.f);
             }
-            // TODO else if(handleMedia)
+
 
             if (!Li.IsBlack()) {
                 if (IsDelta(light.flags)) {
@@ -55,7 +66,10 @@ Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &sc
                 sampledSpecular = (sampledType & BSDF_SPECULAR) != 0;
             }
             else {
-                // medium
+                const MediumRecord &mi = (const MediumRecord &)it.mediumRecord;
+                float p = mi.phase->Sample_p(it.wo, &wi, uScattering);
+                f = Spectrum(p);
+                scatteringPdf = p;
             }
 
             if (!f.IsBlack() && scatteringPdf > 0) {
@@ -67,20 +81,25 @@ Spectrum EstimateDirect(const HitRecord &it, const Light &light, const Scene &sc
                 }
 
                 HitRecord lightIsect;
-                Ray ray = Ray(it.p, wi);
+                Ray ray = Ray(it.p, wi, INF, 0.f, r.medium);
                 Spectrum Tr(1.f);
                 bool foundSurfaceInteraction = handleMedia ? scene.IntersectTr(ray, sampler, lightIsect, &Tr)
                                                            : scene.Intersect(ray, lightIsect);
 
                 Spectrum Li(0.f);
                 if (foundSurfaceInteraction) {
-                    
+                    Li = light.L(lightIsect, -wi);
                 } else {
                     Li = light.Le(ray);
                 }
-                if (!Li.IsBlack()) Ld += f * Li * Tr * weight / scatteringPdf;
+                if (!Li.IsBlack()) {
+                    //std::cout << Tr << std::endl;
+                    Ld += f * Li * Tr * weight / scatteringPdf;
+                }
             }
         }
     }
+
+    //std::cout << Ld << std::endl;
     return Ld;
 }

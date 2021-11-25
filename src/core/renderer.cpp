@@ -12,6 +12,8 @@
 #include "../materials/matte.h"
 #include "../materials/glass.h"
 #include "../integrators/path.h"
+#include "../integrators/volpath.h"
+#include "../medium/homogeneous.h"
 
 void Renderer::Render() {
 
@@ -19,18 +21,18 @@ void Renderer::Render() {
 
     auto white = std::make_shared<Matte>(Spectrum(.8f, .8f, .8f), 1.f);
     auto red = std::make_shared<Matte>(Spectrum(.45, .05, .05), 1.f);
-    auto blue = std::make_shared<Matte>(Spectrum(.09, .09, .57), 1.f);
+    auto blue = std::make_shared<Matte>(Spectrum(.09, .09, .47), 1.f);
     auto green = std::make_shared<Matte>(Spectrum(.05, .45, .05), 1.f);
     auto black = std::make_shared<Matte>(Spectrum(.01, .01, .01), 1.f);
 
-    auto roughGlass = std::make_shared<Glass>(Spectrum(.8f), Spectrum(.8f), 0.f, 1.5f);
+    auto roughGlass = std::make_shared<Glass>(Spectrum(.1f), Spectrum(.5f), 0.3f, 1.5f);
 
     auto light = make_shared<XZRect>(-0.5, 0.5, -0.5, 0.5, 5, white);
-    auto diffuseLight = make_shared<DiffuseAreaLight>(12.f, 1, light, false);
+    auto diffuseLight = make_shared<DiffuseAreaLight>(14.f, 1, light, true);
 
     std::string model = "../models/bunny/bunny.obj";
     std::string mtl_path = "../models/bunny/";
-    TriangleMesh bunny = TriangleMesh(model, mtl_path, roughGlass);
+    TriangleMesh bunny = TriangleMesh(model, mtl_path, black);
     ObjectList list;
     for (int s = 0; s < bunny.Triangles.size(); s++) {
         list.add(make_shared<Triangle>(bunny.Triangles[s]));
@@ -42,6 +44,7 @@ void Renderer::Render() {
     objects.push_back(std::make_shared<XZRect>(-1.f, 1.f, -1.f, 1.f, (float)0.0333099, black));
 
     objects.push_back(std::make_shared<BVH>(list, 0, 1));
+    objects.push_back(std::make_shared<XZRect>(-0.5, 0.5, -0.5, 0.5, 5, nullptr));
     lights.push_back(diffuseLight);
 
     Scene scene(objects, lights);
@@ -52,14 +55,16 @@ void Renderer::Render() {
     Vector3f vup(0, 1, 0);
     auto dist_to_focus = 1.0;
     auto aperture = 0.0;
-    int spp = 128;
+    int spp = 4;
 
     camera cam(lookfrom, lookat, vup, vfov, 1.0, aperture, dist_to_focus, 0.f, 0.f);
     m_camera = std::make_shared<camera>(cam);
 
     Sampler sampler;
     auto path = std::make_shared<PathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
-    integrator = path;
+    auto volpath = std::make_shared<VolPathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
+    auto media = std::make_shared<HomogeneousMedium>(0.01, 0.02, 0.5);
+    integrator = volpath;
 
     int image_height = 600, image_width = 600;
 
@@ -74,6 +79,7 @@ void Renderer::Render() {
                 auto u = (float)i / ((float)image_width - 1);
                 auto v = (float)j / ((float)image_height - 1);
                 Ray ray = m_camera->get_Ray(u, v);
+                ray.medium = media;
                 ray.d = Normalize(ray.d);
                 pixel += integrator->Li(ray, scene, sampler);
             }

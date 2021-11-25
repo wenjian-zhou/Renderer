@@ -40,6 +40,8 @@ set(SOURCES
     ./src/external/tiny_obj_loader.h 
     ./src/integrators/path.h 
     ./src/integrators/path.cpp 
+    ./src/integrators/volpath.h 
+    ./src/integrators/volpath.cpp
     ./src/lights/point.h 
     ./src/lights/point.cpp 
     ./src/lights/diffuse.h 
@@ -50,6 +52,8 @@ set(SOURCES
     ./src/materials/glass.cpp
     ./src/shapes/triangle.h 
     ./src/shapes/aarect.h 
+    ./src/medium/homogeneous.h 
+    ./src/medium/homogeneous.cpp 
     ./src/main/main.cpp
 )
 

@@ -18,16 +18,17 @@ Spectrum PathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sampler) 
 
         if (!foundIntersection || bounces >= maxDepth)
             break;
-        
-        isect.mat_ptr->ComputeScatteringFunctions(&isect, TransportMode::Radiance);
 
-        if (!isect.bsdf) {
-            ray = Ray(ray.o, ray.d, ray.tMax, ray.time, ray.medium);
+        if (!isect.mat_ptr) {
+            ray = Ray(isect.p + ray.d * 0.0001, ray.d, INF, 0.f, ray.medium);
             bounces --;
             continue;
         }
+        
+        isect.mat_ptr->ComputeScatteringFunctions(&isect, TransportMode::Radiance);
 
-        L += beta * UniformSampleOneLight(isect, scene, sampler);
+        //std::cout << UniformSampleOneLight(ray, isect, scene, sampler, false) << std::endl;
+        L += beta * UniformSampleOneLight(ray, isect, scene, sampler, false);
 
         Vector3f wo = -ray.d, wi;
         float pdf;
@@ -47,7 +48,7 @@ Spectrum PathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sampler) 
             beta /= 1 - q;
         }
 
-        delete (isect.bsdf);
+        if (isect.bsdf) delete (isect.bsdf);
     }
     return L;
 }

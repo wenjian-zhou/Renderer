@@ -15,11 +15,13 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/core/transform.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/core/vector.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/integrators/path.cpp.o"
+  "/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/volpath.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/lights/diffuse.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/lights/point.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/lights/point.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/main/main.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/main/main.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/glass.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/matte.cpp.o"
+  "/Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
