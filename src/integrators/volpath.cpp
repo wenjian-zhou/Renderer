@@ -54,6 +54,7 @@ Spectrum VolPathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sample
             specularBounce = (flags & BSDF_SPECULAR) != 0;
             ray = Ray(isect.p, wi, INF, 0.0f, ray.medium);
         }
+
         if (bounces > 3) {
             float q = std::max((float).05, 1 - beta.y());
             if (sampler.Next1D() < q)
@@ -68,6 +69,6 @@ Spectrum VolPathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sample
             isect.mediumRecord.phase = nullptr;
         }
     }
-
+    //std::cout << L << std::endl;
     return L;
 }

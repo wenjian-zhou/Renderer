@@ -12,7 +12,7 @@ struct MediumRecord {
     MediumRecord(std::shared_ptr<Medium> inside, std::shared_ptr<Medium> outside) : inside(inside), outside(outside) {}
     // bool IsMediumTransition const { return inside != outside; }
     bool IsValid() const { return phase != nullptr; }
-    std::shared_ptr<PhaseFunction> phase;
+    std::shared_ptr<PhaseFunction> phase = nullptr;
 };
 
 struct HitRecord

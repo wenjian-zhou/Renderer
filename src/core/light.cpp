@@ -13,12 +13,12 @@ bool VisibilityTester::Unoccluded(const Scene &scene) const {
 }
 
 Spectrum VisibilityTester::Tr(const Ray &r, const Scene &scene, Sampler &sampler) const {
-    Ray ray(p0, Normalize(Vector3f(p1 - p0)), INF, 0.f, r.medium);
+    Ray ray(p0, p1 - p0, INF, 0.f, r.medium);
     Spectrum Tr(1.f);
     while (true) {
         HitRecord isect;
         bool hitSurface = scene.Intersect(ray, isect);
-        if (hitSurface && isect.GetMaterial() != nullptr)
+        if (hitSurface && isect.mat_ptr != nullptr)
             return Spectrum(0.f);
 
         if (ray.medium) {
@@ -29,7 +29,7 @@ Spectrum VisibilityTester::Tr(const Ray &r, const Scene &scene, Sampler &sampler
         if (!hitSurface)
             break;
 
-        Vector3f dir = Normalize(p1 - p0);
+        Vector3f dir = p1 - p0;
         ray = Ray(isect.p + dir * 0.0001, dir, 0.9999, 0.f, r.medium);
     }
 

@@ -63,7 +63,7 @@ Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, c
                 const HitRecord &isect = (const HitRecord &)it;
                 f = isect.bsdf->Sample_f(isect.wo, &wi, sampler.Next2D(), &scatteringPdf, bsdfFlags, &sampledType);
                 f *= AbsDot(wi, isect.normal);
-                sampledSpecular = (sampledType & BSDF_SPECULAR) != 0;
+                sampledSpecular = (sampledType & BSDF_SPECULAR);
             }
             else {
                 const MediumRecord &mi = (const MediumRecord &)it.mediumRecord;
@@ -99,7 +99,5 @@ Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, c
             }
         }
     }
-
-    //std::cout << Ld << std::endl;
     return Ld;
 }

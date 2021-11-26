@@ -27,8 +27,8 @@ void Renderer::Render() {
 
     auto roughGlass = std::make_shared<Glass>(Spectrum(.1f), Spectrum(.5f), 0.3f, 1.5f);
 
-    auto light = make_shared<XZRect>(-0.5, 0.5, -0.5, 0.5, 5, white);
-    auto diffuseLight = make_shared<DiffuseAreaLight>(14.f, 1, light, true);
+    auto light = make_shared<XZRect>(-0.1, 0.1, -0.1, 0.1, 5, white);
+    auto diffuseLight = make_shared<DiffuseAreaLight>(108.f, 1, light, true);
 
     std::string model = "../models/bunny/bunny.obj";
     std::string mtl_path = "../models/bunny/";
@@ -37,25 +37,25 @@ void Renderer::Render() {
     for (int s = 0; s < bunny.Triangles.size(); s++) {
         list.add(make_shared<Triangle>(bunny.Triangles[s]));
     }
-    objects.push_back(std::make_shared<YZRect>(-0.5, 0.5, -0.5, 0.5, 0.09, red));
-    objects.push_back(std::make_shared<YZRect>(-0.5, 0.5, -0.5, 0.5, -0.13, green));
+    objects.push_back(std::make_shared<YZRect>(-0.5, 0.5, -0.5, 0.5, 0.21, red));
+    objects.push_back(std::make_shared<YZRect>(-0.5, 0.5, -0.5, 0.5, -0.25, green));
     //objects.push_back(std::make_shared<XYRect>(-0.5, 0.5, -0.5, 0.5, 0.5f, white));
-    objects.push_back(std::make_shared<XYRect>(-0.5f, 0.5f, -0.5f, 0.5f, -0.07f, blue));
+    objects.push_back(std::make_shared<XYRect>(-0.5f, 0.5f, -0.5f, 0.5f, -0.07f, white));
     objects.push_back(std::make_shared<XZRect>(-1.f, 1.f, -1.f, 1.f, (float)0.0333099, black));
 
     objects.push_back(std::make_shared<BVH>(list, 0, 1));
-    objects.push_back(std::make_shared<XZRect>(-0.5, 0.5, -0.5, 0.5, 5, nullptr));
+    objects.push_back(std::make_shared<XZRect>(-0.1, 0.1, -0.1, 0.1, 5, nullptr));
     lights.push_back(diffuseLight);
 
     Scene scene(objects, lights);
 
     Point3f lookfrom(0, 4, 8);
     Point3f lookat(-0.02, 0, -0.2);
-    auto vfov = 1.3;
+    auto vfov = 2.0;
     Vector3f vup(0, 1, 0);
     auto dist_to_focus = 1.0;
     auto aperture = 0.0;
-    int spp = 4;
+    int spp = 128;
 
     camera cam(lookfrom, lookat, vup, vfov, 1.0, aperture, dist_to_focus, 0.f, 0.f);
     m_camera = std::make_shared<camera>(cam);
@@ -63,7 +63,7 @@ void Renderer::Render() {
     Sampler sampler;
     auto path = std::make_shared<PathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
     auto volpath = std::make_shared<VolPathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
-    auto media = std::make_shared<HomogeneousMedium>(0.01, 0.02, 0.5);
+    auto media = std::make_shared<HomogeneousMedium>(0.005, 0.01, 0.0);
     integrator = volpath;
 
     int image_height = 600, image_width = 600;

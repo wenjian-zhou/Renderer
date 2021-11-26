@@ -61,7 +61,8 @@ public:
         auto distance_squared = rec.t * rec.t * v.LengthSquared();
         auto cosine = fabs(Dot(v, rec.normal) / v.Length());
 
-        return distance_squared / (cosine * area);
+        //return distance_squared / (cosine * area);
+        return 1.f / area;
     }
 
     virtual Vector3f random(const Point3f &origin) const override

@@ -18,12 +18,11 @@ bool Scene::IntersectTr(Ray ray, Sampler &sampler, HitRecord &isect, Spectrum *T
     *Tr = Spectrum(1.f);
     while (true) {
         bool hitSurface = Intersect(ray, isect);
-        if (!hitSurface) return false;
         if (ray.medium) {
             *Tr *= ray.medium->Tr(ray, sampler);
         }
-        //if (!hitSurface) return false;
-        if (isect.GetMaterial() != nullptr) return true;
-        ray = Ray(isect.p + ray.d * 0.0001, ray.d, 0.9999, 0.f, ray.medium);
+        if (!hitSurface) return false;
+        if (isect.mat_ptr != nullptr) return true;
+        ray = Ray(isect.p + ray.d * 0.0001, ray.d, Infinity, 0.f, ray.medium);
     }
 }

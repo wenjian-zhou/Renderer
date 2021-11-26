@@ -10,10 +10,9 @@ Spectrum HomogeneousMedium::Sample(const Ray &ray, Sampler &sampler, HitRecord &
     float t = std::min(dist / ray.d.Length(), ray.tMax);
     bool sampledMedium = t < ray.tMax;
     if (sampledMedium) {
+        it.t = t;
         it.p = ray(t);
         it.wo = -ray.d;
-        it.normal = Vector3f(0.f);
-        it.mediumRecord.inside = it.mediumRecord.outside = ray.medium;
         it.mediumRecord.phase = std::make_shared<HenyeyGreenstein>(g);
     }
 
