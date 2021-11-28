@@ -7,8 +7,8 @@
 #include "camera.h"
 #include "light.h"
 
-Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, const Scene &scene, Sampler &sampler, bool handleMedia, bool specular);
-Spectrum UniformSampleOneLight(const Ray &r, const HitRecord &it, const Scene &scene, Sampler &sampler, bool handleMedia);
+Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, const Scene &scene, Sampler &sampler, bool handleMedia = false, bool specular = false);
+Spectrum UniformSampleOneLight(const Ray &r, const HitRecord &it, const Scene &scene, Sampler &sampler, bool handleMedia = false);
 
 class Integrator{
 public:

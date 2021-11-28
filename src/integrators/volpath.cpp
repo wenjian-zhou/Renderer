@@ -24,8 +24,8 @@ Spectrum VolPathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sample
         }
         else {
             if (bounces == 0 || specularBounce) {
-                if (foundIntersection) 
-                    L += beta * isect.Le;
+                if (foundIntersection && !isect.mat_ptr) 
+                    L += beta * 8.0f * Spectrum(0.747f+0.058f, 0.747f+0.258f, 0.747f) + 15.6f * Spectrum(0.740f+0.287f,0.740f+0.160f,0.740f) + 18.4f * Spectrum(0.737f+0.642f,0.737f+0.159f,0.737f);
                 else
                     for (const auto &light : scene.lights) {
                         L += beta * light->Le(ray);
@@ -56,7 +56,7 @@ Spectrum VolPathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sample
         }
 
         if (bounces > 3) {
-            float q = std::max((float).05, 1 - beta.y());
+            float q = std::max((float).05, .99999999f - beta.y());
             if (sampler.Next1D() < q)
                 break;
             beta /= 1 - q;

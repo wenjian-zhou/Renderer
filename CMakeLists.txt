@@ -52,6 +52,7 @@ set(SOURCES
     ./src/materials/glass.cpp
     ./src/shapes/triangle.h 
     ./src/shapes/aarect.h 
+    ./src/shapes/sphere.h
     ./src/medium/homogeneous.h 
     ./src/medium/homogeneous.cpp 
     ./src/main/main.cpp

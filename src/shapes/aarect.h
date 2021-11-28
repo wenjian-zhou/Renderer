@@ -61,8 +61,8 @@ public:
         auto distance_squared = rec.t * rec.t * v.LengthSquared();
         auto cosine = fabs(Dot(v, rec.normal) / v.Length());
 
-        //return distance_squared / (cosine * area);
-        return 1.f / area;
+        return distance_squared / (cosine * area);
+        //return 1.f / area;
     }
 
     virtual Vector3f random(const Point3f &origin) const override
@@ -123,7 +123,7 @@ bool XYRect::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 
 bool XYRect::Intersect(const Ray &ray, HitRecord &isect) const {
     auto t = (k - ray.o.z) / ray.d.z;
-    if (t < 0.0001f || t > ray.tMax)
+    if (t < 1 - ShadowEpsilon || t > ray.tMax)
         return false;
     auto x = ray.o.x + t * ray.d.x;
     auto y = ray.o.y + t * ray.d.y;
@@ -162,7 +162,7 @@ bool XZRect::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 
 bool XZRect::Intersect(const Ray &ray, HitRecord &isect) const {
     auto t = (k - ray.o.y) / ray.d.y;
-    if (t < 0.0001f || t > ray.tMax)
+    if (t < 1 - ShadowEpsilon || t > ray.tMax)
         return false;
     auto x = ray.o.x + t * ray.d.x;
     auto z = ray.o.z + t * ray.d.z;
@@ -174,6 +174,7 @@ bool XZRect::Intersect(const Ray &ray, HitRecord &isect) const {
     isect.t = t;
     auto outward_normal = Vector3f(0, 1, 0);
     isect.set_face_normal(ray, outward_normal);
+    if (this->mp == nullptr) isect.normal = Vector3f(0, -1, 0);
     isect.mat_ptr = mp;
     isect.p = ray(t);
     isect.wo = -ray.d;
@@ -201,7 +202,7 @@ bool YZRect::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 
 bool YZRect::Intersect(const Ray &ray, HitRecord &isect) const {
     auto t = (k - ray.o.x) / ray.d.x;
-    if (t < 0.0001f || t > ray.tMax)
+    if (t < 1 - ShadowEpsilon || t > ray.tMax)
         return false;
     auto y = ray.o.y + t * ray.d.y;
     auto z = ray.o.z + t * ray.d.z;

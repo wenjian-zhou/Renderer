@@ -10,7 +10,7 @@ Spectrum DiffuseAreaLight::Power() const {
 Spectrum DiffuseAreaLight::Sample_Li(const HitRecord &ref, const Point2f &u, Vector3f *wi, float *pdf, VisibilityTester *vis) const {
     Vector3f dir = shape->random(ref.p);
     *wi = Normalize(dir);
-    *pdf = 1.f / shape->pdf_value(ref.p, *wi);
+    *pdf = shape->pdf_value(ref.p, *wi);
     HitRecord it;
     bool hit = shape->Intersect(Ray(ref.p, *wi), it);
     *vis = VisibilityTester(ref.p, it.p);
@@ -20,5 +20,5 @@ Spectrum DiffuseAreaLight::Sample_Li(const HitRecord &ref, const Point2f &u, Vec
 }
 
 float DiffuseAreaLight::Pdf_Li(const HitRecord &ref, const Vector3f &wi) const {
-    return 1.f / shape->pdf_value(ref.p, wi);
+    return shape->pdf_value(ref.p, wi);
 }

@@ -48,6 +48,7 @@ const double invPI = 1 / PI;
 const float Inv4Pi = 0.07957747154594766788;
 const float PiOver2 = 1.57079632679489661923;
 const float PiOver4 = 0.78539816339744830961;
+const float ShadowEpsilon = 0.0001f;
 
 // Utility Functions
 

@@ -88,6 +88,7 @@ CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/glass.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/matte.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/medium/homogeneous.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/aarect.h
+CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/sphere.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/triangle.h
 
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o: ../src/accelerators/aabb.h

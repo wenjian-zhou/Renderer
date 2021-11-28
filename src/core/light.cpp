@@ -6,14 +6,13 @@ Spectrum Light::Le(const Ray &ray) const {
 
 bool VisibilityTester::Unoccluded(const Scene &scene) const {
     Point3f origin = p0;
-    Vector3f direction = Normalize(p1 - p0);
-    float t = (p1 - p0).Length();
+    Vector3f direction = p1 - p0;
     HitRecord isect;
-    return !scene.Intersect(Ray(origin, direction, t - 0.0001), isect);
+    return !scene.Intersect(Ray(origin, direction, 1 - ShadowEpsilon), isect);
 }
 
 Spectrum VisibilityTester::Tr(const Ray &r, const Scene &scene, Sampler &sampler) const {
-    Ray ray(p0, p1 - p0, INF, 0.f, r.medium);
+    Ray ray(p0, p1 - p0, 1.f - ShadowEpsilon, 0.f, r.medium);
     Spectrum Tr(1.f);
     while (true) {
         HitRecord isect;
@@ -22,15 +21,15 @@ Spectrum VisibilityTester::Tr(const Ray &r, const Scene &scene, Sampler &sampler
             return Spectrum(0.f);
 
         if (ray.medium) {
-            //std::cout << ray.tMax << std::endl;
+            //std::cout << ray.medium->Tr(ray, sampler) << std::endl;
             Tr *= ray.medium->Tr(ray, sampler);
         }
 
         if (!hitSurface)
             break;
 
-        Vector3f dir = p1 - p0;
-        ray = Ray(isect.p + dir * 0.0001, dir, 0.9999, 0.f, r.medium);
+        Vector3f dir = p1 - isect.p;
+        ray = Ray(isect.p + dir * 0.0001, dir, 1.f - ShadowEpsilon, 0.f, r.medium);
     }
 
     return Tr;

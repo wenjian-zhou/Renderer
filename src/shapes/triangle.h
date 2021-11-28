@@ -38,12 +38,12 @@ bool Triangle::Intersect(const Ray &ray, HitRecord &isect) const {
 
     Vector3f tvec = ray.o - v0;
     isect.u = Dot(tvec, pvec);
-    if (isect.u < 0 || isect.u > det)
+    if (isect.u < 1 - ShadowEpsilon || isect.u > det)
         return false;
 
     Vector3f qvec = Cross(tvec, edge1);
     isect.v = Dot(ray.d, qvec);
-    if (isect.v < 0 || isect.u + isect.v > det)
+    if (isect.v < 1 - ShadowEpsilon || isect.u + isect.v > det)
         return false;
 
     float invDet = 1 / det;

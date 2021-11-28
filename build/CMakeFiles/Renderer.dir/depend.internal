@@ -89,6 +89,7 @@ CMakeFiles/Renderer.dir/src/core/renderer.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/aarect.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/sphere.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/triangle.h
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h

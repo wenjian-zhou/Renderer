@@ -5,7 +5,7 @@ Spectrum UniformSampleOneLight(const Ray &r, const HitRecord &it, const Scene &s
     if (nLights == 0) return Spectrum(0.f);
     int lightNum = std::min((int)(sampler.Next1D() * nLights), nLights - 1);
     const std::shared_ptr<Light> &light = scene.lights[lightNum];
-    return EstimateDirect(r, it, *light, scene, sampler, handleMedia, false) * (float)nLights;
+    return EstimateDirect(r, it, *light, scene, sampler, handleMedia) * (float)nLights;
 }
 
 Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, const Scene &scene, Sampler &sampler, bool handleMedia, bool specular) {
@@ -22,7 +22,7 @@ Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, c
 
     if (lightPdf > 0 && !Li.IsBlack()) {
         Spectrum f;
-        if (it.IsSurface() && it.bsdf) {
+        if (it.IsSurface() && it.mat_ptr) {
             const HitRecord &isect = (const HitRecord &)it; 
             f = isect.bsdf->f(isect.wo, wi, bsdfFlags) * AbsDot(wi, isect.normal);
             scatteringPdf = isect.bsdf->Pdf(isect.wo, wi, bsdfFlags); 
@@ -58,7 +58,7 @@ Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, c
         if (!IsDelta(light.flags)) {
             Spectrum f;
             bool sampledSpecular = false;
-            if (it.IsSurface()) {
+            if (it.IsSurface() && it.mat_ptr) {
                 BxDFType sampledType;
                 const HitRecord &isect = (const HitRecord &)it;
                 f = isect.bsdf->Sample_f(isect.wo, &wi, sampler.Next2D(), &scatteringPdf, bsdfFlags, &sampledType);
@@ -87,7 +87,7 @@ Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, c
                                                            : scene.Intersect(ray, lightIsect);
 
                 Spectrum Li(0.f);
-                if (foundSurfaceInteraction) {
+                if (foundSurfaceInteraction && !lightIsect.mat_ptr) {
                     Li = light.L(lightIsect, -wi);
                 } else {
                     Li = light.Le(ray);
@@ -99,5 +99,6 @@ Spectrum EstimateDirect(const Ray &r, const HitRecord &it, const Light &light, c
             }
         }
     }
+    //std::cout << Ld << std::endl;
     return Ld;
 }

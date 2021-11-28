@@ -1,50 +1,78 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
-#include "hittable.h"
-#include "vec3.h"
-#include "onb.h"
-#include "pdf.h"
+#include "../core/object.h"
 
-class sphere : public hittable
+class Sphere : public Object
 {
 public:
-    sphere() {}
-    sphere(point3 cen, double r, shared_ptr<material> m)
+    Sphere() {}
+    Sphere(Point3f cen, double r, shared_ptr<Material> m)
         : center(cen), radius(r), mat_ptr(m){};
 
     virtual bool hit(
-        const ray &r, double t_min, double t_max, hit_record &rec) const override;
+        const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
 
-    virtual bool bounding_box(double time0, double time1, aabb &output_box) const override;
+    virtual bool bounding_box(double time0, double time1, AABB &output_box) const override;
 
-    virtual double pdf_value(const point3 &o, const vec3 &v) const override;
+    virtual double pdf_value(const Point3f &o, const Vector3f &v) const override;
 
-    virtual vec3 random(const point3 &o) const override;
+    virtual Vector3f random(const Point3f &o) const override;
+
+    bool Intersect(const Ray &ray, HitRecord &isect) const;
 
 public:
     bool envmap;
-    point3 center;
+    Point3f center;
     double radius;
-    shared_ptr<material> mat_ptr;
+    shared_ptr<Material> mat_ptr;
 
 private:
-    static void get_sphere_uv(const point3 &p, double &u, double &v)
+    static void get_Sphere_uv(const Point3f &p, double &u, double &v)
     {
         auto theta = acos(-p.y);
-        auto phi = atan2(-p.z, p.x) + pi;
+        auto phi = atan2(-p.z, p.x) + PI;
 
-        u = phi / (2 * pi);
-        v = theta / pi;
+        u = phi / (2 * PI);
+        v = theta / PI;
     }
 };
 
-bool sphere::hit(const ray &r, double t_min, double t_max, hit_record &rec) const
+bool Sphere::Intersect(const Ray &ray, HitRecord &isect) const {
+    Vector3f oc = ray.o - center;
+    auto a = ray.d.LengthSquared();
+    auto half_b = Dot(oc, ray.d);
+    auto c = oc.LengthSquared() - radius * radius;
+
+    auto discriminant = half_b * half_b - a * c;
+    if (discriminant < 0)
+        return false;
+    auto sqrtd = sqrt(discriminant);
+
+    auto root = (-half_b - sqrtd) / a;
+    if (ray.tMax < root || root < 1 - ShadowEpsilon) {
+        root = (-half_b + sqrtd) / a;
+        if (ray.tMax < root || root < 1 - ShadowEpsilon) {
+            return false;
+        }
+    }
+
+    ray.tMax = root;
+    isect.t = root;
+    isect.p = ray(isect.t);
+    isect.normal = (isect.p - center) / radius;
+    isect.mat_ptr = mat_ptr;
+    isect.wo = -ray.d;
+
+    return true;
+}
+
+bool Sphere::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
 {
-    vec3 oc = r.origin() - center;
-    auto a = r.direction().length_squared();
-    auto half_b = dot(oc, r.direction());
-    auto c = oc.length_squared() - radius * radius;
+    Vector3f oc = r.o - center;
+    auto a = r.d.LengthSquared();
+    auto half_b = Dot(oc, r.d);
+    auto c = oc.LengthSquared() - radius * radius;
 
     auto discriminant = half_b * half_b - a * c;
     if (discriminant < 0)
@@ -61,43 +89,39 @@ bool sphere::hit(const ray &r, double t_min, double t_max, hit_record &rec) cons
     }
 
     rec.t = root;
-    rec.p = r.at(rec.t);
-    vec3 outward_normal = (rec.p - center) / radius;
+    rec.p = r(rec.t);
+    Vector3f outward_normal = (rec.p - center) / radius;
     rec.set_face_normal(r, outward_normal);
-    get_sphere_uv(outward_normal, rec.u, rec.v);
+    get_Sphere_uv(outward_normal, rec.u, rec.v);
     rec.mat_ptr = mat_ptr;
 
     return true;
 }
 
-bool sphere::bounding_box(double time0, double time1, aabb &output_box) const
+bool Sphere::bounding_box(double time0, double time1, AABB &output_box) const
 {
-    output_box = aabb(
-        center - vec3(radius),
-        center + vec3(radius));
+    output_box = AABB(
+        center - Vector3f(radius),
+        center + Vector3f(radius));
 
     return true;
 }
 
-double sphere::pdf_value(const point3 &o, const vec3 &v) const
+double Sphere::pdf_value(const Point3f &o, const Vector3f &v) const
 {
-    hit_record rec;
-    if (!this->hit(ray(o, v), 0.001, infinity, rec))
+    HitRecord rec;
+    if (!this->hit(Ray(o, v), 0.001, Infinity, rec))
         return 0;
 
-    auto cos_theta_max = sqrt(1 - radius * radius / (center - o).length_squared());
-    auto solid_angle = 2 * pi * (1 - cos_theta_max);
+    auto cos_theta_max = sqrt(1 - radius * radius / (center - o).LengthSquared());
+    auto solid_angle = 2 * PI * (1 - cos_theta_max);
 
     return 1 / solid_angle;
 }
 
-vec3 sphere::random(const point3 &o) const
+Vector3f Sphere::random(const Point3f &o) const
 {
-    vec3 direction = center - o;
-    auto distance_squared = direction.length_squared();
-    onb uvw;
-    uvw.build_from_w(direction);
-    return uvw.local(random_to_sphere(radius, distance_squared));
+    return Vector3f();
 }
 
 #endif
