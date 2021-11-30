@@ -284,9 +284,22 @@ CMakeFiles/Renderer.dir/src/materials/glass.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Renderer.dir/src/materials/glass.cpp.s"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.cpp -o CMakeFiles/Renderer.dir/src/materials/glass.cpp.s
 
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: CMakeFiles/Renderer.dir/flags.make
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/materials/metal.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Renderer.dir/src/materials/metal.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Renderer.dir/src/materials/metal.cpp.o -c /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.cpp
+
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Renderer.dir/src/materials/metal.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.cpp > CMakeFiles/Renderer.dir/src/materials/metal.cpp.i
+
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Renderer.dir/src/materials/metal.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.cpp -o CMakeFiles/Renderer.dir/src/materials/metal.cpp.s
+
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: CMakeFiles/Renderer.dir/flags.make
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/medium/homogeneous.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o -c /Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.cpp
 
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.i: cmake_force
@@ -299,7 +312,7 @@ CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.s: cmake_force
 
 CMakeFiles/Renderer.dir/src/main/main.cpp.o: CMakeFiles/Renderer.dir/flags.make
 CMakeFiles/Renderer.dir/src/main/main.cpp.o: ../src/main/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/Renderer.dir/src/main/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/Renderer.dir/src/main/main.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Renderer.dir/src/main/main.cpp.o -c /Users/wenjian_zhou/Program/cpp/Renderer/src/main/main.cpp
 
 CMakeFiles/Renderer.dir/src/main/main.cpp.i: cmake_force
@@ -328,6 +341,7 @@ Renderer_OBJECTS = \
 "CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o" \
 "CMakeFiles/Renderer.dir/src/materials/matte.cpp.o" \
 "CMakeFiles/Renderer.dir/src/materials/glass.cpp.o" \
+"CMakeFiles/Renderer.dir/src/materials/metal.cpp.o" \
 "CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o" \
 "CMakeFiles/Renderer.dir/src/main/main.cpp.o"
 
@@ -350,11 +364,12 @@ Renderer: CMakeFiles/Renderer.dir/src/lights/point.cpp.o
 Renderer: CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o
 Renderer: CMakeFiles/Renderer.dir/src/materials/matte.cpp.o
 Renderer: CMakeFiles/Renderer.dir/src/materials/glass.cpp.o
+Renderer: CMakeFiles/Renderer.dir/src/materials/metal.cpp.o
 Renderer: CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o
 Renderer: CMakeFiles/Renderer.dir/src/main/main.cpp.o
 Renderer: CMakeFiles/Renderer.dir/build.make
 Renderer: CMakeFiles/Renderer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable Renderer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Linking CXX executable Renderer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Renderer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -73,6 +73,7 @@ Spectrum FrConductor(float cosThetaI, const Spectrum &etai, const Spectrum &etat
 
 class Fresnel {
 public:
+    virtual ~Fresnel() {}
     virtual Spectrum Evaluate(float cosI) const = 0;
 };
 
@@ -109,6 +110,7 @@ enum BxDFType {
 class BxDF {
 public:
     BxDF(BxDFType type) : type(type) {}
+    virtual ~BxDF() {}
     bool MatchesFlags(BxDFType t) const {
         return (type & t) == type;
     }
@@ -145,9 +147,10 @@ public:
 
 class SpecularReflection : public BxDF {
 public:
-    SpecularReflection(const Spectrum &R, Fresnel *fresnel)
+    SpecularReflection(const Spectrum &R, std::shared_ptr<Fresnel> fresnel)
         : BxDF(BxDFType(BSDF_REFLECTION | BSDF_SPECULAR)), R(R),
           fresnel(fresnel) {}
+
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const {
         return Spectrum(0.f);
     }
@@ -158,7 +161,7 @@ public:
     }
 private:
     const Spectrum R;
-    const Fresnel *fresnel;
+    const std::shared_ptr<Fresnel> fresnel;
 };
 
 class SpecularTransmission : public BxDF {
@@ -216,31 +219,29 @@ private:
 
 class MicrofacetReflection : public BxDF {
 public:
-    MicrofacetReflection(const Spectrum &R, MicrofacetDistribution *distribution, Fresnel *fresnel)
+    MicrofacetReflection(const Spectrum &R, std::shared_ptr<MicrofacetDistribution> distribution, std::shared_ptr<Fresnel> fresnel)
         : BxDF(BxDFType(BSDF_REFLECTION | BSDF_GLOSSY)), R(R), distribution(distribution), fresnel(fresnel) {}
-    ~MicrofacetReflection() { delete distribution; delete fresnel; }
 
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const;
     Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const;
     float Pdf(const Vector3f &wo, const Vector3f &wi) const;
 private:
     const Spectrum R;
-    const MicrofacetDistribution *distribution;
-    const Fresnel *fresnel;
+    const std::shared_ptr<MicrofacetDistribution> distribution;
+    const std::shared_ptr<Fresnel> fresnel;
 };
 
 class MicrofacetTransmission : public BxDF {
 public:
-    MicrofacetTransmission(const Spectrum &T, MicrofacetDistribution *distribution, float etaA, float etaB, TransportMode mode)
+    MicrofacetTransmission(const Spectrum &T, std::shared_ptr<MicrofacetDistribution> distribution, float etaA, float etaB, TransportMode mode)
         : BxDF(BxDFType(BSDF_TRANSMISSION | BSDF_GLOSSY)), T(T), distribution(distribution), etaA(etaA), etaB(etaB), fresnel(etaA, etaB), mode(mode) {}
-    ~MicrofacetTransmission() { delete distribution; }
 
     Spectrum f(const Vector3f &wo, const Vector3f &wi) const;
     Spectrum Sample_f(const Vector3f &wo, Vector3f *wi, const Point2f &u, float *pdf, BxDFType *sampledType) const;
     float Pdf(const Vector3f &wo, const Vector3f &wi) const;
 private:
     const Spectrum T;
-    const MicrofacetDistribution *distribution;
+    const std::shared_ptr<MicrofacetDistribution> distribution;
     const float etaA, etaB;
     const FresnelDielectric fresnel;
     const TransportMode mode;
@@ -254,7 +255,7 @@ public:
         tn = Cross(n, sn);
     }
     ~BSDF();
-    void Add(BxDF *b) {
+    void Add(std::shared_ptr<BxDF> b) {
         bxdfs[nBxDFs++] = b;
     }
     int NumComponents(BxDFType flags = BSDF_ALL) const;
@@ -276,7 +277,7 @@ private:
     Vector3f sn, tn;
     int nBxDFs = 0;
     static constexpr int MaxBxDFs = 8;
-    BxDF *bxdfs[MaxBxDFs];
+    std::shared_ptr<BxDF> bxdfs[MaxBxDFs];
 };
 
 #endif

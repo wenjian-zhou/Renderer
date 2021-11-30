@@ -56,17 +56,10 @@ Spectrum VolPathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sample
         }
 
         if (bounces > 3) {
-            float q = std::max((float).05, .99999999f - beta.y());
+            float q = std::max((float).05, 1 - beta.y());
             if (sampler.Next1D() < q)
                 break;
             beta /= 1 - q;
-        }
-
-        if (isect.bsdf) delete isect.bsdf;
-
-        if (isect.mediumRecord.phase) {
-            isect.mediumRecord.inside = isect.mediumRecord.outside = nullptr;
-            isect.mediumRecord.phase = nullptr;
         }
     }
     //std::cout << L << std::endl;

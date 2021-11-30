@@ -10,6 +10,7 @@
 
 class PhaseFunction {
 public:
+    virtual ~PhaseFunction() {}
     virtual float p(const Vector3f &wo, const Vector3f &wi) const = 0;
     virtual float Sample_p(const Vector3f &wo, Vector3f *wi, const Point2f &u) const = 0;
 };

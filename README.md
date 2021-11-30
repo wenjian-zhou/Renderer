@@ -25,5 +25,5 @@ make
 
 ![bunny_au](./images/bunny_au.png)
 
-![envmap](./images/envmap.png)
+![fog](./images/fog.png)
 

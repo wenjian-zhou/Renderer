@@ -87,6 +87,7 @@ CMakeFiles/Renderer.dir/src/core/renderer.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/lights/point.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/aarect.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/sphere.h
@@ -237,6 +238,20 @@ CMakeFiles/Renderer.dir/src/materials/matte.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/material.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/medium.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/microfacet.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/ray.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/record.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/sampler.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.cpp
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.h
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/medium.h

@@ -21,6 +21,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/main/main.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/main/main.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/glass.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/matte.cpp.o"
+  "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/metal.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")

@@ -155,6 +155,8 @@ hittable_list.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.h
 ../materials/glass.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.h
+../materials/metal.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.h
 ../integrators/path.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.h
 ../integrators/volpath.h
@@ -261,6 +263,10 @@ mapbox/earcut.hpp
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/material.h
 
 /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.h
+../core/material.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/material.h
+
+/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.h
 ../core/material.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/material.h
 

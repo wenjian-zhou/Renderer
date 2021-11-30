@@ -47,8 +47,6 @@ Spectrum PathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sampler) 
                 break;
             beta /= 1 - q;
         }
-
-        if (isect.bsdf) delete (isect.bsdf);
     }
     return L;
 }

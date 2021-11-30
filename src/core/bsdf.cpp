@@ -210,7 +210,7 @@ Spectrum BSDF::Sample_f(const Vector3f &woWorld, Vector3f *wiWorld, const Point2
     }
     int comp = std::min((int)std::floor(u[0] * matchingComps), matchingComps - 1);
 
-    BxDF *bxdf = nullptr;
+    std::shared_ptr<BxDF> bxdf;
     int count = comp;
     for (int i = 0; i < nBxDFs; ++i) {
         if (bxdfs[i]->MatchesFlags(type) && count-- == 0) {
@@ -264,9 +264,7 @@ float BSDF::Pdf(const Vector3f &woWorld, const Vector3f &wiWorld, BxDFType flags
     return v;
 }
 
-BSDF::~BSDF() {
-    for (int i = nBxDFs - 1; i >= 0; i --) delete bxdfs[i];
-}
+BSDF::~BSDF() {}
 
 int BSDF::NumComponents(BxDFType flags) const {
     int num = 0;

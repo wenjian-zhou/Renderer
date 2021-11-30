@@ -12,7 +12,7 @@ struct MediumRecord {
     MediumRecord(std::shared_ptr<Medium> inside, std::shared_ptr<Medium> outside) : inside(inside), outside(outside) {}
     // bool IsMediumTransition const { return inside != outside; }
     bool IsValid() const { return phase != nullptr; }
-    std::shared_ptr<PhaseFunction> phase = nullptr;
+    std::shared_ptr<PhaseFunction> phase;
 };
 
 struct HitRecord
@@ -21,8 +21,8 @@ struct HitRecord
     Point3f p;
     Vector3f normal;
     Vector3f wo, wi;
-    shared_ptr<Material> mat_ptr = nullptr;
-    BSDF *bsdf = nullptr;
+    std::shared_ptr<Material> mat_ptr;
+    std::shared_ptr<BSDF> bsdf;
     double t;
     double u, v;
     Spectrum Le = 0.f;

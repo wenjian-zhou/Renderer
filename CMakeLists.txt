@@ -50,6 +50,8 @@ set(SOURCES
     ./src/materials/matte.cpp 
     ./src/materials/glass.h 
     ./src/materials/glass.cpp
+    ./src/materials/metal.h 
+    ./src/materials/metal.cpp
     ./src/shapes/triangle.h 
     ./src/shapes/aarect.h 
     ./src/shapes/sphere.h

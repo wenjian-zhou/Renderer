@@ -601,6 +601,33 @@ src/materials/matte.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/matte.cpp.s
 .PHONY : src/materials/matte.cpp.s
 
+src/materials/metal.o: src/materials/metal.cpp.o
+
+.PHONY : src/materials/metal.o
+
+# target to build an object file
+src/materials/metal.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/metal.cpp.o
+.PHONY : src/materials/metal.cpp.o
+
+src/materials/metal.i: src/materials/metal.cpp.i
+
+.PHONY : src/materials/metal.i
+
+# target to preprocess a source file
+src/materials/metal.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/metal.cpp.i
+.PHONY : src/materials/metal.cpp.i
+
+src/materials/metal.s: src/materials/metal.cpp.s
+
+.PHONY : src/materials/metal.s
+
+# target to generate assembly for a file
+src/materials/metal.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/metal.cpp.s
+.PHONY : src/materials/metal.cpp.s
+
 src/medium/homogeneous.o: src/medium/homogeneous.cpp.o
 
 .PHONY : src/medium/homogeneous.o
@@ -688,6 +715,9 @@ help:
 	@echo "... src/materials/matte.o"
 	@echo "... src/materials/matte.i"
 	@echo "... src/materials/matte.s"
+	@echo "... src/materials/metal.o"
+	@echo "... src/materials/metal.i"
+	@echo "... src/materials/metal.s"
 	@echo "... src/medium/homogeneous.o"
 	@echo "... src/medium/homogeneous.i"
 	@echo "... src/medium/homogeneous.s"

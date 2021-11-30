@@ -86,6 +86,7 @@ CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/lights/diffuse.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/lights/point.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/glass.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/matte.h
+CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/metal.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/medium/homogeneous.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/aarect.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/sphere.h
@@ -236,6 +237,20 @@ CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/materials/matte.cpp
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/materials/matte.h
+
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/bsdf.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/global.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/material.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/medium.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/microfacet.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/ray.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/record.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/sampler.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/spectrum.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/transform.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/materials/metal.cpp
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/materials/metal.h
 
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/core/medium.h

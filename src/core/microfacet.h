@@ -6,6 +6,7 @@
 
 class MicrofacetDistribution {
 public:
+    virtual ~MicrofacetDistribution() {}
     virtual float D(const Vector3f &wh) const = 0;
     virtual float Lambda(const Vector3f &w) const = 0;
     float G1(const Vector3f &w) const {

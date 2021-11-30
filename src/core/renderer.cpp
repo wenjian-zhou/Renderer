@@ -12,6 +12,7 @@
 #include "../shapes/sphere.h"
 #include "../materials/matte.h"
 #include "../materials/glass.h"
+#include "../materials/metal.h"
 #include "../integrators/path.h"
 #include "../integrators/volpath.h"
 #include "../medium/homogeneous.h"
@@ -25,9 +26,11 @@ void Renderer::Render() {
     auto blue = std::make_shared<Matte>(Spectrum(.09, .09, .47), 1.f);
     auto green = std::make_shared<Matte>(Spectrum(.12, .45, .15), 1.f);
     auto black = std::make_shared<Matte>(Spectrum(.01, .01, .01), 1.f);
+    auto metal_silver = std::make_shared<Metal>(Spectrum(0.041000, 0.059582, 0.040000), Spectrum(4.8025, 3.5974, 2.6484), 0.1);
+    auto metal_gold = std::make_shared<Metal>(Spectrum(0.13100, 0.42415, 1.3831), Spectrum(4.0624, 2.4721, 1.9155), 0.1);
     Spectrum lightColor = 8.0f * Spectrum(0.747f+0.058f, 0.747f+0.258f, 0.747f) + 15.6f * Spectrum(0.740f+0.287f,0.740f+0.160f,0.740f) + 18.4f * Spectrum(0.737f+0.642f,0.737f+0.159f,0.737f);
 
-    auto roughGlass = std::make_shared<Glass>(Spectrum(1.f), Spectrum(1.f), 0.0f, 1.5f);
+    auto roughGlass = std::make_shared<Glass>(Spectrum(1.f), Spectrum(1.f), 0.05f, 1.5f);
 
     auto light = make_shared<XZRect>(213, 343, 227, 332, 554, nullptr);
     auto diffuseLight = make_shared<DiffuseAreaLight>(lightColor, 1, light, false);
@@ -49,7 +52,7 @@ void Renderer::Render() {
     list.add(std::make_shared<XZRect>(0, 555, 0, 555, 555, white));
     list.add(std::make_shared<XYRect>(0, 555, 0, 555, 555, white));
     list.add(std::make_shared<XZRect>(213, 343, 227, 332, 554, nullptr));
-    list.add(std::make_shared<Sphere>(Point3f(277, 210, 277), 150, white));
+    list.add(std::make_shared<Sphere>(Point3f(277, 210, 277), 150, metal_gold));
 
     // objects.push_back(std::make_shared<BVH>(list, 0, 1));
     objects.push_back(std::make_shared<BVH>(list, 0, 1));
@@ -63,7 +66,7 @@ void Renderer::Render() {
     Vector3f vup(0, 1, 0);
     auto dist_to_focus = 10.f;
     auto aperture = 0.0;
-    int spp = 1024;
+    int spp = 10000;
 
     camera cam(lookfrom, lookat, vup, vfov, 1.0, aperture, dist_to_focus, 0.f, 0.f);
     m_camera = std::make_shared<camera>(cam);
@@ -71,7 +74,7 @@ void Renderer::Render() {
     Sampler sampler;
     auto path = std::make_shared<PathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
     auto volpath = std::make_shared<VolPathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
-    integrator = volpath;
+    integrator = path;
 
     int image_height = 600, image_width = 600;
 
