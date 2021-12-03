@@ -1,11 +1,15 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include <iostream>
 #include <cmath>
 #include <vector>
 #include <limits>
 #include <memory>
 #include <cstdlib>
+#include <string.h>
+#include <omp.h>
+#include <chrono>
 
 // Class Declarations
 
@@ -49,6 +53,8 @@ const float Inv4Pi = 0.07957747154594766788;
 const float PiOver2 = 1.57079632679489661923;
 const float PiOver4 = 0.78539816339744830961;
 const float ShadowEpsilon = 0.0001f;
+
+static omp_lock_t lock;
 
 // Utility Functions
 
@@ -106,5 +112,20 @@ inline float PowerHeuristic(int nf, float fPdf, int ng, float gPdf) {
     float f = nf * fPdf, g = ng * gPdf;
     return (f * f) / (f * f + g * g);
 }
+
+inline void UpdateProgress(float progress)
+{
+    int barWidth = 70;
+
+    std::cout << "[";
+    int pos = barWidth * progress;
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos) std::cout << "=";
+        else if (i == pos) std::cout << ">";
+        else std::cout << " ";
+    }
+    std::cout << "] " << int(progress * 100.0) << " %\r";
+    std::cout.flush();
+};
 
 #endif

@@ -1,326 +1,42 @@
-hittable_list final_scene() {
-    hittable_list boxes1;
-    auto ground = make_shared<lambertian>(color(0.48, 0.83, 0.53));
+std::vector<std::shared_ptr<Object>> objects; std::vector<std::shared_ptr<Light>> lights;
 
-    const int boxes_per_side = 20;
-    for (int i = 0; i < boxes_per_side; i++) {
-        for (int j = 0; j < boxes_per_side; j++) {
-            auto w = 100.0;
-            auto x0 = -1000.0 + i*w;
-            auto z0 = -1000.0 + j*w;
-            auto y0 = 0.0;
-            auto x1 = x0 + w;
-            auto y1 = random_double(1,101);
-            auto z1 = z0 + w;
+    auto white = std::make_shared<Matte>(Spectrum(.73f, .73f, .73f), 1.f);
+    auto red = std::make_shared<Matte>(Spectrum(.75, .25, .25), 1.f);
+    auto blue = std::make_shared<Matte>(Spectrum(.25, .25, .75), 1.f);
+    auto green = std::make_shared<Matte>(Spectrum(.12, .45, .15), 1.f);
+    auto black = std::make_shared<Matte>(Spectrum(.01, .01, .01), 1.f);
+    auto metal_silver = std::make_shared<Metal>(Spectrum(0.041000, 0.059582, 0.040000), Spectrum(4.8025, 3.5974, 2.6484), 0.1);
+    auto metal_gold = std::make_shared<Metal>(Spectrum(0.13100, 0.42415, 1.3831), Spectrum(4.0624, 2.4721, 1.9155), 0.1);
+    auto plastic = std::make_shared<Plastic>(Spectrum(0.294, 0.f, 0.509), Spectrum(1.f, 1.f, 1.f), 0.01);
+    Spectrum lightColor = 8.0f * Spectrum(0.747f+0.058f, 0.747f+0.258f, 0.747f) + 15.6f * Spectrum(0.740f+0.287f,0.740f+0.160f,0.740f) + 18.4f * Spectrum(0.737f+0.642f,0.737f+0.159f,0.737f);
 
-            boxes1.add(make_shared<box>(point3(x0,y0,z0), point3(x1,y1,z1), ground));
-        }
-    }
+    auto roughGlass = std::make_shared<Glass>(Spectrum(1.f), Spectrum(1.f), 0.05f, 1.5f);
 
-    hittable_list objects;
+    auto light = make_shared<XZRect>(213, 343, 227, 332, 554, nullptr);
+    auto diffuseLight = make_shared<DiffuseAreaLight>(lightColor, 1, light, false);
 
-    objects.add(make_shared<bvh_node>(boxes1, 0, 1));
-
-    auto light = make_shared<diffuse_light>(color(7, 7, 7));
-    objects.add(make_shared<xz_rect>(123, 423, 147, 412, 554, light));
-
-    auto center1 = point3(400, 400, 200);
-    auto center2 = center1 + vec3(30,0,0);
-    auto moving_sphere_material = make_shared<lambertian>(color(0.7, 0.3, 0.1));
-    objects.add(make_shared<moving_sphere>(center1, center2, 0, 1, 50, moving_sphere_material));
-
-    objects.add(make_shared<sphere>(point3(260, 150, 45), 50, make_shared<dielectric>(1.5)));
-    objects.add(make_shared<sphere>(
-        point3(0, 150, 145), 50, make_shared<metal>(color(0.8, 0.8, 0.9), 1.0)
-    ));
-
-    auto boundary = make_shared<sphere>(point3(360,150,145), 70, make_shared<dielectric>(1.5));
-    objects.add(boundary);
-    objects.add(make_shared<constant_medium>(boundary, 0.2, color(0.2, 0.4, 0.9)));
-    boundary = make_shared<sphere>(point3(0, 0, 0), 5000, make_shared<dielectric>(1.5));
-    objects.add(make_shared<constant_medium>(boundary, .0001, color(1,1,1)));
-
-    auto emat = make_shared<lambertian>(make_shared<image_texture>("../src/earthmap.jpg"));
-    objects.add(make_shared<sphere>(point3(400,200,400), 100, emat));
-    auto pertext = make_shared<noise_texture>(0.1);
-    objects.add(make_shared<sphere>(point3(220,280,300), 80, make_shared<lambertian>(pertext)));
-
-    hittable_list boxes2;
-    auto white = make_shared<lambertian>(color(.73, .73, .73));
-    int ns = 1000;
-    for (int j = 0; j < ns; j++) {
-        boxes2.add(make_shared<sphere>(point3::random(0,165), 10, white));
-    }
-
-    objects.add(make_shared<translate>(
-        make_shared<rotate_y>(
-            make_shared<bvh_node>(boxes2, 0.0, 1.0), 15),
-            vec3(-100,270,395)
-        )
-    );
-
-    return objects;
-}
-
-hittable_list cornell_box()
-{
-    hittable_list objects;
-
-    auto red = make_shared<lambertian>(color(.65, .05, .05));
-    auto white = make_shared<lambertian>(color(.73, .73, .73));
-    auto green = make_shared<lambertian>(color(.12, .45, .15));
-    auto light = make_shared<diffuse_light>(color(15, 15, 15));
-
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
-    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
-    objects.add(make_shared<flip_face>(make_shared<xz_rect>(213, 343, 227, 332, 554, light)));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
-    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
-    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
-
-    shared_ptr<hittable> box1 = make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
-    box1 = make_shared<rotate_y>(box1, 15);
-    box1 = make_shared<translate>(box1, vec3(265, 0, 295));
-    objects.add(box1);
-
-    auto glass = make_shared<dielectric>(1.5);
-    objects.add(make_shared<sphere>(point3(190, 90, 190), 90, glass));
-
-    return objects;
-}
-
-
-hittable_list test_model()
-{
-    hittable_list objects;
-
-    auto red = make_shared<lambertian>(color(.65, .05, .05));
-    auto white = make_shared<lambertian>(color(1.0, 1.0, 1.0));
-    auto green = make_shared<lambertian>(color(.12, .45, .15));
-    auto light = make_shared<diffuse_light>(color(15, 15, 15));
-    auto checker = make_shared<lambertian>(make_shared<checker_texture>(color(0.2f, 0.2f, 0.2f), color(0.9f, 0.9f, 0.9f)));
-
-    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, 955, white));
-    objects.add(make_shared<yz_rect>(-10000, 9550, -10000, 9550, -800, white));
-    objects.add(make_shared<flip_face>(make_shared<xz_rect>(0, 150, 0, 150, 554, light)));
-    objects.add(make_shared<xz_rect>(-10000, 10000, -10000, 10000, 0.0333099, checker));
-    objects.add(make_shared<xy_rect>(-10000, 10000, -10000, 10000, 3000, white));
-    auto gold = make_shared<conductor>(color(1.0f), 0.2, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
-    auto alu = make_shared<conductor>(color(1.0f), 0.001, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
+    auto media = std::make_shared<HomogeneousMedium>(0.001, 0.0012, 0.0);
+    /*
     std::string model = "../models/bunny/bunny.obj";
-    mesh_triangle bunny = mesh_triangle(model, alu);
-
-    hittable_list faces;
-    for (size_t s = 0; s < bunny.triangles.size(); s++)
-    {
-        faces.add(make_shared<triangle>(bunny.triangles[s]));
+    std::string mtl_path = "../models/bunny/";
+    TriangleMesh bunny = TriangleMesh(model, mtl_path, black);
+    ObjectList list;
+    for (int s = 0; s < bunny.Triangles.size(); s++) {
+        list.add(make_shared<Triangle>(bunny.Triangles[s]));
     }
-    objects.add(make_shared<bvh_node>(faces, 0, 1));
+    */
+    ObjectList list;
+    list.add(std::make_shared<YZRect>(0, 555, 0, 555, 555, red));
+    list.add(std::make_shared<YZRect>(0, 555, 0, 555, 0, blue));
+    list.add(std::make_shared<XZRect>(0, 555, 0, 555, 0, white));
+    list.add(std::make_shared<XZRect>(0, 555, 0, 555, 555, white));
+    list.add(std::make_shared<XYRect>(0, 555, 0, 555, 555, white));
+    list.add(std::make_shared<XZRect>(213, 343, 227, 332, 554, nullptr));
+    list.add(std::make_shared<Sphere>(Point3f(138.75, 150, 138.75), 100, plastic));
+    list.add(std::make_shared<Sphere>(Point3f(416.25, 150, 138.75), 100, roughGlass));
+    list.add(std::make_shared<Sphere>(Point3f(138.75, 350, 416.25), 100, metal_gold));
+    list.add(std::make_shared<Sphere>(Point3f(416.25, 350, 416.25), 100, white));
 
-    return objects;
-}
-
-from(0, 4, 8)
-at(-0.02, 0, -0.2);
-fov(1.3);
-
-hittable_list test_envmap()
-{
-    hittable_list objects;
-    auto checker = make_shared<lambertian>(make_shared<checker_texture>(color(0.2f, 0.2f, 0.2f), color(0.9f, 0.9f, 0.9f)));
-
-    auto emat = make_shared<diffuse_light>(make_shared<image_texture>("../src/env4.jpg"));
-    objects.add(make_shared<envmap>(point3(0,0,0), 100, emat));
-
-    objects.add(make_shared<xz_rect>(-50, 50, -40, 30, -46.65495f, checker));
-
-    auto gold = make_shared<conductor>(color(1.0f), 0.2, vec3(0.13100f, 0.42415f, 1.3831f), vec3(4.0624f, 2.4721f, 1.9155f));
-    auto alu = make_shared<conductor>(color(1.0f), 0.001, vec3(1.9214f, 1.0152f, 0.63324f), vec3(8.1420f, 6.6273f, 5.4544f));
-
-    std::string model = "../models/bunny/bunny.obj";
-    mesh_triangle bunny = mesh_triangle(model, alu);
-
-    hittable_list faces;
-    for (size_t s = 0; s < bunny.triangles.size(); s++)
-    {
-        float scale = 500.0f;
-        vec3 v0 = bunny.triangles[s].v0 * scale;
-        vec3 v1 = bunny.triangles[s].v1 * scale;
-        vec3 v2 = bunny.triangles[s].v2 * scale;
-
-        v0 += vec3(15, -50, 0);
-        v1 += vec3(15, -50, 0);
-        v2 += vec3(15, -50, 0);
-
-        faces.add(make_shared<triangle>(v0, v1, v2, alu));
-    }
-    objects.add(make_shared<bvh_node>(faces, 0, 1));
-
-    return objects;
-}
-
-point3 lookfrom(0, 20, 80);
-    point3 lookat(0, 0, 0);
-    vec3 vup(0, 1, 0);
-    auto dist_to_focus = 1.0;
-    auto aperture = 0.0;
-    auto vfov = 80;
-    auto time0 = 0.0;
-    auto time1 = 1.0;
-
-
-
-class translate : public Object
-{
-public:
-    translate(shared_ptr<Object> p, const Vector3f &displacement)
-        : ptr(p), offset(displacement) {}
-
-    virtual bool hit(
-        const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
-
-    virtual bool bounding_box(double time0, double time1, AABB &output_box) const override;
-
-public:
-    shared_ptr<Object> ptr;
-    Vector3f offset;
-};
-
-class rotate_y : public Object
-{
-public:
-    rotate_y(shared_ptr<Object> p, double angle);
-
-    virtual bool hit(
-        const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
-
-    virtual bool bounding_box(double time0, double time1, AABB &output_box) const override
-    {
-        output_box = bbox;
-        return hasbox;
-    }
-
-public:
-    shared_ptr<Object> ptr;
-    double sin_theta;
-    double cos_theta;
-    bool hasbox;
-    AABB bbox;
-};
-
-rotate_y::rotate_y(shared_ptr<Object> p, double angle) : ptr(p)
-{
-    auto radians = degrees_to_radians(angle);
-    sin_theta = sin(radians);
-    cos_theta = cos(radians);
-    hasbox = ptr->bounding_box(0, 1, bbox);
-
-    Point3f min(INF, INF, INF);
-    Point3f max(-INF, -INF, -INF);
-
-    for (int i = 0; i < 2; i++)
-    {
-        for (int j = 0; j < 2; j++)
-        {
-            for (int k = 0; k < 2; k++)
-            {
-                auto x = i * bbox.max().x + (1 - i) * bbox.min().x;
-                auto y = j * bbox.max().y + (1 - j) * bbox.min().y;
-                auto z = k * bbox.max().z + (1 - k) * bbox.min().z;
-
-                auto newx = cos_theta * x + sin_theta * z;
-                auto newz = -sin_theta * x + cos_theta * z;
-
-                Vector3f tester(newx, y, newz);
-
-                for (int c = 0; c < 3; c++)
-                {
-                    min[c] = fmin(min[c], tester[c]);
-                    max[c] = fmax(max[c], tester[c]);
-                }
-            }
-        }
-    }
-
-    bbox = AABB(min, max);
-}
-
-bool translate::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
-{
-    Ray moved_r(r.o - offset, r.d, r.time);
-    if (!ptr->hit(moved_r, t_min, t_max, rec))
-        return false;
-
-    rec.p += offset;
-    rec.set_face_normal(moved_r, rec.normal);
-
-    return true;
-}
-
-bool translate::bounding_box(double time0, double time1, AABB &output_box) const
-{
-    if (!ptr->bounding_box(time0, time1, output_box))
-        return false;
-
-    output_box = AABB(
-        output_box.min() + offset,
-        output_box.max() + offset);
-
-    return true;
-}
-
-bool rotate_y::hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const
-{
-    auto origin = r.o;
-    auto direction = r.d;
-
-    origin[0] = cos_theta * r.o[0] - sin_theta * r.o[2];
-    origin[2] = sin_theta * r.o[0] + cos_theta * r.o[2];
-
-    direction[0] = cos_theta * r.d[0] - sin_theta * r.d[2];
-    direction[2] = sin_theta * r.d[0] + cos_theta * r.d[2];
-
-    Ray rotated_r(origin, direction, r.time);
-
-    if (!ptr->hit(rotated_r, t_min, t_max, rec))
-        return false;
-
-    auto p = rec.p;
-    auto normal = rec.normal;
-
-    p[0] = cos_theta * rec.p[0] + sin_theta * rec.p[2];
-    p[2] = -sin_theta * rec.p[0] + cos_theta * rec.p[2];
-
-    normal[0] = cos_theta * rec.normal[0] + sin_theta * rec.normal[2];
-    normal[2] = -sin_theta * rec.normal[0] + cos_theta * rec.normal[2];
-
-    rec.p = p;
-    rec.set_face_normal(rotated_r, normal);
-
-    return true;
-}
-
-class flip_face : public Object
-{
-public:
-    flip_face(shared_ptr<Object> p) : ptr(p) {}
-
-    virtual bool hit(
-        const Ray &r, double t_min, double t_max, HitRecord &rec) const override
-    {
-
-        if (!ptr->hit(r, t_min, t_max, rec))
-            return false;
-
-        rec.front_face = !rec.front_face;
-        return true;
-    }
-
-    virtual bool bounding_box(double time0, double time1, AABB &output_box) const override
-    {
-        return ptr->bounding_box(time0, time1, output_box);
-    }
-
-public:
-    shared_ptr<Object> ptr;
-};
+    // objects.push_back(std::make_shared<BVH>(list, 0, 1));
+    objects.push_back(std::make_shared<BVH>(list, 0, 1));
+    lights.push_back(diffuseLight);

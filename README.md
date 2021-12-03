@@ -17,13 +17,5 @@ make
 
 ## Selected Images
 
-![cornell_box](./images/cornell_box.png)
-
-![ball](./images/ball.png)
-
-![bunny_alu](./images/bunny_alu.png)
-
-![bunny_au](./images/bunny_au.png)
-
-![fog](./images/fog.png)
+![materials](./images/materials.png)
 

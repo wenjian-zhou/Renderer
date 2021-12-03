@@ -7,6 +7,7 @@ CMakeFiles/Renderer.dir/src/core/bsdf.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/core/bsdf.cpp.o: ../src/core/microfacet.h
 CMakeFiles/Renderer.dir/src/core/bsdf.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/core/bsdf.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/bsdf.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/integrator.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/core/integrator.cpp.o: ../src/core/bsdf.h
@@ -26,6 +27,7 @@ CMakeFiles/Renderer.dir/src/core/integrator.cpp.o: ../src/core/scene.h
 CMakeFiles/Renderer.dir/src/core/integrator.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/core/integrator.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/core/integrator.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/integrator.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/light.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/core/light.cpp.o: ../src/core/global.h
@@ -40,6 +42,7 @@ CMakeFiles/Renderer.dir/src/core/light.cpp.o: ../src/core/scene.h
 CMakeFiles/Renderer.dir/src/core/light.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/core/light.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/core/light.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/light.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/medium.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/core/medium.cpp.o: ../src/core/medium.cpp
@@ -50,6 +53,7 @@ CMakeFiles/Renderer.dir/src/core/medium.cpp.o: ../src/core/sampler.h
 CMakeFiles/Renderer.dir/src/core/medium.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/core/medium.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/core/medium.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/medium.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o: ../src/core/bsdf.h
 CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o: ../src/core/global.h
@@ -57,6 +61,7 @@ CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o: ../src/core/microfacet.cpp
 CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o: ../src/core/microfacet.h
 CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/accelerators/bvh.h
@@ -87,10 +92,12 @@ CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/lights/point.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/glass.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/matte.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/metal.h
+CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/materials/plastic.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/medium/homogeneous.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/aarect.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/sphere.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: ../src/shapes/triangle.h
+CMakeFiles/Renderer.dir/src/core/renderer.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o: ../src/core/global.h
@@ -105,20 +112,24 @@ CMakeFiles/Renderer.dir/src/core/scene.cpp.o: ../src/core/scene.h
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/scene.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/spectrum.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/core/spectrum.cpp.o: ../src/core/spectrum.cpp
 CMakeFiles/Renderer.dir/src/core/spectrum.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/core/spectrum.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/spectrum.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/transform.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/core/transform.cpp.o: ../src/core/transform.cpp
 CMakeFiles/Renderer.dir/src/core/transform.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/core/transform.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/transform.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/core/vector.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/core/vector.cpp.o: ../src/core/vector.cpp
 CMakeFiles/Renderer.dir/src/core/vector.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/core/vector.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/integrators/path.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/integrators/path.cpp.o: ../src/core/bsdf.h
@@ -139,6 +150,7 @@ CMakeFiles/Renderer.dir/src/integrators/path.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/integrators/path.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/integrators/path.cpp.o: ../src/integrators/path.cpp
 CMakeFiles/Renderer.dir/src/integrators/path.cpp.o: ../src/integrators/path.h
+CMakeFiles/Renderer.dir/src/integrators/path.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o: ../src/core/bsdf.h
@@ -159,6 +171,7 @@ CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o: ../src/integrators/volpath.cpp
 CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o: ../src/integrators/volpath.h
+CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o: ../src/core/global.h
@@ -174,6 +187,7 @@ CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o: ../src/lights/diffuse.cpp
 CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o: ../src/lights/diffuse.h
+CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/lights/point.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/lights/point.cpp.o: ../src/core/global.h
@@ -189,6 +203,7 @@ CMakeFiles/Renderer.dir/src/lights/point.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/lights/point.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/lights/point.cpp.o: ../src/lights/point.cpp
 CMakeFiles/Renderer.dir/src/lights/point.cpp.o: ../src/lights/point.h
+CMakeFiles/Renderer.dir/src/lights/point.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/main/main.cpp.o: ../src/accelerators/aabb.h
 CMakeFiles/Renderer.dir/src/main/main.cpp.o: ../src/core/bsdf.h
@@ -209,6 +224,7 @@ CMakeFiles/Renderer.dir/src/main/main.cpp.o: ../src/core/spectrum.h
 CMakeFiles/Renderer.dir/src/main/main.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/main/main.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/main/main.cpp.o: ../src/main/main.cpp
+CMakeFiles/Renderer.dir/src/main/main.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/materials/glass.cpp.o: ../src/core/bsdf.h
 CMakeFiles/Renderer.dir/src/materials/glass.cpp.o: ../src/core/global.h
@@ -223,6 +239,7 @@ CMakeFiles/Renderer.dir/src/materials/glass.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/materials/glass.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/materials/glass.cpp.o: ../src/materials/glass.cpp
 CMakeFiles/Renderer.dir/src/materials/glass.cpp.o: ../src/materials/glass.h
+CMakeFiles/Renderer.dir/src/materials/glass.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/core/bsdf.h
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/core/global.h
@@ -237,6 +254,7 @@ CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/materials/matte.cpp
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: ../src/materials/matte.h
+CMakeFiles/Renderer.dir/src/materials/matte.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/bsdf.h
 CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/global.h
@@ -251,6 +269,22 @@ CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/materials/metal.cpp
 CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: ../src/materials/metal.h
+CMakeFiles/Renderer.dir/src/materials/metal.cpp.o: /usr/local/include/omp.h
+
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/bsdf.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/global.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/material.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/medium.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/microfacet.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/ray.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/record.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/sampler.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/spectrum.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/transform.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/core/vector.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/materials/plastic.cpp
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: ../src/materials/plastic.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o: /usr/local/include/omp.h
 
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/core/global.h
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/core/medium.h
@@ -262,4 +296,5 @@ CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/core/transform.h
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/core/vector.h
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/medium/homogeneous.cpp
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: ../src/medium/homogeneous.h
+CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o: /usr/local/include/omp.h
 

@@ -628,6 +628,33 @@ src/materials/metal.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/metal.cpp.s
 .PHONY : src/materials/metal.cpp.s
 
+src/materials/plastic.o: src/materials/plastic.cpp.o
+
+.PHONY : src/materials/plastic.o
+
+# target to build an object file
+src/materials/plastic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o
+.PHONY : src/materials/plastic.cpp.o
+
+src/materials/plastic.i: src/materials/plastic.cpp.i
+
+.PHONY : src/materials/plastic.i
+
+# target to preprocess a source file
+src/materials/plastic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/plastic.cpp.i
+.PHONY : src/materials/plastic.cpp.i
+
+src/materials/plastic.s: src/materials/plastic.cpp.s
+
+.PHONY : src/materials/plastic.s
+
+# target to generate assembly for a file
+src/materials/plastic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Renderer.dir/build.make CMakeFiles/Renderer.dir/src/materials/plastic.cpp.s
+.PHONY : src/materials/plastic.cpp.s
+
 src/medium/homogeneous.o: src/medium/homogeneous.cpp.o
 
 .PHONY : src/medium/homogeneous.o
@@ -718,6 +745,9 @@ help:
 	@echo "... src/materials/metal.o"
 	@echo "... src/materials/metal.i"
 	@echo "... src/materials/metal.s"
+	@echo "... src/materials/plastic.o"
+	@echo "... src/materials/plastic.i"
+	@echo "... src/materials/plastic.s"
 	@echo "... src/medium/homogeneous.o"
 	@echo "... src/medium/homogeneous.i"
 	@echo "... src/medium/homogeneous.s"

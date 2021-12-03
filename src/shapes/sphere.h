@@ -6,9 +6,8 @@
 class Sphere : public Object
 {
 public:
-    Sphere() {}
-    Sphere(Point3f cen, double r, shared_ptr<Material> m)
-        : center(cen), radius(r), mat_ptr(m){};
+    Sphere(Point3f cen, double r, shared_ptr<Material> m, const MediumRecord &mediumRecord)
+        : center(cen), radius(r), mat_ptr(m), Object(mediumRecord) {};
 
     virtual bool hit(
         const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
@@ -63,6 +62,7 @@ bool Sphere::Intersect(const Ray &ray, HitRecord &isect) const {
     isect.normal = (isect.p - center) / radius;
     isect.mat_ptr = mat_ptr;
     isect.wo = -ray.d;
+    isect.mediumRecord = mediumRecord;
 
     return true;
 }

@@ -22,12 +22,14 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/glass.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/matte.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/metal.cpp.o"
+  "/Users/wenjian_zhou/Program/cpp/Renderer/src/materials/plastic.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o"
   "/Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.cpp" "/Users/wenjian_zhou/Program/cpp/Renderer/build/CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o"
   )
-set(CMAKE_CXX_COMPILER_ID "AppleClang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/usr/local/include"
   )
 
 # Targets to which this target links.

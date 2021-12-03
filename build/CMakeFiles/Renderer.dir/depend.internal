@@ -8,6 +8,7 @@ CMakeFiles/Renderer.dir/src/core/bsdf.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/microfacet.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/integrator.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
@@ -27,6 +28,7 @@ CMakeFiles/Renderer.dir/src/core/integrator.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/light.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -41,6 +43,7 @@ CMakeFiles/Renderer.dir/src/core/light.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/medium.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/medium.cpp
@@ -51,6 +54,7 @@ CMakeFiles/Renderer.dir/src/core/medium.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -58,6 +62,7 @@ CMakeFiles/Renderer.dir/src/core/microfacet.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/microfacet.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/renderer.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/bvh.h
@@ -88,10 +93,12 @@ CMakeFiles/Renderer.dir/src/core/renderer.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/plastic.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/aarect.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/sphere.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/shapes/triangle.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/scene.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -106,20 +113,24 @@ CMakeFiles/Renderer.dir/src/core/scene.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/spectrum.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/transform.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/core/vector.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/integrators/path.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
@@ -140,6 +151,7 @@ CMakeFiles/Renderer.dir/src/integrators/path.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
@@ -160,6 +172,7 @@ CMakeFiles/Renderer.dir/src/integrators/volpath.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/volpath.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/volpath.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -175,6 +188,7 @@ CMakeFiles/Renderer.dir/src/lights/diffuse.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/lights/diffuse.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/lights/diffuse.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/lights/point.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -190,6 +204,7 @@ CMakeFiles/Renderer.dir/src/lights/point.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/lights/point.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/lights/point.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/main/main.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/accelerators/aabb.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
@@ -210,6 +225,7 @@ CMakeFiles/Renderer.dir/src/main/main.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/main/main.cpp
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/materials/glass.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -224,6 +240,7 @@ CMakeFiles/Renderer.dir/src/materials/glass.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/materials/matte.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -238,6 +255,7 @@ CMakeFiles/Renderer.dir/src/materials/matte.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/matte.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/materials/metal.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
@@ -252,6 +270,22 @@ CMakeFiles/Renderer.dir/src/materials/metal.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/metal.h
+ /usr/local/include/omp.h
+CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/material.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/medium.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/microfacet.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/ray.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/record.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/sampler.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/spectrum.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/transform.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/plastic.cpp
+ /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/plastic.h
+ /usr/local/include/omp.h
 CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/global.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/medium.h
@@ -263,3 +297,4 @@ CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o
  /Users/wenjian_zhou/Program/cpp/Renderer/src/core/vector.h
  /Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.cpp
  /Users/wenjian_zhou/Program/cpp/Renderer/src/medium/homogeneous.h
+ /usr/local/include/omp.h

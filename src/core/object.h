@@ -9,6 +9,7 @@
 class Object
 {
 public:
+    Object(const MediumRecord &mediumRecord) : mediumRecord(mediumRecord) {}
     virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const = 0;
     virtual bool bounding_box(double time0, double time1, AABB &output_box) const = 0;
     virtual double pdf_value(const Point3f &o, const Vector3f &v) const
@@ -25,6 +26,7 @@ public:
 
 public:
     float area = 0;
+    MediumRecord mediumRecord;
 };
 
 #endif

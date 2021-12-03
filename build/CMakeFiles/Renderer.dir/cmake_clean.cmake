@@ -17,6 +17,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Renderer.dir/src/materials/glass.cpp.o"
   "CMakeFiles/Renderer.dir/src/materials/matte.cpp.o"
   "CMakeFiles/Renderer.dir/src/materials/metal.cpp.o"
+  "CMakeFiles/Renderer.dir/src/materials/plastic.cpp.o"
   "CMakeFiles/Renderer.dir/src/medium/homogeneous.cpp.o"
   "Renderer"
   "Renderer.pdb"

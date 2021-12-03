@@ -35,14 +35,13 @@ bool box_z_compare(const shared_ptr<Object> a, const shared_ptr<Object> b)
 class BVH : public Object
 {
 public:
-    BVH();
 
-    BVH(const ObjectList &list, double time0, double time1)
-        : BVH(list.objects, 0, list.objects.size(), time0, time1)
+    BVH(const ObjectList &list, double time0, double time1, const MediumRecord &mediumRecord)
+        : BVH(list.objects, 0, list.objects.size(), time0, time1, mediumRecord)
     {}
 
     BVH(const std::vector<shared_ptr<Object>> &src_objects,
-            size_t start, size_t end, double time0, double time1)
+            size_t start, size_t end, double time0, double time1, const MediumRecord &mediumRecord) : Object(mediumRecord)
     {
         auto objects = src_objects;
 
@@ -75,8 +74,8 @@ public:
             std::sort(objects.begin() + start, objects.begin() + end, comparator);
 
             auto mid = start + object_span / 2;
-            left = make_shared<BVH>(objects, start, mid, time0, time1);
-            right = make_shared<BVH>(objects, mid, end, time0, time1);
+            left = make_shared<BVH>(objects, start, mid, time0, time1, mediumRecord);
+            right = make_shared<BVH>(objects, mid, end, time0, time1, mediumRecord);
         }
 
         AABB box_left, box_right;

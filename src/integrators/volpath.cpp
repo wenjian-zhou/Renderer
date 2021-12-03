@@ -19,7 +19,7 @@ Spectrum VolPathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sample
             L += beta * UniformSampleOneLight(ray, mi, scene, sampler, true);
             Vector3f wo = -ray.d, wi;
             mi.mediumRecord.phase->Sample_p(wo, &wi, sampler.Next2D());
-            ray = Ray(mi.p, wi, INF, 0.f, mi.GetMedium(wi));
+            ray = Ray(mi.p, wi, INF, 0.f, ray.medium);
             specularBounce = false;
         }
         else {
@@ -52,7 +52,7 @@ Spectrum VolPathIntegrator::Li(const Ray &r, const Scene &scene, Sampler &sample
                 break;
             beta *= f * AbsDot(wi, isect.normal) / pdf;
             specularBounce = (flags & BSDF_SPECULAR) != 0;
-            ray = Ray(isect.p, wi, INF, 0.0f, ray.medium);
+            ray = Ray(isect.p, wi, INF, 0.0f, isect.GetMedium(wi));
         }
 
         if (bounces > 3) {
