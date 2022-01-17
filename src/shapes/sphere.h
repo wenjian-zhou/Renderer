@@ -6,7 +6,7 @@
 class Sphere : public Object
 {
 public:
-    Sphere(Point3f cen, double r, shared_ptr<Material> m, const MediumRecord &mediumRecord)
+    Sphere(Point3f cen, double r, shared_ptr<Material> m, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
         : center(cen), radius(r), mat_ptr(m), Object(mediumRecord) {};
 
     virtual bool hit(
@@ -62,7 +62,7 @@ bool Sphere::Intersect(const Ray &ray, HitRecord &isect) const {
     isect.normal = (isect.p - center) / radius;
     isect.mat_ptr = mat_ptr;
     isect.wo = -ray.d;
-    isect.mediumRecord = mediumRecord;
+    isect.mediumRecord = *mediumRecord;
 
     return true;
 }

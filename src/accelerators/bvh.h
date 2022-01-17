@@ -36,12 +36,12 @@ class BVH : public Object
 {
 public:
 
-    BVH(const ObjectList &list, double time0, double time1, const MediumRecord &mediumRecord)
+    BVH(const ObjectList &list, double time0, double time1, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
         : BVH(list.objects, 0, list.objects.size(), time0, time1, mediumRecord)
     {}
 
     BVH(const std::vector<shared_ptr<Object>> &src_objects,
-            size_t start, size_t end, double time0, double time1, const MediumRecord &mediumRecord) : Object(mediumRecord)
+            size_t start, size_t end, double time0, double time1, std::shared_ptr<MediumRecord> mediumRecord = nullptr) : Object(mediumRecord)
     {
         auto objects = src_objects;
 

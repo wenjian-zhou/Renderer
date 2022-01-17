@@ -13,8 +13,8 @@ using std::shared_ptr;
 class ObjectList : public Object
 {
 public:
-    ObjectList() : Object(MediumRecord()){}
-    ObjectList(shared_ptr<Object> object) : Object(MediumRecord()){ add(object); }
+    ObjectList() : Object(nullptr){}
+    ObjectList(shared_ptr<Object> object) : Object(nullptr){ add(object); }
 
     void clear() { objects.clear(); }
     void add(shared_ptr<Object> object) { objects.push_back(object); }

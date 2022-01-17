@@ -6,7 +6,7 @@
 class Triangle : public Object
 {
 public:
-    Triangle(Vector3f _v0, Vector3f _v1, Vector3f _v2, shared_ptr<Material> m, const MediumRecord &mediumRecord)
+    Triangle(Vector3f _v0, Vector3f _v1, Vector3f _v2, shared_ptr<Material> m, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
          : v0(_v0), v1(_v1), v2(_v2), mat_ptr(m), Object(mediumRecord) {
         e1 = v1 - v0;
         e2 = v2 - v0;
@@ -117,7 +117,7 @@ bool Triangle::bounding_box(double time0, double time1, AABB &output_box) const
 class TriangleMesh : public Object
 {
 public:
-    TriangleMesh(std::string inputfile, std::string mtlsource, std::shared_ptr<Material> mat_ptr, const MediumRecord &mediumRecord)
+    TriangleMesh(std::string inputfile, std::string mtlsource, std::shared_ptr<Material> mat_ptr, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
         : Object(mediumRecord) {
         tinyobj::ObjReaderConfig reader_config;
         reader_config.mtl_search_path = mtlsource;

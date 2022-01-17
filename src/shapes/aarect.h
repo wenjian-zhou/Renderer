@@ -11,7 +11,7 @@ class XYRect : public Object
 {
 public:
     XYRect(double _x0, double _x1, double _y0, double _y1, double _k,
-            shared_ptr<Material> mat, const MediumRecord &mediumRecord)
+            shared_ptr<Material> mat, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
         : x0(_x0), x1(_x1), y0(_y0), y1(_y1), k(_k), mp(mat), Object(mediumRecord){};
 
     virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
@@ -35,7 +35,7 @@ class XZRect : public Object
 public:
 
     XZRect(double _x0, double _x1, double _z0, double _z1, double _k,
-            shared_ptr<Material> mat, const MediumRecord &mediumRecord)
+            shared_ptr<Material> mat, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
         : x0(_x0), x1(_x1), z0(_z0), z1(_z1), k(_k), mp(mat), Object(mediumRecord){};
 
     virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const override;
@@ -79,7 +79,7 @@ class YZRect : public Object
 public:
 
     YZRect(double _y0, double _y1, double _z0, double _z1, double _k,
-            shared_ptr<Material> mat, const MediumRecord &mediumRecord)
+            shared_ptr<Material> mat, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
         : y0(_y0), y1(_y1), z0(_z0), z1(_z1), k(_k), mp(mat), Object(mediumRecord){};
 
     virtual bool hit(const Ray &r, double t_min, double t_max, HitRecord &rec) const override;

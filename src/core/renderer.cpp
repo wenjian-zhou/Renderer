@@ -36,10 +36,9 @@ void Renderer::Render() {
     auto thin_media = std::make_shared<HomogeneousMedium>(0.001, 0.0012, 0.0);
     auto jade_media = std::make_shared<HomogeneousMedium>(Spectrum(0.00053, 0.00123, 0.00213), Spectrum(0.00657, 0.00186, 0.009), 0.f);
 
-    MediumRecord jade_medium(jade_media, nullptr);
-    MediumRecord no_medium;
+    auto jade_medium = std::make_shared<MediumRecord>(jade_media, nullptr);
 
-    auto light = make_shared<XZRect>(213, 343, 227, 332, 554, nullptr, no_medium);
+    auto light = make_shared<XZRect>(213, 343, 227, 332, 554, nullptr);
     auto diffuseLight = make_shared<DiffuseAreaLight>(lightColor, 1, light, false);
     /*
     std::string model = "../models/bunny/bunny.obj";
@@ -51,20 +50,20 @@ void Renderer::Render() {
     }
     */
     ObjectList list;
-    list.add(std::make_shared<YZRect>(0, 555, 0, 555, 555, red, no_medium));
-    list.add(std::make_shared<YZRect>(0, 555, 0, 555, 0, blue, no_medium));
-    list.add(std::make_shared<XZRect>(0, 555, 0, 555, 0, white, no_medium));
-    list.add(std::make_shared<XZRect>(0, 555, 0, 555, 555, white, no_medium));
-    list.add(std::make_shared<XYRect>(0, 555, 0, 555, 555, white, no_medium));
-    list.add(std::make_shared<XZRect>(213, 343, 227, 332, 554, nullptr, no_medium));
+    list.add(std::make_shared<YZRect>(0, 555, 0, 555, 555, red));
+    list.add(std::make_shared<YZRect>(0, 555, 0, 555, 0, blue));
+    list.add(std::make_shared<XZRect>(0, 555, 0, 555, 0, white));
+    list.add(std::make_shared<XZRect>(0, 555, 0, 555, 555, white));
+    list.add(std::make_shared<XYRect>(0, 555, 0, 555, 555, white));
+    list.add(std::make_shared<XZRect>(213, 343, 227, 332, 554, nullptr));
     //list.add(std::make_shared<Sphere>(Point3f(138.75, 150, 138.75), 100, plastic, no_medium));
     //list.add(std::make_shared<Sphere>(Point3f(416.25, 150, 138.75), 100, roughGlass, medium));
     //list.add(std::make_shared<Sphere>(Point3f(138.75, 350, 416.25), 100, metal_gold, no_medium));
     //list.add(std::make_shared<Sphere>(Point3f(416.25, 350, 416.25), 100, white, no_medium));
-    list.add(std::make_shared<Sphere>(Point3f(277, 210, 277), 100, white, no_medium));
+    list.add(std::make_shared<Sphere>(Point3f(277, 210, 277), 100, jadeGlass, jade_medium));
 
     // objects.push_back(std::make_shared<BVH>(list, 0, 1));
-    objects.push_back(std::make_shared<BVH>(list, 0, 1, no_medium));
+    objects.push_back(std::make_shared<BVH>(list, 0, 1));
     lights.push_back(diffuseLight);
 
     Scene scene(objects, lights);
