@@ -27,12 +27,18 @@ void Renderer::Render() {
     auto blue = std::make_shared<Matte>(Spectrum(.25, .25, .75), 1.f);
     auto green = std::make_shared<Matte>(Spectrum(.12, .45, .15), 1.f);
     auto black = std::make_shared<Matte>(Spectrum(.01, .01, .01), 1.f);
+    auto grey = std::make_shared<Matte>(Spectrum(.61, .61, .61), 1.f);
+    
     auto metal_silver = std::make_shared<Metal>(Spectrum(0.041000, 0.059582, 0.040000), Spectrum(4.8025, 3.5974, 2.6484), 0.1);
     auto metal_gold = std::make_shared<Metal>(Spectrum(0.13100, 0.42415, 1.3831), Spectrum(4.0624, 2.4721, 1.9155), 0.1);
+    
     auto plastic = std::make_shared<Plastic>(Spectrum(0.294, 0.f, 0.509), Spectrum(1.f, 1.f, 1.f), 0.01);
+    
     Spectrum lightColor = 8.0f * Spectrum(0.747f+0.058f, 0.747f+0.258f, 0.747f) + 15.6f * Spectrum(0.740f+0.287f,0.740f+0.160f,0.740f) + 18.4f * Spectrum(0.737f+0.642f,0.737f+0.159f,0.737f);
-    auto roughGlass = std::make_shared<Glass>(Spectrum(1.f), Spectrum(1.f), 0.0f, 1.5f);
+    
+    auto roughGlass = std::make_shared<Glass>(Spectrum(1.f), Spectrum(1.f), 0.1f, 1.5f);
     auto jadeGlass = std::make_shared<Glass>(Spectrum(1.f), Spectrum(1.f), 0.0f, 1.6f);
+    
     auto thin_media = std::make_shared<HomogeneousMedium>(0.001, 0.0012, 0.0);
     auto jade_media = std::make_shared<HomogeneousMedium>(Spectrum(0.00053, 0.00123, 0.00213), Spectrum(0.00657, 0.00186, 0.009), 0.f);
 
@@ -40,16 +46,16 @@ void Renderer::Render() {
 
     auto light = make_shared<XZRect>(213, 343, 227, 332, 554, nullptr);
     auto diffuseLight = make_shared<DiffuseAreaLight>(lightColor, 1, light, false);
-    /*
+    
     std::string model = "../models/bunny/bunny.obj";
     std::string mtl_path = "../models/bunny/";
-    TriangleMesh bunny = TriangleMesh(model, mtl_path, black);
+    TriangleMesh bunny = TriangleMesh(0.f, Vector3f(278, 0, 278), 2000.f, model, mtl_path, roughGlass);
     ObjectList list;
     for (int s = 0; s < bunny.Triangles.size(); s++) {
         list.add(make_shared<Triangle>(bunny.Triangles[s]));
     }
-    */
-    ObjectList list;
+    
+    //ObjectList list;
     list.add(std::make_shared<YZRect>(0, 555, 0, 555, 555, red));
     list.add(std::make_shared<YZRect>(0, 555, 0, 555, 0, blue));
     list.add(std::make_shared<XZRect>(0, 555, 0, 555, 0, white));
@@ -60,7 +66,7 @@ void Renderer::Render() {
     //list.add(std::make_shared<Sphere>(Point3f(416.25, 150, 138.75), 100, roughGlass, medium));
     //list.add(std::make_shared<Sphere>(Point3f(138.75, 350, 416.25), 100, metal_gold, no_medium));
     //list.add(std::make_shared<Sphere>(Point3f(416.25, 350, 416.25), 100, white, no_medium));
-    list.add(std::make_shared<Sphere>(Point3f(277, 210, 277), 100, jadeGlass, jade_medium));
+    //list.add(std::make_shared<Sphere>(Point3f(277, 210, 277), 100, jadeGlass, jade_medium));
 
     // objects.push_back(std::make_shared<BVH>(list, 0, 1));
     objects.push_back(std::make_shared<BVH>(list, 0, 1));
@@ -74,7 +80,7 @@ void Renderer::Render() {
     Vector3f vup(0, 1, 0);
     auto dist_to_focus = 10.f;
     auto aperture = 0.0;
-    int spp = 16;
+    int spp = 128;
 
     camera cam(lookfrom, lookat, vup, vfov, 1.0, aperture, dist_to_focus, 0.f, 0.f);
     m_camera = std::make_shared<camera>(cam);
@@ -82,7 +88,7 @@ void Renderer::Render() {
     Sampler sampler;
     auto path = std::make_shared<PathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
     auto volpath = std::make_shared<VolPathIntegrator>(50, nullptr, std::make_shared<Sampler>(sampler));
-    integrator = volpath;
+    integrator = path;
 
     int image_height = 600, image_width = 600;
 

@@ -64,10 +64,11 @@ struct Matrix4x4 {
 
 inline Vector4f operator*(const Matrix4x4 &matrix, const Vector4f &v) {
     float tmp[4];
-    for (int i = 0; i < 4; ++i)
-        for (int j = 0; j < 4; ++j)
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
             tmp[i] += v[j] * matrix.m[i][j];
-        
+        }
+    }
     return Vector4f(tmp[0], tmp[1], tmp[2], tmp[3]);
 }
 

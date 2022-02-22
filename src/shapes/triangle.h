@@ -117,7 +117,7 @@ bool Triangle::bounding_box(double time0, double time1, AABB &output_box) const
 class TriangleMesh : public Object
 {
 public:
-    TriangleMesh(std::string inputfile, std::string mtlsource, std::shared_ptr<Material> mat_ptr, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
+    TriangleMesh(const float &rotate_angle, const Vector3f &translate, const float &scale, std::string inputfile, std::string mtlsource, std::shared_ptr<Material> mat_ptr, std::shared_ptr<MediumRecord> mediumRecord = nullptr)
         : Object(mediumRecord) {
         tinyobj::ObjReaderConfig reader_config;
         reader_config.mtl_search_path = mtlsource;
@@ -142,6 +142,15 @@ public:
         auto &shapes = reader.GetShapes();
         auto &materials = reader.GetMaterials();
 
+        float angle = rotate_angle / 180.f * PI;
+        Matrix4x4 rotateByY = Matrix4x4(
+            cos(angle), 0, sin(angle), 0,
+            0, 1, 0, 0,
+            -sin(angle), 0, cos(angle), 0,
+            0, 0, 0, 1
+        );
+        Transform rotate = Transform(rotateByY);
+
         // Loop over shapes
         for (size_t s = 0;  s < shapes.size(); s ++)
         {
@@ -162,7 +171,8 @@ public:
 
                     vertices.push_back(Vector3f(vx, vy, vz));
                 }
-                Triangle face = Triangle(vertices[0], vertices[1], vertices[2], mat_ptr, mediumRecord);
+
+                Triangle face = Triangle((vertices[0] * scale) + translate, (vertices[1] * scale) + translate, (vertices[2] * scale) + translate, mat_ptr, mediumRecord);
                 Triangles.push_back(face);
                 index_offset += fv;
 
