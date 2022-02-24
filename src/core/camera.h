@@ -4,6 +4,10 @@
 #include "transform.h"
 #include "sampler.h"
 
+/*
+pinhole camera
+*/
+
 class Camera {
 public:
     Camera() {}
@@ -59,6 +63,9 @@ public:
         lens_radius = aperture / 2;
         time0 = _time0;
         time1 = _time1;
+
+        cameraWorldDirection = Normalize(lookat - lookfrom);
+        focalDistance = focus_dist;
     }
 
     Ray get_Ray(double s, double t) const
@@ -71,14 +78,34 @@ public:
             lower_left_corner + s * horizontal + t * vertical - origin - offset);
     }
 
+    virtual Spectrum We(const Ray &ray, Point2f *pRaster2 = nullptr) const;
+
 private:
+    Vector3f cameraWorldDirection;
     Point3f origin;
     Point3f lower_left_corner;
     Vector3f horizontal;
     Vector3f vertical;
     Vector3f u, v, w;
+    double focalDistance;
     double lens_radius;
     double time0, time1; // shutter open/close times
 
 };
+
+Spectrum camera::We(const Ray &ray, Point2f *pRaster2 = nullptr) const {
+    // check if omega is forward-facing
+    float cosTheta = Dot(ray.d, cameraWorldDirection);
+    if (cosTheta <= 0) {
+        return Spectrum(0.f);
+    }
+
+    Point3f pFocus = ray((lens_radius > 0 ? focalDistance : 1) / cosTheta);
+    Point3f pRaster = pFocus; // for pinhole camera
+
+    if (pRaster2) *pRaster2 = Point2f(pRaster.x, pRaster.y);
+
+    
+}
+
 #endif
