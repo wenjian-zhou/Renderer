@@ -78,7 +78,10 @@ public:
             lower_left_corner + s * horizontal + t * vertical - origin - offset);
     }
 
-    virtual Spectrum We(const Ray &ray, Point2f *pRaster2 = nullptr) const;
+    virtual Spectrum We(const Ray &ray, Point2f *pRaster2 = nullptr) const 
+    {
+        return Spectrum(0.f);
+    }
 
 private:
     Vector3f cameraWorldDirection;
@@ -92,20 +95,5 @@ private:
     double time0, time1; // shutter open/close times
 
 };
-
-Spectrum camera::We(const Ray &ray, Point2f *pRaster2 = nullptr) const {
-    // check if omega is forward-facing
-    float cosTheta = Dot(ray.d, cameraWorldDirection);
-    if (cosTheta <= 0) {
-        return Spectrum(0.f);
-    }
-
-    Point3f pFocus = ray((lens_radius > 0 ? focalDistance : 1) / cosTheta);
-    Point3f pRaster = pFocus; // for pinhole camera
-
-    if (pRaster2) *pRaster2 = Point2f(pRaster.x, pRaster.y);
-
-    
-}
 
 #endif

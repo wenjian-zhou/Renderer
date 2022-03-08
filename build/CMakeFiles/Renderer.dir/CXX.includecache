@@ -64,6 +64,10 @@ memory
 vector
 -
 
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.cpp
+integrator.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.h
+
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.h
 bsdf.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/bsdf.h
@@ -252,9 +256,17 @@ array
 mapbox/earcut.hpp
 /Users/wenjian_zhou/Program/cpp/Renderer/src/external/mapbox/earcut.hpp
 
+/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.cpp
+path.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.h
+
 /Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/path.h
 ../core/integrator.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/integrator.h
+
+/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/volpath.cpp
+volpath.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/volpath.h
 
 /Users/wenjian_zhou/Program/cpp/Renderer/src/integrators/volpath.h
 ../core/integrator.h
@@ -267,6 +279,10 @@ mapbox/earcut.hpp
 /Users/wenjian_zhou/Program/cpp/Renderer/src/lights/point.h
 ../core/light.h
 /Users/wenjian_zhou/Program/cpp/Renderer/src/core/light.h
+
+/Users/wenjian_zhou/Program/cpp/Renderer/src/main/main.cpp
+../core/renderer.h
+/Users/wenjian_zhou/Program/cpp/Renderer/src/core/renderer.h
 
 /Users/wenjian_zhou/Program/cpp/Renderer/src/materials/glass.h
 ../core/material.h
