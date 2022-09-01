@@ -4,6 +4,8 @@ This renderer is based on [_Ray Tracing in One Weekend Series_](https://raytraci
 
 ## How to build this project?
 
+I only tested on MacOS, because it's where I write it.
+
 * install **cmake**
 * open your terminal, go to the project directory
 
